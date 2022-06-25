@@ -1,9 +1,8 @@
-import { API, graphqlOperation, Storage } from "aws-amplify";
+import { API, Auth, graphqlOperation, Storage } from "aws-amplify";
 import * as mutation from "./graphql/mutations";
 import aws_exports from "./aws-exports";
 
 /***  Delete Post  ***/
-
 export const deletePost = (postId) => {
   const deletePostId = {
     id: postId,
@@ -15,7 +14,6 @@ export const deletePost = (postId) => {
 };
 
 /***  Create Post  ***/
-
 export const createPost = async (image, postData) => {
   try {
     const fileName = `${Date.now()}-${image.name}`;

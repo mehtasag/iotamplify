@@ -37,9 +37,12 @@ const Post = () => {
   console.log(post);
   return (
     <div className="w-full bg-slate-900 2xl:lg-14 lg:p-10 min-h-screen max-h-fit">
-      <Link to="/" className="w-15">
-        <RewindIcon className="text-white w-10 h-10 animate-bounce" />
-      </Link>
+      <div className="w-10">
+        <Link to="/">
+          <RewindIcon className="text-white h-10 animate-bounce w-fit" />
+        </Link>
+      </div>
+
       <div key={post.id} className="m-auto w-[95%]  mt-5 z-0 ">
         <h2 className="2xl:text-5xl md:text-4xl font-2xl font-bold text-gray-300 border-l-[2px] border-gray-600 pl-4 h-fit">
           {post.title}

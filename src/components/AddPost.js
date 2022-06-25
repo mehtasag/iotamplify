@@ -4,6 +4,8 @@ import { createPosts } from "../graphql/mutations";
 import { API, graphqlOperation, Storage, Auth } from "aws-amplify";
 import aws_exports from "../aws-exports";
 import { createPost } from "../libs";
+import { RewindIcon } from "@heroicons/react/solid";
+import { Link } from "react-router-dom";
 const AddPost = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -22,8 +24,11 @@ const AddPost = () => {
   };
 
   return (
-    <div className="min-h-[100vh] max-h-fit  bg-indigo-500">
-      <h3 className="text-4xl text-pink-200 font-extrabold font-serif ml-4 pt-[10vh]">
+    <div className="min-h-[100vh] max-h-fit  bg-gray-900">
+      <Link to="/">
+        <RewindIcon className="text-white w-10 h-10 animate-bounce pt-3" />
+      </Link>
+      <h3 className="text-4xl fontFamily text-pink-200 font-extrabold font-serif ml-4 pt-10">
         Write New Post
       </h3>
       <div className="w-1/2 p-5 m-auto md:w-1/2 px-3 mb-6 md:mb-0">

@@ -2,7 +2,18 @@ import React, { useState } from "react";
 import { MenuAlt3Icon } from "@heroicons/react/solid";
 import { XCircleIcon } from "@heroicons/react/solid";
 import NavbarLinks from "./NavbarLinks";
-const Sidebar = () => {
+import { useNavigate } from "react-router-dom";
+import { Auth } from "aws-amplify";
+const Sidebar = ({ cuser }) => {
+  const navigate = useNavigate();
+  const signout = async () => {
+    try {
+      await Auth.signOut();
+      navigate("/logout");
+    } catch (err) {
+      console.log("Sign out", err);
+    }
+  };
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="z-1000">
@@ -23,17 +34,30 @@ const Sidebar = () => {
         }`}
       >
         <div className="text-2xl fontFamily text-white text-bold m-auto grid gap-20">
-          <div className="hover:bg-red-400 text-bold">
+          <div
+            onClick={() => setIsOpen(false)}
+            className="hover:bg-red-400 text-bold rounded-2xl p-2"
+          >
             <NavbarLinks to="/addPost" value="Add Post" />
           </div>
-          <div className="hover:bg-red-400 text-extrabold">
+          <div
+            onClick={() => setIsOpen(false)}
+            className="hover:bg-red-400 text-extrabold rounded-2xl p-2"
+          >
             <NavbarLinks to="/about" value="Read Me" />
           </div>
-          <div className="hover:bg-red-400 text-bold">
-            <h2 className="text-2xl text-white cursor-pointer hover:bg-red-400 p-2">
-              Sign Out
-            </h2>
-          </div>
+          {cuser !== [] ? (
+            <div className="hover:bg-red-400 text-bold">
+              <h2
+                onClick={signout}
+                className="text-2xl text-white cursor-pointer hover:bg-red-400  rounded-2xl p-2"
+              >
+                Sign Out
+              </h2>
+            </div>
+          ) : (
+            <h3>Sign In</h3>
+          )}
         </div>
 
         <XCircleIcon

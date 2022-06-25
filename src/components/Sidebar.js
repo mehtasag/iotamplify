@@ -18,15 +18,15 @@ const Sidebar = () => {
         />
       )}
       <div
-        className={`transition flex flex-col justify-center text-center gap-5 top-0 right-0 w-[25vw] fixed  bg-yellow-900 h-full z-1000  ease-in-out duration-300 ${
+        className={`transition flex flex-col justify-center text-center gap-5 top-0 right-0 w-[25vw] fixed  bg-slate-700 h-full z-1000  ease-in-out duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="text-2xl text-white text-bold m-auto grid gap-20">
+        <div className="text-2xl fontFamily text-white text-bold m-auto grid gap-20">
           <div className="hover:bg-red-400 text-bold">
             <NavbarLinks to="/addPost" value="Add Post" />
           </div>
-          <div className="hover:bg-red-400 text-bold">
+          <div className="hover:bg-red-400 text-extrabold">
             <NavbarLinks to="/about" value="Read Me" />
           </div>
           <div className="hover:bg-red-400 text-bold">

@@ -5,6 +5,7 @@ const NavbarLinks = ({ value, to }) => {
     <div>
       <NavLink
         to={to}
+        className="!z-1000"
         style={({ isActive }) => {
           return {
             display: "block",

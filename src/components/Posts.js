@@ -44,12 +44,12 @@ const Posts = () => {
           posts.map((data) => (
             <div
               key={data.id}
-              className="group w-[38vh] h-[42vh] relative cursor-pointer max-w-md mx-auto border-2 border-gray-500 rounded-xl shadow-md overflow-hidden md:max-w-2xl pt-2 z-0"
+              className="group w-[38vh] h-[44vh]  cursor-pointer max-w-md mx-auto border-2 border-gray-500 rounded-xl shadow-md overflow-hidden md:max-w-2xl pt-2"
             >
               <Link to={`/${data.id}`}>
                 <XCircleIcon
                   onClick={() => handleDelete(data.id)}
-                  className="absolute transition ease-in-out delay-300 opacity-0 group-hover:opacity-80 hover:scale-150 w-4 h-4 right-2 bg-white rounded-2xl text-orange-400"
+                  className="transition ml-3 ease-in-out delay-300 opacity-0 group-hover:opacity-80 hover:scale-150 w-4 h-4 right-2 bg-white rounded-2xl text-orange-400"
                 />
                 <div className="flex flex-col text-center justify-around p-2 ">
                   <h5 className="text-1xl  font-sans antialiased text-center font-bold text-gray-50">
@@ -62,13 +62,13 @@ const Posts = () => {
                     {moment(new Date(data.createdAt).getTime()).fromNow()}
                   </small>
                 </div>
-                <div className="w-30 h-30">
+                <div className="w-full h-[60%]">
                   <img
-                    className="absolute block inset-0 w-[80vw] h-[45%] top-[10%] m-auto object-cover lazyloaded"
+                    className=" w-[80vw] h-[93%] object-cover lazyloaded"
                     src={`${process.env.REACT_APP_S3_URL}/${data.file.key}`}
                   />
                 </div>
-                <div className="flex justify-around w-full absolute bottom-2 hover:bg-slate-400 p-2">
+                <div className="flex justify-around w-full h-15  hover:bg-slate-400 mb-4 pb-4">
                   <ThumbUpIcon className="transition ease-in-out delay-300  opacity-0 group-hover:opacity-80 h-6 w-6 text-gray-50" />
                   <ChatIcon className="transition ease-in-out delay-300  opacity-0 group-hover:opacity-80  h-6 w-6 text-gray-50" />
                   <BookOpenIcon className="transition ease-in-out delay-300  opacity-0 group-hover:opacity-80  h-6 w-6 text-gray-50" />

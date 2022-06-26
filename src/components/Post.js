@@ -48,7 +48,7 @@ const Post = () => {
           {post.title}
         </h2>
         <div className="mt-10">
-          <small className="text-md text-white pr-2">
+          <small className="text-md text-white pr-2 font-bold">
             Posted:
             <span className="text-green-400 ml-2">
               {moment(new Date(post.createdAt)).fromNow()}
@@ -58,7 +58,7 @@ const Post = () => {
             className="h-[35vh] md:w-[80%] 2xl:w-[45vw] lg:w-[40vw] lg:h-[50vh] float-left w-[100vw] mr-2 lazyloaded rounded-2xl"
             src={`${process.env.REACT_APP_S3_URL}/${post?.file?.key}`}
           />
-          <article className="text-gray-300 fontFamily antialiased tracking-wide text-sm md:text-medium 2xl:mt-10 2xl:leading-9 2xl:tracking-widest leading-8 md:leading-8">
+          <article className="text-gray-300 fontFamily antialiased tracking-wide text-sm md:text-medium 2xl:mt-2 2xl:leading-9 2xl:tracking-widest leading-8 md:leading-8">
             {post?.description}
           </article>
         </div>

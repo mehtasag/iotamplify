@@ -18,7 +18,7 @@ const awsmobile = {
     passwordPolicyCharacters: [],
   },
   aws_cognito_verification_mechanisms: ["EMAIL"],
-  aws_appsync_graphqlEndpoint: process.env.REACT_APP_GRAPHQL_ENDPOINT,
+  aws_appsync_graphqlEndpoint: process.env.REACT_APP_GRAPHQL_URL,
   aws_appsync_region: process.env.REACT_APP_APPSYNC_REGION,
   aws_appsync_authenticationType: "AMAZON_COGNITO_USER_POOLS",
   aws_user_files_s3_bucket: process.env.REACT_APP_S3_BUCKET,

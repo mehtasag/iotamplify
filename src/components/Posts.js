@@ -23,7 +23,6 @@ const Posts = () => {
     if (isMounted && posts) {
       fetchPosts();
     }
-    getPostData();
     return () => {
       isMounted = false;
     };
@@ -33,7 +32,6 @@ const Posts = () => {
     ? posts.filter((data) => data.title.includes(`${searchTerm}`))
     : [];
 
-  console.log(filteredPost);
   async function fetchPosts() {
     try {
       const data = await API.graphql(graphqlOperation(listPosts, { limit: 8 }));
@@ -42,18 +40,6 @@ const Posts = () => {
       setToken(data.data.listPosts.nextToken);
     } catch (err) {
       console.log("error fetching todos");
-    }
-  }
-
-  async function getPostData() {
-    try {
-      const data2 = await API.graphql(graphqlOperation(getPost));
-      const postData = data2;
-      // setPosts(postData);
-      console.log(postData);
-      // setToken(data.data.getPost.nextToken);
-    } catch (err) {
-      console.log("error fetching todos", err);
     }
   }
 

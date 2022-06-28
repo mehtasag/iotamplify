@@ -3,6 +3,8 @@ import NavbarLinks from "../components/NavbarLinks";
 import { NavLink, Link } from "react-router-dom";
 import { RewindIcon } from "@heroicons/react/solid";
 
+// REACT_APP_S3_URL=https://iotamplify4011e8e2456f420da820280d4f65e683152228-dev.s3.amazonaws.com/public
+
 const Reuse = ({ title }) => (
   <div className="grid  rounded-3xl border-2 border-slate-400 place-items-center  w-[28vw] h-[20vh]">
     <h2 className="grid p-2 hover:tracking-widest  text-[1.3rem] text-amber-500 font-bold font-sans ">

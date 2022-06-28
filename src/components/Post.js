@@ -5,11 +5,10 @@ import { Link } from "react-router-dom";
 import { RewindIcon } from "@heroicons/react/solid";
 import * as queries from "../graphql/queries";
 import moment from "moment";
-import Sidebar from "./Sidebar";
+import { Storage } from "aws-amplify";
 const Post = () => {
   const [post, setPost] = useState([]);
   const [postId, setPostId] = useState("");
-
   const { id } = useParams();
 
   useEffect(() => {
@@ -35,6 +34,7 @@ const Post = () => {
   }, [postId]);
 
   console.log(post);
+
   return (
     <div className="w-full bg-slate-900 2xl:lg-14 lg:p-10 min-h-screen max-h-fit">
       <div className="w-10">
@@ -54,15 +54,19 @@ const Post = () => {
               {moment(new Date(post.createdAt)).fromNow()}
             </span>
           </small>
-          <img
-            className="h-[35vh] md:w-[80%] 2xl:w-[45vw] lg:w-[40vw] lg:h-[50vh] float-left w-[100vw] mr-2 lazyloaded rounded-2xl"
-            src={`${process.env.REACT_APP_S3_URL}/${post?.file?.key}`}
-          />
+          {post && (
+            <img
+              className="h-[35vh] md:w-[80%] 2xl:w-[45vw] lg:w-[40vw] lg:h-[50vh] float-left w-[100vw] mr-2 lazyloaded rounded-2xl"
+              src={`https://iotamplify4011e8e2456f420da820280d4f65e683152228-dev.s3.amazonaws.com/public/${post?.file?.key}`}
+            />
+          )}
+
           <article className="text-gray-300 fontFamily antialiased tracking-wide text-sm md:text-medium 2xl:mt-2 2xl:leading-9 2xl:tracking-widest leading-8 md:leading-8">
             {post?.description}
           </article>
         </div>
       </div>
+
       <div className="relative">
         <button className="md:fixed md:w-fit top-[40%] justify-center -right-10 md:rounded-3xl rounded:1xl transition ease-in-out hover:scale-110 delay-400 bg-blue-900 2xl:text-[1.4rem] w-[90%] m-5 p-2 text-white md:-rotate-90">
           Similar Blogs

@@ -27,10 +27,12 @@ const CommonPostData = ({ data, handleDelete }) => {
           </small>
         </div>
         <div className="w-full h-[60%]">
-          <img
-            className=" w-[80vw] h-[93%] object-cover lazyloaded"
-            src={`${process.env.REACT_APP_S3_URL}/${data.file.key}`}
-          />
+          {data && (
+            <img
+              className=" w-[80vw] h-[93%] object-cover lazyloaded"
+              src={`https://iotamplify4011e8e2456f420da820280d4f65e683152228-dev.s3.amazonaws.com/public/${data.file.key}`}
+            />
+          )}
         </div>
         <div className="flex justify-around w-full h-15  hover:bg-slate-400 mb-4 pb-4">
           <ThumbUpIcon className="transition ease-in-out delay-300  opacity-0 group-hover:opacity-80 h-6 w-6 text-gray-50" />

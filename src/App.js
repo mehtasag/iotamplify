@@ -35,10 +35,10 @@ function App() {
           <Route path="/" element={<Posts />} />
           <Route path="/about" element={<About />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/:id" element={<Post />} />
 
           {cuser ? (
             <>
-              <Route path="/:id" element={<Post />} />
               <Route path="/addPost" element={<AddPost />} />
             </>
           ) : (

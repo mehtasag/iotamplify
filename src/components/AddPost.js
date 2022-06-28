@@ -6,6 +6,7 @@ import aws_exports from "../aws-exports";
 import { createPost } from "../libs";
 import { RewindIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 const AddPost = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -21,6 +22,16 @@ const AddPost = () => {
     const postData = { title, description };
 
     await createPost(image, postData);
+    setImage(null);
+    setTitle("");
+    setDescription("");
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    setImage(null);
+    setTitle("");
+    setDescription("");
   };
 
   return (
@@ -28,15 +39,15 @@ const AddPost = () => {
       <Link to="/">
         <RewindIcon className="text-white w-10 h-10 animate-bounce pt-3" />
       </Link>
-      <h3 className="text-4xl fontFamily text-pink-200 font-extrabold font-serif ml-4 pt-10">
+      <h3 className="text-2xl text-center md:text-4xl fontFamily text-pink-100 font-extrabold font-serif ml-4 md:pt-10">
         Write New Post
       </h3>
-      <div className="w-1/2 p-5 m-auto md:w-1/2 px-3 mb-6 md:mb-0">
-        <label className="block uppercase tracking-wide text-cyan-50 text-s font-bold mb-2">
+      <div className="w-full   p-3 md:p-5 md:m-auto 2xl:w-[30%] md:w-[40%] px-3 mb-6 md:mb-0">
+        <label className="block uppercase fontFamily tracking-wide text-cyan-50 text-s font-bold mb-2">
           Post Title
         </label>
         <input
-          className="appearance-none block  font-mono w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight  focus:outline-none focus:bg-white"
+          className="appearance-none block  fontFamily font-bold w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight  focus:outline-none focus:bg-white"
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -44,12 +55,12 @@ const AddPost = () => {
         />
       </div>
 
-      <div className="w-1/2 m-auto md:w-1/2 px-3 mb-6 md:mb-0">
-        <label className="block uppercase tracking-wide text-cyan-50 text-s font-bold mb-2">
+      <div className="w-full m-auto 2xl:w-[30%] md:w-[40%] px-3 ">
+        <label className="block uppercase fontFamily tracking-wide text-cyan-50 text-s font-bold mb-2">
           Description
         </label>
-        <input
-          className="appearance-none block w-full h-40 bg-gray-200 text-gray-700 border rounded font-mono py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        <textarea
+          className="appearance-none block w-full h-40 bg-gray-200 text-gray-700 border font-bold rounded fontFamily py-3 px-4 md:mb-3 leading-tight focus:outline-none focus:bg-white"
           type="text"
           placeholder="Write about your post"
           value={description}
@@ -58,9 +69,9 @@ const AddPost = () => {
       </div>
       <div className="flex justify-center mt-8">
         <div className="flex flex-wrap"></div>
-        <div className="rounded-lg shadow-xl bg-gray-50 lg:w-1/2">
+        <div className="rounded-lg shadow-xl bg-gray-50 md:w-[40%] 2xl:w-[30%]">
           <div className="m-4">
-            <label className="inline-block mb-2 font-mono text-gray-500">
+            <label className="inline-block mb-2 font-bold fontFamily text-gray-700">
               Upload Image(jpg,png,svg,jpeg)
             </label>
             <div className="flex items-center justify-center w-full">
@@ -85,17 +96,24 @@ const AddPost = () => {
                 <input type="file" className="opacity-0" onChange={onChange} />
               </label>
             </div>
-            <h5>You selected {image?.name}</h5>
+            {image && (
+              <h5 className="fontFamily text-green-500 font-bold font-small">
+                You selected {image?.name}
+              </h5>
+            )}
           </div>
         </div>
       </div>
-      <div className="flex w-1/2 m-auto justify-center mt-5 p-2 pb-4 space-x-4">
-        <button className="px-4  font-sans w-1/4 py-2 text-white bg-red-700 rounded shadow-xl">
+      <div className="md:flex grid gap-8   w-full md:w-1/2 m-auto md:justify-center mt-5 p-2 pb-4 md:space-x-4">
+        <button
+          onClick={handleCancel}
+          className="px-4   font-sans md:w-1/4 w-full py-2 text-white bg-red-700 rounded shadow-xl"
+        >
           Cannel
         </button>
         <button
           onClick={handleSubmit1}
-          className="px-4 py-2 w-1/4 font-sans text-white bg-green-500 rounded shadow-xl"
+          className="px-4 py-2 w-full md:w-1/4 font-sans text-white bg-green-500 rounded shadow-xl"
         >
           Create Post
         </button>
@@ -104,4 +122,4 @@ const AddPost = () => {
   );
 };
 
-export default AddPost;
+export default withAuthenticator(AddPost);

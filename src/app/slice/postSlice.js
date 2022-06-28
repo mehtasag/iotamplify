@@ -1,20 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: null,
+  value: "",
 };
 
 export const postSlice = createSlice({
-  name: "counter",
+  name: "searchTerm",
   initialState,
   reducers: {
-    getPostId: (state, action) => {
+    getSearchTerm: (state, action) => {
       state.value = action.payload;
     },
   },
 });
 
-export const { getPostId } = postSlice.actions;
-export const getPostId1 = (state) => state.post.value;
+export const { getSearchTerm } = postSlice.actions;
+export const getSearchTermValue = (state) => state.searchTerm.value;
 
 export default postSlice.reducer;

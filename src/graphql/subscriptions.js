@@ -7,7 +7,6 @@ export const onCreatePosts = /* GraphQL */ `
       id
       title
       description
-      status
       file {
         bucket
         region
@@ -24,7 +23,6 @@ export const onUpdatePosts = /* GraphQL */ `
       id
       title
       description
-      status
       file {
         bucket
         region
@@ -41,7 +39,6 @@ export const onDeletePosts = /* GraphQL */ `
       id
       title
       description
-      status
       file {
         bucket
         region
@@ -49,39 +46,6 @@ export const onDeletePosts = /* GraphQL */ `
       }
       createdAt
       updatedAt
-    }
-  }
-`;
-export const onCreatePrivateNote = /* GraphQL */ `
-  subscription OnCreatePrivateNote($owner: String) {
-    onCreatePrivateNote(owner: $owner) {
-      id
-      content
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const onUpdatePrivateNote = /* GraphQL */ `
-  subscription OnUpdatePrivateNote($owner: String) {
-    onUpdatePrivateNote(owner: $owner) {
-      id
-      content
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const onDeletePrivateNote = /* GraphQL */ `
-  subscription OnDeletePrivateNote($owner: String) {
-    onDeletePrivateNote(owner: $owner) {
-      id
-      content
-      createdAt
-      updatedAt
-      owner
     }
   }
 `;

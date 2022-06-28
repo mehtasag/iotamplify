@@ -3,7 +3,15 @@ import { Auth } from "aws-amplify";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { useEffect, useState } from "react";
-import { Sidebar, Post, AddPost, Posts, About, Logout } from "./components";
+import {
+  Sidebar,
+  Post,
+  AddPost,
+  Posts,
+  About,
+  Logout,
+  Login,
+} from "./components";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 
 function App() {
@@ -28,11 +36,13 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/logout" element={<Logout />} />
 
-          {cuser && (
+          {cuser ? (
             <>
               <Route path="/:id" element={<Post />} />
               <Route path="/addPost" element={<AddPost />} />
             </>
+          ) : (
+            <Route path="/login" element={<Login />} />
           )}
         </Routes>
       </BrowserRouter>

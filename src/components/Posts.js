@@ -3,34 +3,57 @@ import { useEffect, useState } from "react";
 import { XCircleIcon } from "@heroicons/react/solid";
 import { ThumbUpIcon } from "@heroicons/react/outline";
 import { API, graphqlOperation } from "aws-amplify";
-import { listPosts } from "../graphql/queries";
+import { listPosts, getPost } from "../graphql/queries";
 import { deletePost } from "../libs";
 import { Link } from "react-router-dom";
 import { ChatIcon, BookOpenIcon } from "@heroicons/react/outline";
+import { SearchTerm } from "./index";
+import { useSelector } from "react-redux";
+import CommonPostData from "./CommonPostData";
 
+import { getSearchTermValue } from "../app/slice/postSlice";
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [token, setToken] = useState(null);
   const [hasMoreTokens, setHasMoreTokens] = useState(true);
 
+  const searchTerm = useSelector(getSearchTermValue);
   useEffect(() => {
     let isMounted = true;
     if (isMounted && posts) {
       fetchPosts();
     }
+    getPostData();
     return () => {
       isMounted = false;
     };
   }, []);
 
+  const filteredPost = searchTerm
+    ? posts.filter((data) => data.title.includes(`${searchTerm}`))
+    : [];
+
+  console.log(filteredPost);
   async function fetchPosts() {
     try {
-      const data = await API.graphql(graphqlOperation(listPosts, { limit: 4 }));
+      const data = await API.graphql(graphqlOperation(listPosts, { limit: 8 }));
       const postData = data.data.listPosts.items;
       setPosts(postData);
       setToken(data.data.listPosts.nextToken);
     } catch (err) {
       console.log("error fetching todos");
+    }
+  }
+
+  async function getPostData() {
+    try {
+      const data2 = await API.graphql(graphqlOperation(getPost));
+      const postData = data2;
+      // setPosts(postData);
+      console.log(postData);
+      // setToken(data.data.getPost.nextToken);
+    } catch (err) {
+      console.log("error fetching todos", err);
     }
   }
 
@@ -57,47 +80,22 @@ const Posts = () => {
   };
   return (
     <div className="w-full bg-slate-900 2xl:lg-14 lg:p-10 scroll-smooth min-h-screen max-h-fit">
+      <SearchTerm />
       <h3 className="text-4xl font-sans antialiased text-center p-4 font-bold text-indigo-500">
         Recent Posts
       </h3>
 
       <div className="grid  gap-5 lg:grid-cols-4 hover:auto-cols-min mt-3 mb-20 z-0">
-        {posts &&
-          posts.map((data) => (
-            <div
-              key={data.id}
-              className="group w-[38vh] h-[44vh]  cursor-pointer max-w-md mx-auto border-2 border-gray-500 rounded-xl shadow-md overflow-hidden md:max-w-2xl pt-2"
-            >
-              <Link to={`/${data.id}`}>
-                <XCircleIcon
-                  onClick={() => handleDelete(data.id)}
-                  className="transition ml-3 ease-in-out delay-300 opacity-0 group-hover:opacity-80 hover:scale-150 w-4 h-4 right-2 bg-white rounded-2xl text-orange-400"
-                />
-                <div className="flex flex-col text-center justify-around p-2 ">
-                  <h5 className="text-1xl  font-sans antialiased text-center font-bold text-gray-50">
-                    {data.title.length > 35
-                      ? `${data.title.slice(0, 47)}...`
-                      : data.title}
-                  </h5>
-                  <small className="text-1/2xl font-sans font-bold text-gray-500">
-                    Posted:
-                    {moment(new Date(data.createdAt).getTime()).fromNow()}
-                  </small>
-                </div>
-                <div className="w-full h-[60%]">
-                  <img
-                    className=" w-[80vw] h-[93%] object-cover lazyloaded"
-                    src={`${process.env.REACT_APP_S3_URL}/${data.file.key}`}
-                  />
-                </div>
-                <div className="flex justify-around w-full h-15  hover:bg-slate-400 mb-4 pb-4">
-                  <ThumbUpIcon className="transition ease-in-out delay-300  opacity-0 group-hover:opacity-80 h-6 w-6 text-gray-50" />
-                  <ChatIcon className="transition ease-in-out delay-300  opacity-0 group-hover:opacity-80  h-6 w-6 text-gray-50" />
-                  <BookOpenIcon className="transition ease-in-out delay-300  opacity-0 group-hover:opacity-80  h-6 w-6 text-gray-50" />
-                </div>
-              </Link>
-            </div>
-          ))}
+        {filteredPost.length > 0
+          ? filteredPost.map((data) => <CommonPostData data={data} />)
+          : posts &&
+            posts.map((data) => (
+              <CommonPostData
+                data={data}
+                key={data.id}
+                handleDelete={handleDelete}
+              />
+            ))}
       </div>
 
       <div className="flex items-center w-1/6 m-auto p-2">

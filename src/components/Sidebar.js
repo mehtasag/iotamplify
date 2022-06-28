@@ -46,7 +46,7 @@ const Sidebar = ({ cuser }) => {
           >
             <NavbarLinks to="/about" value="Read Me" />
           </div>
-          {cuser !== [] ? (
+          {cuser ? (
             <div className="hover:bg-red-400 text-bold">
               <h2
                 onClick={signout}

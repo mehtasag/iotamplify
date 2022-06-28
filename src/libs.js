@@ -3,9 +3,12 @@ import * as mutation from "./graphql/mutations";
 import aws_exports from "./aws-exports";
 
 /***  Delete Post  ***/
-export const deletePost = (postId) => {
+export const deletePost = async (data) => {
+  console.log(data);
+  console.log(data.file.key);
+  await Storage.remove(`${data.file.key}`);
   const deletePostId = {
-    id: postId,
+    id: data.id,
   };
   API.graphql({
     query: mutation.deletePosts,

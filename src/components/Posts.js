@@ -65,13 +65,13 @@ const Posts = () => {
     }
   };
   return (
-    <div className="w-full bg-slate-900 2xl:lg-14 lg:p-10 scroll-smooth min-h-screen max-h-fit">
+    <div className="w-full bg-slate-900 2xl:p-14 lg:p-10 scroll-smooth min-h-screen max-h-fit">
       <SearchTerm />
       <h3 className="text-4xl font-sans antialiased text-center p-4 font-bold text-indigo-500">
         Recent Posts
       </h3>
 
-      <div className="grid  gap-5 lg:grid-cols-4 hover:auto-cols-min mt-3 mb-20 z-0">
+      <div className="grid  gap-5 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2  mt-3 mb-20 z-0">
         {filteredPost.length > 0
           ? filteredPost.map((data) => <CommonPostData data={data} />)
           : posts &&

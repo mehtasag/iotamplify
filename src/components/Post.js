@@ -61,7 +61,13 @@ const Post = () => {
             />
           )}
 
-          <article className="text-gray-300 fontFamily antialiased tracking-wide text-sm md:text-medium 2xl:mt-2 2xl:leading-9 2xl:tracking-widest leading-8 md:leading-8">
+          <article
+            className="
+          first-line:uppercase first-line:tracking-widest
+          first-letter:text-7xl first-letter:font-bold first-letter:text-red-200
+          first-letter:mr-3 first-letter:float-left
+          text-gray-300 fontFamily antialiased tracking-wide text-sm md:text-medium 2xl:mt-2 2xl:leading-9 2xl:tracking-widest leading-8 md:leading-8"
+          >
             {post?.description}
           </article>
         </div>

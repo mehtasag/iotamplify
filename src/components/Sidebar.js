@@ -20,16 +20,16 @@ const Sidebar = ({ cuser }) => {
       {isOpen === false ? (
         <MenuAlt3Icon
           onClick={() => setIsOpen(true)}
-          className="absolute right-3 border-3  top-2 w-10 h-10 text-cyan-200 cursor-pointer"
+          className="absolute right-3 border-3  top-2 w-6 h-6 md:w-8 md:h-8 text-cyan-200 cursor-pointer"
         />
       ) : (
         <XCircleIcon
           onClick={() => setIsOpen(false)}
-          className="absolute right-2 top-2 w-8 h-8 text-cyan-200 cursor-pointer z-18"
+          className="absolute right-2 w-4 h-4 md:w-8 md:h-8 top-2  text-cyan-200 cursor-pointer z-18"
         />
       )}
       <div
-        className={`transition flex flex-col justify-center text-center gap-5 top-0 right-0 w-[25vw] fixed  bg-slate-700 h-full z-1000  ease-in-out duration-300 ${
+        className={`transition flex flex-col justify-center text-center gap-5 top-0 right-0 w-[70%] md:w-[25vw] fixed  bg-slate-700 h-full z-1000  ease-in-out duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -62,7 +62,7 @@ const Sidebar = ({ cuser }) => {
 
         <XCircleIcon
           onClick={() => setIsOpen(false)}
-          className="absolute right-2 top-2 w-8 h-8 text-cyan-200 cursor-pointer z-100"
+          className="absolute right-0 md:right-2 w-6 h-6 md:w-8 md:h-8 top-2  text-cyan-200 cursor-pointer z-100"
         />
       </div>
     </div>

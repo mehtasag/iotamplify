@@ -26,7 +26,6 @@ function App() {
     return () => getUser();
   }, []);
 
-  console.log("User is", cuser);
   return (
     <div className="p-0 m-0">
       <BrowserRouter>
@@ -50,4 +49,4 @@ function App() {
   );
 }
 
-export default withAuthenticator(App);
+export default App;

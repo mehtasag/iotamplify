@@ -29,8 +29,8 @@ const CommonPostData = ({ data, handleDelete }) => {
         <div className="w-full h-[60%]">
           {data && (
             <img
-              className=" w-[80vw] h-[93%] object-cover lazyloaded"
-              src={`https://iotamplify4011e8e2456f420da820280d4f65e683152228-dev.s3.amazonaws.com/public/${data.file.key}`}
+              className="w-full h-full md:w-[80vw] md:h-[93%] object-cover lazyloaded"
+              src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${data.file.key}`}
             />
           )}
         </div>

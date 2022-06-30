@@ -37,9 +37,9 @@ const Post = () => {
 
   return (
     <div className="w-full bg-slate-900 2xl:lg-14 lg:p-10 min-h-screen max-h-fit">
-      <div className="w-10">
+      <div className="w-7 pt-6 md:pt-0 md:w-10">
         <Link to="/">
-          <RewindIcon className="text-white h-10 animate-bounce w-fit" />
+          <RewindIcon className="text-white md:h-10 animate-bounce w-fit" />
         </Link>
       </div>
 
@@ -47,8 +47,8 @@ const Post = () => {
         <h2 className="2xl:text-5xl md:text-4xl font-2xl font-bold text-gray-300 border-l-[2px] border-gray-600 pl-4 h-fit">
           {post.title}
         </h2>
-        <div className="mt-10">
-          <small className="text-md text-white pr-2 font-bold">
+        <div className="mt-3 md:mt-10">
+          <small className="text-md m-3 pb-3 text-white pr-2 font-bold">
             Posted:
             <span className="text-green-400 ml-2">
               {moment(new Date(post.createdAt)).fromNow()}
@@ -56,8 +56,8 @@ const Post = () => {
           </small>
           {post && (
             <img
-              className="h-[35vh] md:w-[80%] 2xl:w-[45vw] lg:w-[40vw] lg:h-[50vh] float-left w-[100vw] mr-2 lazyloaded rounded-2xl"
-              src={`https://iotamplify4011e8e2456f420da820280d4f65e683152228-dev.s3.amazonaws.com/public/${post?.file?.key}`}
+              className="h-[35vh] mt-3 md:w-[80%] 2xl:w-[45vw] lg:w-[40vw] lg:h-[50vh] float-left w-[100vw] mr-2 lazyloaded rounded-2xl"
+              src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${post?.file?.key}`}
             />
           )}
 

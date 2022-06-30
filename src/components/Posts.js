@@ -39,7 +39,7 @@ const Posts = () => {
       setPosts(postData);
       setToken(data.data.listPosts.nextToken);
     } catch (err) {
-      console.log("error fetching todos");
+      console.log("error fetching todos", err);
     }
   }
 
@@ -47,12 +47,12 @@ const Posts = () => {
     deletePost(id);
   };
 
-  console.log(posts);
   const fetchPosts1 = async () => {
     if (token !== null) {
       const data = await API.graphql({
         query: listPosts,
         variables: { limit: 4, nextToken: token },
+        authMode: "API_KEY",
       });
 
       const newPosts = data.data.listPosts.items;
@@ -84,11 +84,11 @@ const Posts = () => {
             ))}
       </div>
 
-      <div className="flex items-center w-1/6 m-auto p-2">
+      <div className="flex items-center justify-center w-full md:w-1/6 m-auto p-2">
         {hasMoreTokens ? (
           <button
             onClick={fetchPosts1}
-            className="grid pt-19 left-1/2 transform px-4 py-2 ml-1/2 w-full font-sans text-white bg-green-500 rounded shadow-xl mb-10"
+            className="md:grid  w-fit md:w-full pt-19 left-1/2 transform px-4 py-2 ml-1/2  fontFamily text-white bg-green-500 rounded shadow-xl mb-10"
           >
             Load More
           </button>

@@ -13,6 +13,7 @@ export const deletePost = async (data) => {
   API.graphql({
     query: mutation.deletePosts,
     variables: { input: deletePostId },
+    authMode: "AMAZON_COGNITO_USER_POOLS",
   });
 };
 
@@ -32,7 +33,14 @@ export const createPost = async (image, postData) => {
     };
 
     await API.graphql(
-      graphqlOperation(mutation.createPosts, { input: { ...postData, file } })
+      {
+        query: mutation.createPosts,
+        variables: {
+          input: { ...postData, file },
+        },
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+      }
+      // graphqlOperation(mutation.createPosts, { input: { ...postData, file } })
     );
     console.log("Post has created");
   } catch (err) {

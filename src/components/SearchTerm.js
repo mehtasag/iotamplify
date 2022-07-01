@@ -13,7 +13,7 @@ const SearchTerm = () => {
   };
 
   return (
-    <form className="flex w-1/2 mx-auto items-center relative dark:bg-gray-700">
+    <form className="flex w-full mt-5  md:w-1/2 mx-auto items-center relative dark:bg-gray-700">
       <div className="relative w-full">
         <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
           <svg

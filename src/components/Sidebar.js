@@ -4,8 +4,11 @@ import { XCircleIcon } from "@heroicons/react/solid";
 import NavbarLinks from "./NavbarLinks";
 import { useNavigate } from "react-router-dom";
 import { Auth } from "aws-amplify";
-const Sidebar = ({ cuser }) => {
+import { useSelector } from "react-redux";
+import { selectUser } from "../app/slice/userSlice";
+const Sidebar = () => {
   const navigate = useNavigate();
+  const cuser = useSelector(selectUser);
   const signout = async () => {
     try {
       await Auth.signOut();

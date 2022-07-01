@@ -1,21 +1,18 @@
-import moment from "moment";
 import { useEffect, useState } from "react";
-import { XCircleIcon } from "@heroicons/react/solid";
-import { ThumbUpIcon } from "@heroicons/react/outline";
 import { API, graphqlOperation } from "aws-amplify";
 import { listPosts, getPost } from "../graphql/queries";
 import { deletePost } from "../libs";
-import { Link } from "react-router-dom";
-import { ChatIcon, BookOpenIcon } from "@heroicons/react/outline";
 import { SearchTerm } from "./index";
 import { useSelector } from "react-redux";
 import CommonPostData from "./CommonPostData";
-
+import { Link } from "react-router-dom";
 import { getSearchTermValue } from "../app/slice/postSlice";
+import { selectUser } from "../app/slice/userSlice";
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [token, setToken] = useState(null);
   const [hasMoreTokens, setHasMoreTokens] = useState(true);
+  const user = useSelector(selectUser);
 
   const searchTerm = useSelector(getSearchTermValue);
   useEffect(() => {
@@ -66,8 +63,26 @@ const Posts = () => {
   };
   return (
     <div className="w-full bg-slate-900 2xl:p-14 lg:p-10 scroll-smooth min-h-screen max-h-fit">
-      <SearchTerm />
-      <h3 className="text-4xl font-sans antialiased text-center p-4 font-bold text-indigo-500">
+      <div className=" md:flex my-auto">
+        <div className="flex justify-center ml-3 md:ml-0">
+          <h3 className="text-gray-100 pt-4  ml-2 font-bold text-1xl md:text-2xl">
+            {user ? `Hello ${user.uid},` : "Hello Guest"}
+          </h3>
+          <br />
+          {!user && (
+            <Link
+              className="align-item-center md:pt-1  ml-2 mt-4 text-center mx-auto"
+              to="/login"
+            >
+              <span className="bg-yellow-400 p-2 text-[0.8rem]  text-gray-700 font-bold rounded-2xl fontFamily">
+                Sign in here !
+              </span>
+            </Link>
+          )}
+        </div>
+        <SearchTerm />
+      </div>
+      <h3 className="text-2xl  md:text-4xl font-sans antialiased md:text-center p-4 font-bold text-indigo-500">
         Recent Posts
       </h3>
 

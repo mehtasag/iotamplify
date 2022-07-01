@@ -1,8 +1,9 @@
 import "./App.css";
 import { Auth } from "aws-amplify";
-import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
+import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import { login, logout } from "./app/slice/userSlice";
 import {
   Sidebar,
   Post,
@@ -16,10 +17,18 @@ import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 
 function App() {
   const [cuser, setCUser] = useState([]);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const getUser = async () => {
       const user = await Auth.currentAuthenticatedUser();
+
+      dispatch(
+        login({
+          uid: user.username,
+          verified: user.attributes.email_verified,
+          email: user.attributes.email,
+        })
+      );
       setCUser(user);
     };
 
@@ -36,13 +45,9 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/:id" element={<Post />} />
 
-          {cuser ? (
-            <>
-              <Route path="/addPost" element={<AddPost />} />
-            </>
-          ) : (
-            <Route path="/login" element={<Login />} />
-          )}
+          <Route path="/addPost" element={<AddPost />} />
+
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </div>

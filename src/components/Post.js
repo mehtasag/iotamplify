@@ -6,6 +6,7 @@ import { RewindIcon } from "@heroicons/react/solid";
 import * as queries from "../graphql/queries";
 import moment from "moment";
 import { Storage } from "aws-amplify";
+import SearchTerm from "./SearchTerm";
 const Post = () => {
   const [post, setPost] = useState([]);
   const [postId, setPostId] = useState("");
@@ -33,10 +34,9 @@ const Post = () => {
     };
   }, [postId]);
 
-  console.log(post);
-
   return (
     <div className="w-full bg-slate-900 2xl:lg-14 lg:p-10 min-h-screen max-h-fit">
+      <SearchTerm />
       <div className="w-7 pt-6 md:pt-0 md:w-10">
         <Link to="/">
           <RewindIcon className="text-white md:h-10 animate-bounce w-fit" />

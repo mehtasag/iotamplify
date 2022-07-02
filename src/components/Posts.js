@@ -49,7 +49,7 @@ const Posts = () => {
       const data = await API.graphql({
         query: listPosts,
         variables: { limit: 4, nextToken: token },
-        authMode: "API_KEY",
+        authMode: !user ? "API_KEY" : "AMAZON_COGNITO_USER_POOLS",
       });
 
       const newPosts = data.data.listPosts.items;

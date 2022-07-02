@@ -5,12 +5,17 @@ import { Link } from "react-router-dom";
 import { RewindIcon } from "@heroicons/react/solid";
 import * as queries from "../graphql/queries";
 import moment from "moment";
-import { Storage } from "aws-amplify";
-import SearchTerm from "./SearchTerm";
+import { ThumbUpIcon } from "@heroicons/react/solid";
+import { ChatIcon, BookOpenIcon } from "@heroicons/react/solid";
+import Comment from "./Comment";
+
+const reviewIconsClass =
+  "bg-yellow-400 rounded-full w-8 h-8 p-1 md:p-2 cursor-pointer  md:w-10 md:h-10 text-black  font-extrabold";
 const Post = () => {
   const [post, setPost] = useState([]);
   const [postId, setPostId] = useState("");
   const { id } = useParams();
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -18,11 +23,11 @@ const Post = () => {
 
     const getPostData = async () => {
       if (isMounted && postId) {
-        const postData = await API.graphql(
-          graphqlOperation(queries.getPosts, {
-            id: id,
-          })
-        );
+        const postData = await API.graphql({
+          query: queries.getPosts,
+          variables: { id: id },
+          authMode: "AMAZON_COGNITO_USER_POOLS",
+        });
         setPost(postData.data.getPosts);
       }
     };
@@ -34,51 +39,80 @@ const Post = () => {
     };
   }, [postId]);
 
+  console.log(post);
+
   return (
-    <div className="w-full bg-slate-900 2xl:lg-14 lg:p-10 min-h-screen max-h-fit">
-      <SearchTerm />
-      <div className="w-7 pt-6 md:pt-0 md:w-10">
-        <Link to="/">
-          <RewindIcon className="text-white md:h-10 animate-bounce w-fit" />
-        </Link>
-      </div>
+    <>
+      <div className="w-full md:left-10 bg-slate-900 2xl:lg-14 lg:p-10 scroll-smooth p-0  min-h-screen max-h-fit">
+        <div className="w-7 pt-10 md:pt-0 md:w-10">
+          <Link to="/">
+            <RewindIcon className="text-white md:h-8 animate-bounce w-fit" />
+          </Link>
+        </div>
 
-      <div key={post.id} className="m-auto w-[95%]  mt-5 z-0 ">
-        <h2 className="2xl:text-5xl md:text-4xl font-2xl font-bold text-gray-300 border-l-[2px] border-gray-600 pl-4 h-fit">
-          {post.title}
-        </h2>
-        <div className="mt-3 md:mt-10">
-          <small className="text-md m-3 pb-3 text-white pr-2 font-bold">
-            Posted:
-            <span className="text-green-400 ml-2">
-              {moment(new Date(post.createdAt)).fromNow()}
-            </span>
-          </small>
-          {post && (
-            <img
-              className="h-[35vh] mt-3 md:w-[80%] 2xl:w-[45vw] lg:w-[40vw] lg:h-[50vh] float-left w-[100vw] mr-2 lazyloaded rounded-2xl"
-              src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${post?.file?.key}`}
-            />
-          )}
+        <div className="mt-2 md:flex place-items-center grid grid-cols-4 h-fit  w-full  md:justify-around md:w-1/2 md:float-right md:h-15 ">
+          <h3 className="md:text-gray-400 p-2 text-rose-400 text-1xl font-bold">
+            Rate this blog
+          </h3>
+          <div className="grid place-items-center">
+            <ThumbUpIcon className={reviewIconsClass} />
+            <h3 className="text-white font-bold fontFamily">Likes</h3>
+          </div>
+          <div
+            onClick={() => setModal(!modal)}
+            className="grid place-items-center cursor-pointer"
+          >
+            <ChatIcon className={reviewIconsClass} />
+            <h3 className="text-white font-bold fontFamily">Comments</h3>
+          </div>
+          <div className="grid place-items-center">
+            <BookOpenIcon className={reviewIconsClass} />
+            <h3 className="text-white font-bold fontFamily">Bookmark</h3>
+          </div>
+        </div>
 
-          <article
-            className="
-          first-line:uppercase first-line:tracking-widest
+        <div key={post.id} className="m-auto w-[95%] mt-3  md:mt-5 z-0 ">
+          <h2 className="prose-heading 2xl:text-5xl md:text-4xl font-2xl font-bold text-gray-300 border-l-[2px] border-gray-600 md:pb-2 pl-4 h-fit">
+            {post.title}
+          </h2>
+
+          <div className="mt-3 ">
+            <small className="text-md m-3 pb-3 text-white pr-2 font-bold">
+              Posted:
+              <span className="text-green-400 ml-2">
+                {moment(new Date(post.createdAt)).fromNow()}
+              </span>
+            </small>
+            {post && (
+              <img
+                className="h-[35vh]  md:w-[80%] 2xl:w-[45vw] lg:w-[40vw] lg:h-[50vh] float-left w-[100vw] mr-2 lazyloaded rounded-2xl"
+                src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${post?.file?.key}`}
+              />
+            )}
+
+            <article
+              className="first-line:tracking-widest
           first-letter:text-7xl first-letter:font-bold first-letter:text-red-200
           first-letter:mr-3 first-letter:float-left
           text-gray-300 fontFamily antialiased tracking-wide text-sm md:text-medium 2xl:mt-2 2xl:leading-9 2xl:tracking-widest leading-8 md:leading-8"
-          >
-            {post?.description}
-          </article>
+            >
+              {post?.description}
+            </article>
+          </div>
         </div>
-      </div>
 
-      <div className="relative">
-        <button className="md:fixed md:w-fit top-[40%] justify-center -right-10 md:rounded-3xl rounded:1xl transition ease-in-out hover:scale-110 delay-400 bg-blue-900 2xl:text-[1.4rem] w-[90%] m-5 p-2 text-white md:-rotate-90">
-          Similar Blogs
-        </button>
+        <div className="relative">
+          <button className="md:fixed md:w-fit top-[40%] justify-center -right-10 md:rounded-3xl rounded:1xl transition ease-in-out hover:scale-110 delay-400 bg-blue-900 2xl:text-[1.4rem] w-[90%] m-5 p-2 text-white md:-rotate-90">
+            Similar Blogs
+          </button>
+        </div>
+        {modal && (
+          <div className="relative">
+            <Comment data={post} setModal={setModal} />
+          </div>
+        )}
       </div>
-    </div>
+    </>
   );
 };
 

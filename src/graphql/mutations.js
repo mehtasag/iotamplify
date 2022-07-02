@@ -15,8 +15,21 @@ export const createPosts = /* GraphQL */ `
         region
         key
       }
+      comments {
+        items {
+          id
+          postID
+          content
+          createdBy
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -34,8 +47,21 @@ export const updatePosts = /* GraphQL */ `
         region
         key
       }
+      comments {
+        items {
+          id
+          postID
+          content
+          createdBy
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -53,8 +79,69 @@ export const deletePosts = /* GraphQL */ `
         region
         key
       }
+      comments {
+        items {
+          id
+          postID
+          content
+          createdBy
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
+      owner
+    }
+  }
+`;
+export const createComment = /* GraphQL */ `
+  mutation CreateComment(
+    $input: CreateCommentInput!
+    $condition: ModelCommentConditionInput
+  ) {
+    createComment(input: $input, condition: $condition) {
+      id
+      postID
+      content
+      createdBy
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const updateComment = /* GraphQL */ `
+  mutation UpdateComment(
+    $input: UpdateCommentInput!
+    $condition: ModelCommentConditionInput
+  ) {
+    updateComment(input: $input, condition: $condition) {
+      id
+      postID
+      content
+      createdBy
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const deleteComment = /* GraphQL */ `
+  mutation DeleteComment(
+    $input: DeleteCommentInput!
+    $condition: ModelCommentConditionInput
+  ) {
+    deleteComment(input: $input, condition: $condition) {
+      id
+      postID
+      content
+      createdBy
+      createdAt
+      updatedAt
+      owner
     }
   }
 `;

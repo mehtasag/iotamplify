@@ -1,8 +1,8 @@
 import React from "react";
 import { XCircleIcon } from "@heroicons/react/solid";
 import { ThumbUpIcon } from "@heroicons/react/outline";
-import { Link } from "react-router-dom";
 import { ChatIcon, BookOpenIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
 import moment from "moment";
 const CommonPostData = ({ data, handleDelete }) => {
   return (

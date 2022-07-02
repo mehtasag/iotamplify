@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { createPosts } from "../graphql/mutations";
-
-import { API, graphqlOperation, Storage, Auth } from "aws-amplify";
-import aws_exports from "../aws-exports";
 import { createPost } from "../libs";
 import { RewindIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
 import { withAuthenticator } from "@aws-amplify/ui-react";
+import toast, { Toaster } from "react-hot-toast";
 const AddPost = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -25,6 +22,14 @@ const AddPost = () => {
     setImage(null);
     setTitle("");
     setDescription("");
+    toast.success("Post has been created", {
+      duration: 8000,
+      position: "top-center",
+      ariaProps: {
+        role: "status",
+        "aria-live": "polite",
+      },
+    });
   };
 
   const handleCancel = (e) => {
@@ -42,6 +47,7 @@ const AddPost = () => {
       <h3 className="text-2xl text-center md:text-4xl fontFamily text-pink-100 font-extrabold font-serif ml-4 md:pt-10">
         Write New Post
       </h3>
+      <Toaster />
       <div className="w-full   p-3 md:p-5 md:m-auto 2xl:w-[30%] md:w-[40%] px-3 mb-6 md:mb-0">
         <label className="block uppercase fontFamily tracking-wide text-cyan-50 text-s font-bold mb-2">
           Post Title

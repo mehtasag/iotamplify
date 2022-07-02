@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MenuAlt3Icon } from "@heroicons/react/solid";
 import { XCircleIcon } from "@heroicons/react/solid";
 import NavbarLinks from "./NavbarLinks";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import { useSelector } from "react-redux";
 import { selectUser } from "../app/slice/userSlice";
@@ -59,7 +59,11 @@ const Sidebar = () => {
               </h2>
             </div>
           ) : (
-            <h3>Sign In</h3>
+            <Link to="/login">
+              <h3 className="bg-green-400 text-white text-bold fontFamily rounded p-2">
+                Sign In
+              </h3>
+            </Link>
           )}
         </div>
 

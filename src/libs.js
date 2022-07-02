@@ -32,18 +32,31 @@ export const createPost = async (image, postData) => {
       region: aws_exports.aws_project_region,
     };
 
-    await API.graphql(
-      {
-        query: mutation.createPosts,
-        variables: {
-          input: { ...postData, file },
-        },
-        authMode: "AMAZON_COGNITO_USER_POOLS",
-      }
-      // graphqlOperation(mutation.createPosts, { input: { ...postData, file } })
-    );
+    await API.graphql({
+      query: mutation.createPosts,
+      variables: {
+        input: { ...postData, file },
+      },
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+    });
     console.log("Post has created");
   } catch (err) {
-    console.log("error creating todo:", err);
+    console.log("error creating post:", err);
+  }
+};
+
+/***  Create Comment  ***/
+export const createComment = async (commentData) => {
+  try {
+    await API.graphql({
+      query: mutation.createComment,
+      variables: {
+        input: commentData,
+      },
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+    });
+    console.log("Post has created");
+  } catch (err) {
+    console.log("error creating comment:", err);
   }
 };

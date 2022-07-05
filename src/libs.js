@@ -60,3 +60,20 @@ export const createComment = async (commentData) => {
     console.log("error creating comment:", err);
   }
 };
+
+/***  Like Post (Update)  ***/
+
+export const likePost = async (post) => {
+  try {
+    await API.graphql({
+      query: mutation.updatePosts,
+      variables: {
+        input: post,
+      },
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+    });
+    console.log("Successfully Like Post");
+  } catch (err) {
+    console.log("error creating comment:", err);
+  }
+};

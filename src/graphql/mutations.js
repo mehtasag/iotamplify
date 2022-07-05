@@ -15,6 +15,7 @@ export const createPosts = /* GraphQL */ `
         region
         key
       }
+      likes
       comments {
         items {
           id
@@ -47,6 +48,7 @@ export const updatePosts = /* GraphQL */ `
         region
         key
       }
+      likes
       comments {
         items {
           id
@@ -79,6 +81,7 @@ export const deletePosts = /* GraphQL */ `
         region
         key
       }
+      likes
       comments {
         items {
           id

@@ -19,6 +19,7 @@ export const getPosts = /* GraphQL */ `
         region
         key
       }
+      likes
       comments {
         items {
           id
@@ -53,6 +54,7 @@ export const listPosts = /* GraphQL */ `
           region
           key
         }
+        likes
         # comments {
         #   nextToken
         # }

@@ -8,19 +8,24 @@ import moment from "moment";
 import { ThumbUpIcon } from "@heroicons/react/solid";
 import { ChatIcon, BookOpenIcon } from "@heroicons/react/solid";
 import Comment from "./Comment";
+import { likePost } from "../libs";
+import Comments from "./Comments";
 
 const reviewIconsClass =
-  "bg-yellow-400 rounded-full w-8 h-8 p-1 md:p-2 cursor-pointer  md:w-10 md:h-10 text-black  font-extrabold";
+  "bg-yellow-400 rounded-full hover:scale-125 w-8 h-8 p-1 md:p-2 cursor-pointer  md:w-10 md:h-10 text-black  font-extrabold";
 const Post = () => {
   const [post, setPost] = useState([]);
-  const [postId, setPostId] = useState("");
+  const [postId, setPostId] = useState(
+    localStorage.getItem("postID") !== null
+      ? localStorage.getItem("postID")
+      : ""
+  );
   const { id } = useParams();
   const [modal, setModal] = useState(false);
-
   useEffect(() => {
     let isMounted = true;
     setPostId(id);
-
+    localStorage.setItem("postID", id);
     const getPostData = async () => {
       if (isMounted && postId) {
         const postData = await API.graphql({
@@ -39,8 +44,13 @@ const Post = () => {
     };
   }, [postId]);
 
-  console.log(post);
-
+  const handleLikePost = async () => {
+    const postData = {
+      id: post.id,
+      likes: post.likes + 1,
+    };
+    await likePost(postData);
+  };
   return (
     <>
       <div className="w-full md:left-10 bg-slate-900 2xl:lg-14 lg:p-10 scroll-smooth p-0  min-h-screen max-h-fit">
@@ -55,19 +65,37 @@ const Post = () => {
             Rate this blog
           </h3>
           <div className="grid place-items-center">
-            <ThumbUpIcon className={reviewIconsClass} />
-            <h3 className="text-white font-bold fontFamily">Likes</h3>
+            <ThumbUpIcon
+              className={reviewIconsClass}
+              onClick={handleLikePost}
+            />
+            <h3 className="text-white text-[0.8rem] font-bold fontFamily">
+              <span className="text-green-500 font-bold fontFamily mr-2 border-b-2 ">
+                {post?.likes}
+              </span>
+              Likes
+            </h3>
           </div>
           <div
             onClick={() => setModal(!modal)}
             className="grid place-items-center cursor-pointer"
           >
             <ChatIcon className={reviewIconsClass} />
-            <h3 className="text-white font-bold fontFamily">Comments</h3>
+            <h3 className="text-white text-[0.8rem] font-bold fontFamily">
+              <span className="text-green-500 font-bold fontFamily mr-2 border-b-2 ">
+                {post?.comments?.items?.length}
+              </span>
+              Comments
+            </h3>
           </div>
           <div className="grid place-items-center">
             <BookOpenIcon className={reviewIconsClass} />
-            <h3 className="text-white font-bold fontFamily">Bookmark</h3>
+            <h3 className="text-white text-[0.8rem] font-bold fontFamily">
+              <span className="text-green-500 font-bold fontFamily mr-2 border-b-2 ">
+                {post?.comments?.items?.length}
+              </span>
+              Bookmark
+            </h3>
           </div>
         </div>
 
@@ -100,6 +128,7 @@ const Post = () => {
             </article>
           </div>
         </div>
+        <Comments data={post.comments} />
 
         <div className="relative">
           <button className="md:fixed md:w-fit top-[40%] justify-center -right-10 md:rounded-3xl rounded:1xl transition ease-in-out hover:scale-110 delay-400 bg-blue-900 2xl:text-[1.4rem] w-[90%] m-5 p-2 text-white md:-rotate-90">

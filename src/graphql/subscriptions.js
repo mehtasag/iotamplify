@@ -12,18 +12,19 @@ export const onCreatePosts = /* GraphQL */ `
         region
         key
       }
-      comments {
-        items {
-          id
-          postID
-          content
-          createdBy
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
+      # likes
+      # comments {
+      #   items {
+      #     id
+      #     postID
+      #     content
+      #     createdBy
+      #     createdAt
+      #     updatedAt
+      #     owner
+      #   }
+      #   nextToken
+      # }
       createdAt
       updatedAt
       owner
@@ -41,6 +42,7 @@ export const onUpdatePosts = /* GraphQL */ `
         region
         key
       }
+      likes
       comments {
         items {
           id
@@ -70,6 +72,7 @@ export const onDeletePosts = /* GraphQL */ `
         region
         key
       }
+      likes
       comments {
         items {
           id

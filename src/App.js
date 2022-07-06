@@ -14,6 +14,7 @@ import {
   Login,
 } from "./components";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const [cuser, setCUser] = useState([]);
@@ -37,6 +38,7 @@ function App() {
 
   return (
     <div className="p-0 m-0">
+      <Toaster />
       <BrowserRouter>
         <Sidebar cuser={cuser} />
         <Routes>

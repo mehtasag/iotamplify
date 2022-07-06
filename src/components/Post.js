@@ -10,6 +10,12 @@ import { ChatIcon, BookOpenIcon } from "@heroicons/react/solid";
 import Comment from "./Comment";
 import { likePost } from "../libs";
 import Comments from "./Comments";
+import { selectUser } from "../app/slice/userSlice";
+import { useSelector } from "react-redux";
+import {
+  getUnAuthPosts,
+  getAuthPosts,
+} from "../components/helper/customQueries";
 
 const reviewIconsClass =
   "bg-yellow-400 rounded-full hover:scale-125 w-8 h-8 p-1 md:p-2 cursor-pointer  md:w-10 md:h-10 text-black  font-extrabold";
@@ -22,6 +28,7 @@ const Post = () => {
   );
   const { id } = useParams();
   const [modal, setModal] = useState(false);
+  const user = useSelector(selectUser);
   useEffect(() => {
     let isMounted = true;
     setPostId(id);
@@ -29,9 +36,9 @@ const Post = () => {
     const getPostData = async () => {
       if (isMounted && postId) {
         const postData = await API.graphql({
-          query: queries.getPosts,
+          query: !user ? getUnAuthPosts: getAuthPosts,
           variables: { id: id },
-          authMode: "AMAZON_COGNITO_USER_POOLS",
+          authMode: !user ? "API_KEY" : "AMAZON_COGNITO_USER_POOLS",
         });
         setPost(postData.data.getPosts);
       }

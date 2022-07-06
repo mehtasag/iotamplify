@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { API, graphqlOperation } from "aws-amplify";
-import { listPosts, getPost } from "../graphql/queries";
+import { listPosts } from "../graphql/queries";
 import { deletePost } from "../libs";
 import { SearchTerm } from "./index";
 import { useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import CommonPostData from "./CommonPostData";
 import { Link } from "react-router-dom";
 import { getSearchTermValue } from "../app/slice/postSlice";
 import { selectUser } from "../app/slice/userSlice";
+
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [token, setToken] = useState(null);

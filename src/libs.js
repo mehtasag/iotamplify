@@ -1,6 +1,7 @@
 import { API, Auth, graphqlOperation, Storage } from "aws-amplify";
 import * as mutation from "./graphql/mutations";
 import aws_exports from "./aws-exports";
+import toast from "react-hot-toast";
 
 /***  Delete Post  ***/
 export const deletePost = async (data) => {
@@ -55,9 +56,9 @@ export const createComment = async (commentData) => {
       },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
-    console.log("Post has created");
+    toast.success("Post has been created successfully");
   } catch (err) {
-    console.log("error creating comment:", err);
+    toast.error("Error creating comment");
   }
 };
 
@@ -72,8 +73,8 @@ export const likePost = async (post) => {
       },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
-    console.log("Successfully Like Post");
+    toast.success("You just liked this post !!😄");
   } catch (err) {
-    console.log("error creating comment:", err);
+    toast.error("Please Sign In to Like this Post");
   }
 };

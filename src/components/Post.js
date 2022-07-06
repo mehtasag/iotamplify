@@ -36,7 +36,7 @@ const Post = () => {
     const getPostData = async () => {
       if (isMounted && postId) {
         const postData = await API.graphql({
-          query: !user ? getUnAuthPosts: getAuthPosts,
+          query: !user ? getUnAuthPosts : getAuthPosts,
           variables: { id: id },
           authMode: !user ? "API_KEY" : "AMAZON_COGNITO_USER_POOLS",
         });
@@ -61,11 +61,9 @@ const Post = () => {
   return (
     <>
       <div className="w-full md:left-10 bg-slate-900 2xl:lg-14 lg:p-10 scroll-smooth p-0  min-h-screen max-h-fit">
-        <div className="w-7 pt-10 md:pt-0 md:w-10">
-          <Link to="/">
-            <RewindIcon className="text-white md:h-8 animate-bounce w-fit" />
-          </Link>
-        </div>
+        <Link to="/">
+          <RewindIcon className="ml-2 text-white md:h-8 md:w-fit  w-6 h-6" />
+        </Link>
 
         <div className="mt-2 md:flex place-items-center grid grid-cols-4 h-fit  w-full  md:justify-around md:w-1/2 md:float-right md:h-15 ">
           <h3 className="md:text-gray-400 p-2 text-rose-400 text-1xl font-bold">

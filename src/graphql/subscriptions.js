@@ -12,19 +12,20 @@ export const onCreatePosts = /* GraphQL */ `
         region
         key
       }
-      # likes
-      # comments {
-      #   items {
-      #     id
-      #     postID
-      #     content
-      #     createdBy
-      #     createdAt
-      #     updatedAt
-      #     owner
-      #   }
-      #   nextToken
-      # }
+      likes
+      createdBy
+      comments {
+        items {
+          id
+          postID
+          content
+          createdBy
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
       owner
@@ -43,6 +44,7 @@ export const onUpdatePosts = /* GraphQL */ `
         key
       }
       likes
+      createdBy
       comments {
         items {
           id
@@ -73,6 +75,7 @@ export const onDeletePosts = /* GraphQL */ `
         key
       }
       likes
+      createdBy
       comments {
         items {
           id
@@ -98,6 +101,18 @@ export const onCreateComment = /* GraphQL */ `
       postID
       content
       createdBy
+      replise {
+        items {
+          id
+          commentID
+          reply
+          createdBy
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
       owner
@@ -111,6 +126,18 @@ export const onUpdateComment = /* GraphQL */ `
       postID
       content
       createdBy
+      replise {
+        items {
+          id
+          commentID
+          reply
+          createdBy
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
       owner
@@ -123,6 +150,57 @@ export const onDeleteComment = /* GraphQL */ `
       id
       postID
       content
+      createdBy
+      replise {
+        items {
+          id
+          commentID
+          reply
+          createdBy
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onCreateReplies = /* GraphQL */ `
+  subscription OnCreateReplies($owner: String) {
+    onCreateReplies(owner: $owner) {
+      id
+      commentID
+      reply
+      createdBy
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateReplies = /* GraphQL */ `
+  subscription OnUpdateReplies($owner: String) {
+    onUpdateReplies(owner: $owner) {
+      id
+      commentID
+      reply
+      createdBy
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteReplies = /* GraphQL */ `
+  subscription OnDeleteReplies($owner: String) {
+    onDeleteReplies(owner: $owner) {
+      id
+      commentID
+      reply
       createdBy
       createdAt
       updatedAt

@@ -1,13 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getPost = /* GraphQL */ `
-  query GetPost {
-    getPost {
-      data
-    }
-  }
-`;
 export const getPosts = /* GraphQL */ `
   query GetPosts($id: ID!) {
     getPosts(id: $id) {
@@ -20,6 +13,7 @@ export const getPosts = /* GraphQL */ `
         key
       }
       likes
+      createdBy
       comments {
         items {
           id
@@ -55,6 +49,7 @@ export const listPosts = /* GraphQL */ `
           key
         }
         likes
+        createdBy
         # comments {
         #   nextToken
         # }
@@ -73,6 +68,18 @@ export const getComment = /* GraphQL */ `
       postID
       content
       createdBy
+      replise {
+        items {
+          id
+          commentID
+          reply
+          createdBy
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
       owner
@@ -90,6 +97,42 @@ export const listComments = /* GraphQL */ `
         id
         postID
         content
+        createdBy
+        replise {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getReplies = /* GraphQL */ `
+  query GetReplies($id: ID!) {
+    getReplies(id: $id) {
+      id
+      commentID
+      reply
+      createdBy
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listReplies = /* GraphQL */ `
+  query ListReplies(
+    $filter: ModelRepliesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listReplies(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        commentID
+        reply
         createdBy
         createdAt
         updatedAt

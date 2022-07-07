@@ -34,7 +34,7 @@ const Post = () => {
     setPostId(id);
     localStorage.setItem("postID", id);
     const getPostData = async () => {
-      if (isMounted && postId) {
+      if (isMounted) {
         const postData = await API.graphql({
           query: !user ? getUnAuthPosts : getAuthPosts,
           variables: { id: id },
@@ -43,13 +43,12 @@ const Post = () => {
         setPost(postData.data.getPosts);
       }
     };
-
     getPostData();
-
     return () => {
       isMounted = false;
+      getPostData();
     };
-  }, [postId]);
+  }, []);
 
   const handleLikePost = async () => {
     const postData = {
@@ -59,8 +58,8 @@ const Post = () => {
     await likePost(postData);
   };
   return (
-    <>
-      <div className="w-full md:left-10 bg-slate-900 2xl:lg-14 lg:p-10 scroll-smooth p-0  min-h-screen max-h-fit">
+    <div className="w-full grid bg-slate-900 min-h-screen max-h-fit">
+      <div className="md:left-10  2xl:lg-14 lg:p-10 scroll-smooth p-0  ">
         <Link to="/">
           <RewindIcon className="ml-2 text-white md:h-8 md:w-fit  w-6 h-6" />
         </Link>
@@ -133,20 +132,23 @@ const Post = () => {
             </article>
           </div>
         </div>
-        <Comments data={post.comments} />
 
         <div className="relative">
           <button className="md:fixed md:w-fit top-[40%] justify-center -right-10 md:rounded-3xl rounded:1xl transition ease-in-out hover:scale-110 delay-400 bg-blue-900 2xl:text-[1.4rem] w-[90%] m-5 p-2 text-white md:-rotate-90">
             Similar Blogs
           </button>
         </div>
+
         {modal && (
           <div className="relative">
             <Comment data={post} setModal={setModal} />
           </div>
         )}
       </div>
-    </>
+      <div className="w-[90%] mx-auto pb-10">
+        <Comments data={post.comments} />
+      </div>
+    </div>
   );
 };
 

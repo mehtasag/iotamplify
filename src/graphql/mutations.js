@@ -16,6 +16,7 @@ export const createPosts = /* GraphQL */ `
         key
       }
       likes
+      createdBy
       comments {
         items {
           id
@@ -49,6 +50,7 @@ export const updatePosts = /* GraphQL */ `
         key
       }
       likes
+      createdBy
       comments {
         items {
           id
@@ -82,6 +84,7 @@ export const deletePosts = /* GraphQL */ `
         key
       }
       likes
+      createdBy
       comments {
         items {
           id
@@ -110,6 +113,18 @@ export const createComment = /* GraphQL */ `
       postID
       content
       createdBy
+      replise {
+        items {
+          id
+          commentID
+          reply
+          createdBy
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
       owner
@@ -126,6 +141,18 @@ export const updateComment = /* GraphQL */ `
       postID
       content
       createdBy
+      replise {
+        items {
+          id
+          commentID
+          reply
+          createdBy
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
       owner
@@ -141,6 +168,66 @@ export const deleteComment = /* GraphQL */ `
       id
       postID
       content
+      createdBy
+      replise {
+        items {
+          id
+          commentID
+          reply
+          createdBy
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const createReplies = /* GraphQL */ `
+  mutation CreateReplies(
+    $input: CreateRepliesInput!
+    $condition: ModelRepliesConditionInput
+  ) {
+    createReplies(input: $input, condition: $condition) {
+      id
+      commentID
+      reply
+      createdBy
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const updateReplies = /* GraphQL */ `
+  mutation UpdateReplies(
+    $input: UpdateRepliesInput!
+    $condition: ModelRepliesConditionInput
+  ) {
+    updateReplies(input: $input, condition: $condition) {
+      id
+      commentID
+      reply
+      createdBy
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const deleteReplies = /* GraphQL */ `
+  mutation DeleteReplies(
+    $input: DeleteRepliesInput!
+    $condition: ModelRepliesConditionInput
+  ) {
+    deleteReplies(input: $input, condition: $condition) {
+      id
+      commentID
+      reply
       createdBy
       createdAt
       updatedAt

@@ -1,4 +1,4 @@
-export const getUnAuthPosts = `
+export const getUnAuthPosts = /* GraphQL */ `
   query GetPosts($id: ID!) {
     getPosts(id: $id) {
       id
@@ -10,7 +10,8 @@ export const getUnAuthPosts = `
         key
       }
       likes
-     
+      createdBy
+
       createdAt
       updatedAt
       owner
@@ -18,33 +19,34 @@ export const getUnAuthPosts = `
   }
 `;
 
-export const getAuthPosts = `
-query GetPosts($id: ID!) {
-  getPosts(id: $id) {
-    id
-    title
-    description
-    file {
-      bucket
-      region
-      key
-    }
-    likes
-    comments {
-      items {
-        id
-        postID
-        content
-        createdBy
-        createdAt
-        updatedAt
-        owner
+export const getAuthPosts = /* GraphQL */ `
+  query GetPosts($id: ID!) {
+    getPosts(id: $id) {
+      id
+      title
+      description
+      file {
+        bucket
+        region
+        key
       }
-      nextToken
+      likes
+      createdBy
+      comments {
+        items {
+          id
+          postID
+          content
+          createdBy
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
     }
-    createdAt
-    updatedAt
-    owner
   }
-}
 `;

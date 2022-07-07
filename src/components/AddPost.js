@@ -4,7 +4,10 @@ import { RewindIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import toast, { Toaster } from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { selectUser } from "../app/slice/userSlice";
 const AddPost = () => {
+  const user = useSelector(selectUser);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
@@ -16,7 +19,8 @@ const AddPost = () => {
 
   const handleSubmit1 = async (e) => {
     e.preventDefault();
-    const postData = { title, description };
+    const createdBy = user?.uid;
+    const postData = { title, description, createdBy };
 
     await createPost(image, postData);
     setImage(null);

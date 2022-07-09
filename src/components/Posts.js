@@ -23,20 +23,27 @@ const Posts = () => {
   const [cuser, setCUser] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
-    const getUser = async () => {
-      const user = await Auth.currentAuthenticatedUser();
+    let isMounted = true;
 
-      dispatch(
-        login({
-          uid: user.username,
-          verified: user.attributes.email_verified,
-          email: user.attributes.email,
-        })
-      );
-      setCUser(user);
+    if (isMounted && cuser !== []) {
+      const getUser = async () => {
+        const user = await Auth.currentAuthenticatedUser();
+
+        dispatch(
+          login({
+            uid: user.username,
+            verified: user.attributes.email_verified,
+            email: user.attributes.email,
+          })
+        );
+        setCUser(user);
+      };
+      getUser();
+    }
+
+    return () => {
+      isMounted = false;
     };
-
-    return async () => await getUser();
   }, []);
 
   console.log(cuser);

@@ -13,13 +13,13 @@ import NotSignedIn from "./NotSignedIn";
 import { useSelector } from "react-redux";
 import { selectUser } from "../app/slice/userSlice";
 import { createCommentReply } from "../libs";
+import CommonModal from "./helper/CommonModal";
 const Comments = ({ data }) => {
   const [open, setOpen] = useState(false);
   const [replyModal, setReplyModal] = useState(false);
   const [message, setMessage] = useState("");
   const [selectedComment, setSelectedComment] = useState([]);
   const user = useSelector(selectUser);
-  console.log(data);
 
   const handleReply = (comment) => {
     setReplyModal(!replyModal);
@@ -89,7 +89,7 @@ const Comments = ({ data }) => {
                 {comment?.replise?.items?.map((replyData) => (
                   <div
                     key={replyData.id}
-                    className="flex ml-20 w-fit relative transition ease-in-out delay-300 scale-up-ver-bottom align-center gap-3 p-2"
+                    className="flex ml-[3vw] w-fit relative transition ease-in-out delay-300 scale-up-ver-bottom align-center gap-3 p-2"
                   >
                     <div className="flex">
                       <UserCircleIcon className="w-10 h-10 mt-2 text-gray-200" />
@@ -112,42 +112,44 @@ const Comments = ({ data }) => {
                 ))}
               </div>
               {replyModal && (
-                <div className="absolute w-full scale-up-ver-bottom  rounded bottom-[0%] p-0 m-0   bg-stone-900">
-                  <h3 className="text-white fontFamily bg-blue-400 w-full text-center h-8 align-center items-center">
-                    Replying to
-                    <span className="text-indigo-900 ml-2 font-bold">
-                      {selectedComment?.createdBy}
-                    </span>
-                  </h3>
-                  <input
-                    type="text"
-                    value={message}
-                    className="w-full fontFamily h-[10vh] bg-slate-200 border-none outline-none focus-none"
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Write your reply"
-                  />
-                  <div className="flex space-between">
-                    <div className="flex-1">
-                      <button
-                        onClick={() => handleCreateComment()}
-                        className="bg-[#0892d0] p-2 m-1"
-                      >
-                        Comment Now
-                      </button>
-                      <button
-                        onClick={() => setReplyModal(false)}
-                        className="bg-rose-400 p-2 m-1"
-                      >
-                        Cancel
-                      </button>
-                    </div>
+                <CommonModal onClose={() => setReplyModal(false)}>
+                  <div className="absolute w-full scale-up-ver-bottom  rounded bottom-[0%] p-0 m-0   bg-stone-900">
+                    <h3 className="text-white fontFamily bg-blue-400 w-full text-center h-8 align-center items-center">
+                      Replying to
+                      <span className="text-indigo-900 ml-2 font-bold">
+                        {selectedComment?.createdBy}
+                      </span>
+                    </h3>
+                    <input
+                      type="text"
+                      value={message}
+                      className="w-full fontFamily h-[10vh] bg-slate-200 border-none outline-none focus-none"
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Write your reply"
+                    />
+                    <div className="flex space-between">
+                      <div className="flex-1">
+                        <button
+                          onClick={() => handleCreateComment()}
+                          className="bg-[#0892d0] p-2 m-1"
+                        >
+                          Comment Now
+                        </button>
+                        <button
+                          onClick={() => setReplyModal(false)}
+                          className="bg-rose-400 p-2 m-1"
+                        >
+                          Cancel
+                        </button>
+                      </div>
 
-                    <div className="flex flex-[0.2] justify-around items-center">
-                      <PhotographIcon className="md:2-8  cursor-pointer md:h-8 w-7 h-7 text-yellow-400" />
-                      <VideoCameraIcon className="md:2-8 cursor-pointer  md:h-8 w-7 h-7 text-yellow-400" />
+                      <div className="flex flex-[0.2] justify-around items-center">
+                        <PhotographIcon className="md:2-8  cursor-pointer md:h-8 w-7 h-7 text-yellow-400" />
+                        <VideoCameraIcon className="md:2-8 cursor-pointer  md:h-8 w-7 h-7 text-yellow-400" />
+                      </div>
                     </div>
                   </div>
-                </div>
+                </CommonModal>
               )}
             </div>
           ))
@@ -163,15 +165,13 @@ const Comments = ({ data }) => {
       </div>
     </div>
   ) : (
-    <>
-      <div
-        onClick={() => setOpen(!open)}
-        className="relative md:w-[16%] 2xl:w-[12%] ml-8 2xl:ml-0 mt-3 bg-red-400 flex p-2 align-center cursor-pointer  text-white font-semibold"
-      >
-        <h3 className="flex-[0.8] text-center">View Comments</h3>
-        <ChevronDownIcon className="w-6 flex-[0.2] h-6 text-3xl text-white bg-red-400" />
-      </div>
-    </>
+    <div
+      onClick={() => setOpen(!open)}
+      className="relative md:w-[16%] 2xl:w-[12%] ml-8 2xl:ml-0 mt-3 bg-red-400 flex p-2 align-center cursor-pointer  text-white font-semibold"
+    >
+      <h3 className="flex-[0.8] text-center">View Comments</h3>
+      <ChevronDownIcon className="w-6 flex-[0.2] h-6 text-3xl text-white bg-red-400" />
+    </div>
   );
 };
 

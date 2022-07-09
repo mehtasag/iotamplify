@@ -17,6 +17,7 @@ import {
   getAuthPosts,
 } from "../components/helper/customQueries";
 import toast from "react-hot-toast";
+import CommonModal from "./helper/CommonModal";
 
 const reviewIconsClass =
   "bg-yellow-400 rounded-full hover:scale-125 w-8 h-8 p-1 md:p-2 cursor-pointer  md:w-10 md:h-10 text-black  font-extrabold";
@@ -144,9 +145,11 @@ const Post = () => {
         </div>
 
         {modal && (
-          <div className="relative">
-            <Comment data={post} setModal={setModal} />
-          </div>
+          <CommonModal onClose={() => setModal(false)}>
+            <div className="relative">
+              <Comment data={post} setModal={setModal} />
+            </div>
+          </CommonModal>
         )}
       </div>
       <div className="w-[90%] mx-auto pb-10">

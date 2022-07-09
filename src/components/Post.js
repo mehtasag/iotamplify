@@ -16,7 +16,6 @@ import {
   getUnAuthPosts,
   getAuthPosts,
 } from "../components/helper/customQueries";
-import toast from "react-hot-toast";
 import CommonModal from "./helper/CommonModal";
 
 const reviewIconsClass =
@@ -31,6 +30,8 @@ const Post = () => {
   const { id } = useParams();
   const [modal, setModal] = useState(false);
   const user = useSelector(selectUser);
+
+  console.log(user);
   useEffect(() => {
     let isMounted = true;
     setPostId(id);

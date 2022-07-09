@@ -20,6 +20,7 @@ const Comments = ({ data }) => {
   const [message, setMessage] = useState("");
   const [selectedComment, setSelectedComment] = useState([]);
   const user = useSelector(selectUser);
+  console.log(user);
 
   const handleReply = (comment) => {
     setReplyModal(!replyModal);

@@ -16,6 +16,7 @@ const Posts = () => {
   const user = useSelector(selectUser);
 
   const searchTerm = useSelector(getSearchTermValue);
+  console.log(user);
   useEffect(() => {
     let isMounted = true;
     if (isMounted && posts) {
@@ -67,7 +68,7 @@ const Posts = () => {
       <div className=" md:flex my-auto">
         <div className="flex justify-center ml-3 md:ml-0">
           <h3 className="text-gray-100 pt-4  ml-2 font-bold text-1xl md:text-2xl">
-            {user ? `Hello ${user.uid},` : "Hello Guest"}
+            {user ? `Hello ${user?.uid},` : "Hello Guest"}
           </h3>
           <br />
           {!user && (
@@ -88,8 +89,8 @@ const Posts = () => {
       </h3>
 
       <div className="grid  gap-5 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2  mt-3 mb-20 z-0">
-        {filteredPost.length > 0
-          ? filteredPost.map((data) => <CommonPostData data={data} />)
+        {filteredPost?.length > 0
+          ? filteredPost?.map((data) => <CommonPostData data={data} />)
           : posts &&
             posts.map((data) => (
               <CommonPostData

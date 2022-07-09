@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { API, graphqlOperation } from "aws-amplify";
+import { API } from "aws-amplify";
 import { Link } from "react-router-dom";
 import { RewindIcon } from "@heroicons/react/solid";
 import * as queries from "../graphql/queries";
@@ -16,6 +16,7 @@ import {
   getUnAuthPosts,
   getAuthPosts,
 } from "../components/helper/customQueries";
+import toast from "react-hot-toast";
 
 const reviewIconsClass =
   "bg-yellow-400 rounded-full hover:scale-125 w-8 h-8 p-1 md:p-2 cursor-pointer  md:w-10 md:h-10 text-black  font-extrabold";
@@ -44,6 +45,7 @@ const Post = () => {
       }
     };
     getPostData();
+
     return () => {
       isMounted = false;
       getPostData();
@@ -57,6 +59,8 @@ const Post = () => {
     };
     await likePost(postData);
   };
+
+  console.log(post);
   return (
     <div className="w-full grid bg-slate-900 min-h-screen max-h-fit">
       <div className="md:left-10  2xl:lg-14 lg:p-10 scroll-smooth p-0  ">

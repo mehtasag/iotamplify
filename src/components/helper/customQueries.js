@@ -41,7 +41,19 @@ export const getAuthPosts = /* GraphQL */ `
           createdAt
           updatedAt
           owner
+          replise {
+            items {
+              reply
+              createdBy
+              createdAt
+              commentID
+              id
+              updatedAt
+              owner
+            }
+          }
         }
+
         nextToken
       }
       createdAt

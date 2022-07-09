@@ -62,6 +62,24 @@ export const createComment = async (commentData) => {
   }
 };
 
+/*** Create Reply on Comment  ***/
+
+export const createCommentReply = async (replyData, replyTo) => {
+  try {
+    await API.graphql({
+      query: mutation.createReplies,
+      variables: {
+        input: replyData,
+      },
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+    });
+    toast.success(`You just replied to ${replyTo}`);
+  } catch (err) {
+    toast.error("Error creating comment");
+    console.log(err);
+  }
+};
+
 /***  Like Post (Update)  ***/
 
 export const likePost = async (post) => {

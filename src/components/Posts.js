@@ -8,6 +8,9 @@ import CommonPostData from "./CommonPostData";
 import { Link } from "react-router-dom";
 import { getSearchTermValue } from "../app/slice/postSlice";
 import { selectUser } from "../app/slice/userSlice";
+import { login, logout } from "../app/slice/userSlice";
+import { useDispatch } from "react-redux";
+import { Auth } from "aws-amplify";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -16,7 +19,28 @@ const Posts = () => {
   const user = useSelector(selectUser);
 
   const searchTerm = useSelector(getSearchTermValue);
-  console.log(user);
+
+  const [cuser, setCUser] = useState([]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const getUser = async () => {
+      const user = await Auth.currentAuthenticatedUser();
+
+      dispatch(
+        login({
+          uid: user.username,
+          verified: user.attributes.email_verified,
+          email: user.attributes.email,
+        })
+      );
+      setCUser(user);
+    };
+
+    return async () => await getUser();
+  }, []);
+
+  console.log(cuser);
+
   useEffect(() => {
     let isMounted = true;
     if (isMounted && posts) {

@@ -1,9 +1,6 @@
 import "./App.css";
-import { Auth } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
-import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { login, logout } from "./app/slice/userSlice";
 import {
   Sidebar,
   Post,
@@ -17,30 +14,11 @@ import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 function App() {
-  const [cuser, setCUser] = useState([]);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const getUser = async () => {
-      const user = await Auth.currentAuthenticatedUser();
-
-      dispatch(
-        login({
-          uid: user.username,
-          verified: user.attributes.email_verified,
-          email: user.attributes.email,
-        })
-      );
-      setCUser(user);
-    };
-
-    return () => getUser();
-  }, []);
-
   return (
     <div className="p-0 m-0">
       <Toaster />
       <BrowserRouter>
-        <Sidebar cuser={cuser} />
+        <Sidebar />
         <Routes>
           <Route path="/" element={<Posts />} />
           <Route path="/about" element={<About />} />

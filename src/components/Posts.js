@@ -11,6 +11,7 @@ import { selectUser } from "../app/slice/userSlice";
 import { login, logout } from "../app/slice/userSlice";
 import { useDispatch } from "react-redux";
 import { Auth } from "aws-amplify";
+import * as subscriptions from "../graphql/subscriptions";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -22,6 +23,7 @@ const Posts = () => {
 
   const [cuser, setCUser] = useState([]);
   const dispatch = useDispatch();
+
   useEffect(() => {
     let isMounted = true;
 
@@ -115,11 +117,11 @@ const Posts = () => {
         </div>
         <SearchTerm />
       </div>
-      <h3 className="text-2xl  md:text-4xl font-sans antialiased md:text-center p-4 font-bold text-indigo-500">
+      <h3 className="text-2xl text-center   md:text-4xl font-sans antialiased p-4 font-bold text-indigo-500">
         Recent Posts
       </h3>
 
-      <div className="grid  gap-5 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2  mt-3 mb-20 z-0">
+      <div className="grid md:gap-3  2xl:gap-5  2xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-3  mt-3 mb-20 z-0">
         {filteredPost?.length > 0
           ? filteredPost?.map((data) => <CommonPostData data={data} />)
           : posts &&

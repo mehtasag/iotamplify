@@ -101,18 +101,18 @@ export const onCreateComment = /* GraphQL */ `
       postID
       content
       createdBy
-      replise {
-        items {
-          id
-          commentID
-          reply
-          createdBy
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
+      # replise {
+      #   items {
+      #     id
+      #     commentID
+      #     reply
+      #     createdBy
+      #     createdAt
+      #     updatedAt
+      #     owner
+      #   }
+      #   nextToken
+      # }
       createdAt
       updatedAt
       owner

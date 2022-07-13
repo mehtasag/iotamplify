@@ -8,7 +8,7 @@ const CommonPostData = ({ data, handleDelete }) => {
   return (
     <div
       key={data.id}
-      className="group mt-3  w-[95%] md:w-[100%] md:h-[30vh] 2xl:h-[44vh] 2xl:w-[75%] h-[44vh]  cursor-pointer max-w-md mx-auto border-2 border-gray-500 rounded-xl shadow-md overflow-hidden md:max-w-2xl pt-2"
+      className="group mt-3  w-[95%] md:w-[100%] md:h-[44vh] 2xl:h-[44vh] 2xl:w-[75%] h-[44vh]  cursor-pointer max-w-md mx-auto border-2 border-gray-500 rounded-xl shadow-md overflow-hidden md:max-w-2xl pt-2"
     >
       <XCircleIcon
         onClick={() => handleDelete(data)}

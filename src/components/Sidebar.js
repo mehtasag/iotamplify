@@ -9,15 +9,16 @@ import { selectUser } from "../app/slice/userSlice";
 const Sidebar = () => {
   const navigate = useNavigate();
   const cuser = useSelector(selectUser);
+  const [isOpen, setIsOpen] = useState(false);
   const signout = async () => {
     try {
       await Auth.signOut();
       navigate("/logout");
+      setIsOpen(false);
     } catch (err) {
       console.log("Sign out", err);
     }
   };
-  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="z-1000">
       {isOpen === false ? (
@@ -32,11 +33,11 @@ const Sidebar = () => {
         />
       )}
       <div
-        className={`transition flex flex-col justify-center text-center gap-5 top-0 right-0 w-[70%] md:w-[25vw] fixed  bg-slate-700 h-full z-1000  ease-in-out duration-300 ${
+        className={`transition flex float-left  gap-5 top-0 right-0 w-[70%] md:w-[25vw] fixed  bg-stone-900 h-full  ease-in-out duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="text-2xl fontFamily text-white text-bold m-auto grid gap-20">
+        <div className="text-1xl fontFamily text-white text-bold m-auto grid gap-20">
           <div
             onClick={() => setIsOpen(false)}
             className="hover:bg-red-400 text-bold rounded-2xl p-2"
@@ -50,17 +51,31 @@ const Sidebar = () => {
             <NavbarLinks to="/about" value="Read Me" />
           </div>
           {cuser ? (
-            <div className="hover:bg-red-400 text-bold">
-              <h2
-                onClick={signout}
-                className="text-2xl text-white cursor-pointer hover:bg-red-400  rounded-2xl p-2"
-              >
-                Sign Out
-              </h2>
-            </div>
+            <>
+              <Link to={`/users/${cuser.uid}`}>
+                <h2
+                  onClick={() => setIsOpen(false)}
+                  className="text-1xl bg-gray-400 text-center text-white cursor-pointer hover:bg-red-400  rounded-2xl p-2"
+                >
+                  Profile
+                </h2>
+              </Link>
+
+              <div className="hover:bg-red-400 text-bold">
+                <h2
+                  onClick={signout}
+                  className="text-1xl bg-rose-400 text-center text-white cursor-pointer hover:bg-red-400  rounded-2xl p-2"
+                >
+                  Sign Out
+                </h2>
+              </div>
+            </>
           ) : (
             <Link to="/login">
-              <h3 className="bg-green-400 text-white text-bold fontFamily rounded p-2">
+              <h3
+                onClick={() => setIsOpen(false)}
+                className="bg-green-400 text-center text-white text-bold fontFamily rounded p-2"
+              >
                 Sign In
               </h3>
             </Link>

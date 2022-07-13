@@ -9,9 +9,50 @@ export const getUnAuthPosts = /* GraphQL */ `
         region
         key
       }
-      likes
+
       createdBy
 
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+
+export const getPosts = /* GraphQL */ `
+  query GetPosts($id: ID!) {
+    getPosts(id: $id) {
+      id
+      title
+      description
+      file {
+        bucket
+        region
+        key
+      }
+      likes {
+        items {
+          id
+          postID
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      createdBy
+      comments {
+        items {
+          id
+          postID
+          content
+          createdBy
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
       owner
@@ -30,7 +71,7 @@ export const getAuthPosts = /* GraphQL */ `
         region
         key
       }
-      likes
+
       createdBy
       comments {
         items {

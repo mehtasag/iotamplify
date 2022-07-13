@@ -7,58 +7,25 @@ import { useSelector } from "react-redux";
 import CommonPostData from "./CommonPostData";
 import { Link } from "react-router-dom";
 import { getSearchTermValue } from "../app/slice/postSlice";
-import { selectUser } from "../app/slice/userSlice";
-import { login, logout } from "../app/slice/userSlice";
-import { useDispatch } from "react-redux";
-import { Auth } from "aws-amplify";
 import * as subscriptions from "../graphql/subscriptions";
 
-const Posts = () => {
+const Posts = ({ cuser }) => {
   const [posts, setPosts] = useState([]);
   const [token, setToken] = useState(null);
   const [hasMoreTokens, setHasMoreTokens] = useState(true);
-  const user = useSelector(selectUser);
-
   const searchTerm = useSelector(getSearchTermValue);
 
-  const [cuser, setCUser] = useState([]);
-  const dispatch = useDispatch();
-
   useEffect(() => {
     let isMounted = true;
 
-    if (isMounted && cuser !== []) {
-      const getUser = async () => {
-        const user = await Auth.currentAuthenticatedUser();
-
-        dispatch(
-          login({
-            uid: user.username,
-            verified: user.attributes.email_verified,
-            email: user.attributes.email,
-          })
-        );
-        setCUser(user);
-      };
-      getUser();
-    }
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  console.log(cuser);
-
-  useEffect(() => {
-    let isMounted = true;
-    if (isMounted && posts) {
+    if (isMounted && cuser !== [] && posts !== []) {
       fetchPosts();
     }
+    subscribe();
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [cuser]);
 
   const filteredPost = searchTerm
     ? posts.filter((data) => data.title.includes(`${searchTerm}`))
@@ -79,12 +46,19 @@ const Posts = () => {
     deletePost(id);
   };
 
+  const subscribe = () => {
+    API.graphql(graphqlOperation(subscriptions.onCreatePosts)).subscribe({
+      next: ({ provider, value }) => console.log({ provider, value }),
+      error: (error) => console.warn(error),
+    });
+  };
+
   const fetchPosts1 = async () => {
     if (token !== null) {
       const data = await API.graphql({
         query: listPosts,
         variables: { limit: 4, nextToken: token },
-        authMode: !user ? "API_KEY" : "AMAZON_COGNITO_USER_POOLS",
+        authMode: !cuser ? "API_KEY" : "AMAZON_COGNITO_USER_POOLS",
       });
 
       const newPosts = data.data.listPosts.items;
@@ -101,10 +75,10 @@ const Posts = () => {
       <div className=" md:flex my-auto">
         <div className="flex justify-center ml-3 md:ml-0">
           <h3 className="text-gray-100 pt-4  ml-2 font-bold text-1xl md:text-2xl">
-            {user ? `Hello ${user?.uid},` : "Hello Guest"}
+            {cuser !== null ? `Hello ${cuser.username},` : "Hello Guest"}
           </h3>
           <br />
-          {!user && (
+          {!cuser && (
             <Link
               className="align-item-center md:pt-1  ml-2 mt-4 text-center mx-auto"
               to="/login"

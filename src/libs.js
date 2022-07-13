@@ -58,6 +58,7 @@ export const createComment = async (commentData) => {
     });
     toast.success("Post has been created successfully");
   } catch (err) {
+    console.log(err);
     toast.error("Error creating comment");
   }
 };
@@ -82,17 +83,34 @@ export const createCommentReply = async (replyData, replyTo) => {
 
 /***  Like Post (Update)  ***/
 
-export const likePost = async (post) => {
+export const likePost = async (data) => {
   try {
     await API.graphql({
       query: mutation.updatePosts,
       variables: {
-        input: post,
+        input: data,
       },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
     toast.success("You just liked this post !!😄");
   } catch (err) {
     toast.error("Please Sign In to Like this Post");
+  }
+};
+
+/***  Update Profile (Update)  ***/
+export const updateProfile = async (data) => {
+  try {
+    await API.graphql({
+      query: mutation.updateUser,
+      variables: {
+        input: data,
+      },
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+    });
+    toast.success("Profile Updated");
+  } catch (err) {
+    console.log(err);
+    toast.error("Failed to update your profile");
   }
 };

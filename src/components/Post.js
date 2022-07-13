@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { API } from "aws-amplify";
 import { Link } from "react-router-dom";
 import { RewindIcon } from "@heroicons/react/solid";
-import * as queries from "../graphql/queries";
+import * as subscriptions from "../graphql/subscriptions";
 import moment from "moment";
 import { ThumbUpIcon } from "@heroicons/react/solid";
 import { ChatIcon, BookOpenIcon } from "@heroicons/react/solid";
@@ -20,39 +20,37 @@ import CommonModal from "./helper/CommonModal";
 
 const reviewIconsClass =
   "bg-yellow-400 rounded-full hover:scale-125 w-8 h-8 p-1 md:p-2 cursor-pointer  md:w-10 md:h-10 text-black  font-extrabold";
-const Post = () => {
+const Post = ({ cuser }) => {
   const [post, setPost] = useState([]);
   const [postId, setPostId] = useState(
     localStorage.getItem("postID") !== null
       ? localStorage.getItem("postID")
       : ""
   );
+
   const { id } = useParams();
   const [modal, setModal] = useState(false);
-  const user = useSelector(selectUser);
 
-  console.log(user);
   useEffect(() => {
     let isMounted = true;
     setPostId(id);
     localStorage.setItem("postID", id);
     const getPostData = async () => {
-      if (isMounted) {
-        const postData = await API.graphql({
-          query: !user ? getUnAuthPosts : getAuthPosts,
-          variables: { id: id },
-          authMode: !user ? "API_KEY" : "AMAZON_COGNITO_USER_POOLS",
-        });
-        setPost(postData.data.getPosts);
-      }
+      const postData = await API.graphql({
+        query: !cuser ? getUnAuthPosts : getAuthPosts,
+        variables: { id: id },
+        authMode: !cuser ? "API_KEY" : "AMAZON_COGNITO_USER_POOLS",
+      });
+      setPost(postData.data.getPosts);
     };
-    getPostData();
+    if (isMounted) {
+      getPostData();
+    }
 
     return () => {
       isMounted = false;
-      getPostData();
     };
-  }, []);
+  }, [cuser]);
 
   const handleLikePost = async () => {
     const postData = {
@@ -62,7 +60,7 @@ const Post = () => {
     await likePost(postData);
   };
 
-  console.log(post);
+  console.log(cuser);
   return (
     <div className="w-full grid bg-slate-900 min-h-screen max-h-fit">
       <div className="md:left-10  2xl:lg-14 lg:p-10 scroll-smooth p-0  ">

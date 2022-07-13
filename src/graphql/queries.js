@@ -12,7 +12,16 @@ export const getPosts = /* GraphQL */ `
         region
         key
       }
-      likes
+      likes {
+        items {
+          id
+          postID
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdBy
       comments {
         items {
@@ -48,7 +57,9 @@ export const listPosts = /* GraphQL */ `
           region
           key
         }
-        likes
+        # likes {
+        #   nextToken
+        # }
         createdBy
         # comments {
         #   nextToken
@@ -56,6 +67,125 @@ export const listPosts = /* GraphQL */ `
         createdAt
         updatedAt
         owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getLike = /* GraphQL */ `
+  query GetLike($id: ID!) {
+    getLike(id: $id) {
+      id
+      postID
+      user {
+        id
+        username
+        name
+        email
+        owner
+        image {
+          bucket
+          region
+          key
+        }
+        createdAt
+        about
+        preference {
+          id
+          name
+        }
+        updatedAt
+        website
+        country
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listLikes = /* GraphQL */ `
+  query ListLikes(
+    $filter: ModelLikeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listLikes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        postID
+        user {
+          id
+          username
+          name
+          email
+          owner
+          createdAt
+          about
+          updatedAt
+          website
+          country
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      username
+      name
+      email
+      owner
+      image {
+        bucket
+        region
+        key
+      }
+      createdAt
+      about
+      preference {
+        id
+        name
+      }
+      updatedAt
+      website
+      country
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        username
+        name
+        email
+        owner
+        image {
+          bucket
+          region
+          key
+        }
+        createdAt
+        about
+        preference {
+          id
+          name
+        }
+        updatedAt
+        website
+        country
       }
       nextToken
     }

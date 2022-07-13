@@ -7,6 +7,7 @@ import {
   PhotographIcon,
   VideoCameraIcon,
   ArrowUpIcon,
+  PlusIcon,
 } from "@heroicons/react/solid";
 
 import moment from "moment";
@@ -15,41 +16,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../app/slice/userSlice";
 import { createCommentReply } from "../libs";
 import CommonModal from "./helper/CommonModal";
-import { login, logout } from "../app/slice/userSlice";
-import { API, Auth, graphqlOperation } from "aws-amplify";
 import EmptyComment from "./images/emptyComment.svg";
 const Comments = ({ data }) => {
   const [open, setOpen] = useState(false);
   const [replyModal, setReplyModal] = useState(false);
   const [message, setMessage] = useState("");
   const [selectedComment, setSelectedComment] = useState([]);
-  const [cuser, setCUser] = useState([]);
+
+  const [loading, setLoading] = useState(false);
   const user = useSelector(selectUser);
 
-  const dispatch = useDispatch();
   useEffect(() => {
-    let isMounted = true;
-
-    if (isMounted && cuser !== []) {
-      const getUser = async () => {
-        const user = await Auth.currentAuthenticatedUser();
-
-        dispatch(
-          login({
-            uid: user.username,
-            verified: user.attributes.email_verified,
-            email: user.attributes.email,
-          })
-        );
-        setCUser(user);
-      };
-      getUser();
+    if (!data) {
+      setLoading(true);
     }
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  }, [user]);
 
   const handleReply = (comment) => {
     setReplyModal(!replyModal);
@@ -77,12 +58,20 @@ const Comments = ({ data }) => {
     <div className="relative border border-sky-100 min-h-[40vh] max-h-[60vh]   rounded md:mt-3 lg:mt-20">
       <div
         onClick={() => setOpen(!open)}
-        className="mx-auto md:w-[16%] 2xl:w-[12%] 2xl-ml-8 mt-3 bg-red-700 flex p-2 align-center cursor-pointer  text-white font-semibold"
+        className="mx-auto w-full  relative justify-between flex md:justify-center"
       >
-        <h3 className="flex-[0.8] text-center">Hide Comments</h3>
-        <ChevronUpIcon className="w-6 flex-[0.2] h-6 text-3xl text-white bg-red-400" />
+        <div className="bg-red-700 w-[50vw] md:w-[14vw] mb-2 ml-3 md:ml-0 md:mb-0 flex  p-2 align-center cursor-pointer  text-white font-semibold">
+          <h3 className="flex-[0.8]  text-center">Hide Comments</h3>
+          <ChevronUpIcon className="w-6 flex-[0.2] h-6 text-3xl text-white bg-red-400" />
+        </div>
+        <div className="flex cursor-pointer rounded-full align-center mr-2 md:mr-0  md:absolute right-[2vw] md:mt-2   md:p-3 items-center md:border-2 md:border-blue-800">
+          <button className="cursor-pointer bg-transparent hidden md:block  text-white font-bold fontFamily">
+            Write Comment
+          </button>
+          <PlusIcon className="cursor-pointer  w-6 h-6  md:ml-2  text-white " />
+        </div>
       </div>
-      <div className="h-[35vh] mb-[5vh] overflow-y-scroll">
+      <div className="h-[35vh] md:wmb-[5vh] overflow-y-scroll">
         {user ? (
           <div>
             {data?.items?.length > 0 ? (

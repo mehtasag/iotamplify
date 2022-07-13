@@ -12,7 +12,16 @@ export const onCreatePosts = /* GraphQL */ `
         region
         key
       }
-      likes
+      likes {
+        items {
+          id
+          postID
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdBy
       comments {
         items {
@@ -43,7 +52,16 @@ export const onUpdatePosts = /* GraphQL */ `
         region
         key
       }
-      likes
+      likes {
+        items {
+          id
+          postID
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdBy
       comments {
         items {
@@ -74,7 +92,16 @@ export const onDeletePosts = /* GraphQL */ `
         region
         key
       }
-      likes
+      likes {
+        items {
+          id
+          postID
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdBy
       comments {
         items {
@@ -94,6 +121,177 @@ export const onDeletePosts = /* GraphQL */ `
     }
   }
 `;
+export const onCreateLike = /* GraphQL */ `
+  subscription OnCreateLike($owner: String) {
+    onCreateLike(owner: $owner) {
+      id
+      postID
+      user {
+        id
+        username
+        name
+        email
+        owner
+        image {
+          bucket
+          region
+          key
+        }
+        createdAt
+        about
+        preference {
+          id
+          name
+        }
+        updatedAt
+        website
+        country
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateLike = /* GraphQL */ `
+  subscription OnUpdateLike($owner: String) {
+    onUpdateLike(owner: $owner) {
+      id
+      postID
+      user {
+        id
+        username
+        name
+        email
+        owner
+        image {
+          bucket
+          region
+          key
+        }
+        createdAt
+        about
+        preference {
+          id
+          name
+        }
+        updatedAt
+        website
+        country
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteLike = /* GraphQL */ `
+  subscription OnDeleteLike($owner: String) {
+    onDeleteLike(owner: $owner) {
+      id
+      postID
+      user {
+        id
+        username
+        name
+        email
+        owner
+        image {
+          bucket
+          region
+          key
+        }
+        createdAt
+        about
+        preference {
+          id
+          name
+        }
+        updatedAt
+        website
+        country
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser($owner: String) {
+    onCreateUser(owner: $owner) {
+      id
+      username
+      name
+      email
+      owner
+      image {
+        bucket
+        region
+        key
+      }
+      createdAt
+      about
+      preference {
+        id
+        name
+      }
+      updatedAt
+      website
+      country
+    }
+  }
+`;
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser($owner: String) {
+    onUpdateUser(owner: $owner) {
+      id
+      username
+      name
+      email
+      owner
+      image {
+        bucket
+        region
+        key
+      }
+      createdAt
+      about
+      preference {
+        id
+        name
+      }
+      updatedAt
+      website
+      country
+    }
+  }
+`;
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser($owner: String) {
+    onDeleteUser(owner: $owner) {
+      id
+      username
+      name
+      email
+      owner
+      image {
+        bucket
+        region
+        key
+      }
+      createdAt
+      about
+      preference {
+        id
+        name
+      }
+      updatedAt
+      website
+      country
+    }
+  }
+`;
 export const onCreateComment = /* GraphQL */ `
   subscription OnCreateComment($owner: String) {
     onCreateComment(owner: $owner) {
@@ -101,18 +299,18 @@ export const onCreateComment = /* GraphQL */ `
       postID
       content
       createdBy
-      # replise {
-      #   items {
-      #     id
-      #     commentID
-      #     reply
-      #     createdBy
-      #     createdAt
-      #     updatedAt
-      #     owner
-      #   }
-      #   nextToken
-      # }
+      replise {
+        items {
+          id
+          commentID
+          reply
+          createdBy
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
       owner

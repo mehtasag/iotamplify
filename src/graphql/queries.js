@@ -6,6 +6,7 @@ export const getPosts = /* GraphQL */ `
     getPosts(id: $id) {
       id
       title
+      owner
       description
       file {
         bucket
@@ -37,7 +38,6 @@ export const getPosts = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -51,6 +51,7 @@ export const listPosts = /* GraphQL */ `
       items {
         id
         title
+        # owner
         description
         file {
           bucket
@@ -66,7 +67,6 @@ export const listPosts = /* GraphQL */ `
         # }
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }
@@ -97,6 +97,9 @@ export const getLike = /* GraphQL */ `
         updatedAt
         website
         country
+        posts {
+          nextToken
+        }
       }
       createdAt
       updatedAt
@@ -156,6 +159,26 @@ export const getUser = /* GraphQL */ `
       updatedAt
       website
       country
+      posts(limit: 5) {
+        items {
+          id
+          title
+          owner
+          description
+          file {
+            bucket
+            region
+            key
+          }
+          likes {
+            nextToken
+          }
+          createdBy
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -186,6 +209,9 @@ export const listUsers = /* GraphQL */ `
         updatedAt
         website
         country
+        posts {
+          nextToken
+        }
       }
       nextToken
     }

@@ -21,7 +21,7 @@ const Posts = ({ cuser }) => {
     if (isMounted && cuser !== [] && posts !== []) {
       fetchPosts();
     }
-    subscribe();
+
     return () => {
       isMounted = false;
     };
@@ -44,13 +44,6 @@ const Posts = ({ cuser }) => {
 
   const handleDelete = (id) => {
     deletePost(id);
-  };
-
-  const subscribe = () => {
-    API.graphql(graphqlOperation(subscriptions.onCreatePosts)).subscribe({
-      next: ({ provider, value }) => console.log({ provider, value }),
-      error: (error) => console.warn(error),
-    });
   };
 
   const fetchPosts1 = async () => {

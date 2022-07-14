@@ -6,6 +6,7 @@ export const onCreatePosts = /* GraphQL */ `
     onCreatePosts(owner: $owner) {
       id
       title
+      owner
       description
       file {
         bucket
@@ -37,7 +38,6 @@ export const onCreatePosts = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -46,6 +46,7 @@ export const onUpdatePosts = /* GraphQL */ `
     onUpdatePosts(owner: $owner) {
       id
       title
+      owner
       description
       file {
         bucket
@@ -77,7 +78,6 @@ export const onUpdatePosts = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -86,6 +86,7 @@ export const onDeletePosts = /* GraphQL */ `
     onDeletePosts(owner: $owner) {
       id
       title
+      owner
       description
       file {
         bucket
@@ -117,7 +118,6 @@ export const onDeletePosts = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -146,6 +146,9 @@ export const onCreateLike = /* GraphQL */ `
         updatedAt
         website
         country
+        posts {
+          nextToken
+        }
       }
       createdAt
       updatedAt
@@ -178,6 +181,9 @@ export const onUpdateLike = /* GraphQL */ `
         updatedAt
         website
         country
+        posts {
+          nextToken
+        }
       }
       createdAt
       updatedAt
@@ -210,6 +216,9 @@ export const onDeleteLike = /* GraphQL */ `
         updatedAt
         website
         country
+        posts {
+          nextToken
+        }
       }
       createdAt
       updatedAt
@@ -239,6 +248,18 @@ export const onCreateUser = /* GraphQL */ `
       updatedAt
       website
       country
+      posts {
+        items {
+          id
+          title
+          owner
+          description
+          createdBy
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -264,6 +285,18 @@ export const onUpdateUser = /* GraphQL */ `
       updatedAt
       website
       country
+      posts {
+        items {
+          id
+          title
+          owner
+          description
+          createdBy
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -289,6 +322,18 @@ export const onDeleteUser = /* GraphQL */ `
       updatedAt
       website
       country
+      posts {
+        items {
+          id
+          title
+          owner
+          description
+          createdBy
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;

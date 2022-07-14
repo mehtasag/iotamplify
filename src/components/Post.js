@@ -60,7 +60,7 @@ const Post = ({ cuser }) => {
     await likePost(postData);
   };
 
-  console.log(cuser);
+  console.log(post);
   return (
     <div className="w-full grid bg-slate-900 min-h-screen max-h-fit">
       <div className="md:left-10  2xl:lg-14 lg:p-10 scroll-smooth p-0  ">
@@ -119,7 +119,19 @@ const Post = ({ cuser }) => {
                 {moment(new Date(post.createdAt)).fromNow()}
               </span>
             </small>
-            {post && (
+            {post && post?.file?.key.includes("mp4") ? (
+              <video
+                className="h-[35vh]  md:w-[80%] 2xl:w-[35vw] border-2 border-white p-2 lg:w-[40vw] lg:h-[50vh] float-left w-[100vw] mr-2 lazyloaded rounded-2xl"
+                controls
+                autoPlay={true}
+              >
+                <source
+                  src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${post?.file.key}`}
+                  type="video/mp4"
+                  lazyloaded
+                />
+              </video>
+            ) : (
               <img
                 className="h-[35vh]  md:w-[80%] 2xl:w-[45vw] lg:w-[40vw] lg:h-[50vh] float-left w-[100vw] mr-2 lazyloaded rounded-2xl"
                 src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${post?.file?.key}`}

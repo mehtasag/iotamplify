@@ -20,7 +20,8 @@ const AddPost = () => {
   const handleSubmit1 = async (e) => {
     e.preventDefault();
     const createdBy = user?.uid;
-    const postData = { title, description, createdBy };
+    const owner = user?.id;
+    const postData = { title, description, createdBy, owner: owner };
 
     await createPost(image, postData);
     setImage(null);

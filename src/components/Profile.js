@@ -7,12 +7,16 @@ import {
   PlusCircleIcon,
   ThumbUpIcon,
   LocationMarkerIcon,
+  DotsHorizontalIcon,
+  ArrowNarrowRightIcon,
 } from "@heroicons/react/solid";
 import {
   LogoutIcon,
+  TrashIcon,
   ChatAltIcon,
   BellIcon,
   LinkIcon,
+  PencilIcon,
 } from "@heroicons/react/outline";
 
 import { HeartIcon } from "@heroicons/react/solid";
@@ -20,14 +24,22 @@ import * as queries from "../graphql/queries";
 import { API } from "aws-amplify";
 import CommonModal from "./helper/CommonModal";
 import EditProfile from "./EditProfile";
+import { data } from "autoprefixer";
+import moment from "moment";
+import DeletePost from "./User/DeletePost";
+import { Link } from "react-router-dom";
 
 const LinkClass =
   "flex cursor-pointer transition ease-in-out hover:bg-gray-700 hover:p-1 hover:rounded-2xl text-center justify-center";
+
 const Profile = ({ cuser }) => {
   const [explore, setExplore] = useState(false);
   const [user, setUser] = useState([]);
   const [editProfile, setEditProfile] = useState(false);
-  console.log(cuser);
+  const [postActionModal, setPostActionModal] = useState(false);
+  const [selectedPost, setSelectedPost] = useState("");
+
+  const [deletePostModal, setDeletePostModal] = useState(false);
   useEffect(() => {
     let isMounted = true;
     const getUser1 = async () => {
@@ -48,6 +60,7 @@ const Profile = ({ cuser }) => {
   }, []);
 
   console.log(user);
+
   return (
     <div className="relative">
       <div
@@ -57,10 +70,12 @@ const Profile = ({ cuser }) => {
       >
         <div className="grid fixed md:flex-[0.1] left-8 2xl:left-0 2xl:flex-[0.3] md:pr-3 h-screen md:border-r md:border-gray-400  2xl:bg-black text-center justify-center items-center">
           <div onClick={() => setExplore(false)} className={LinkClass}>
-            <HomeIcon className="w-7 h-7 2xl:flex-[0.3] text-white  mr-3" />
-            <h3 className="fontFamily flex-1  font-bold text-[1rem] md:hidden 2xl:block lg:pr-2 text-white">
-              Home
-            </h3>
+            <Link to="/">
+              <HomeIcon className="w-7 h-7 2xl:flex-[0.3] text-white  mr-3" />
+              <h3 className="fontFamily flex-1  font-bold text-[1rem] md:hidden 2xl:block lg:pr-2 text-white">
+                Home
+              </h3>
+            </Link>
           </div>
           <div className={LinkClass}>
             <ThumbUpIcon className="w-7 h-7 2xl:flex-[0.3] text-white  mr-3" />
@@ -81,10 +96,12 @@ const Profile = ({ cuser }) => {
             </h3>
           </div>
           <div className={LinkClass}>
-            <PlusCircleIcon className="w-7 h-7 2xl:flex-[0.3] text-white  mr-3" />
-            <h3 className="fontFamily flex-1 font-bold text-[1rem] md:hidden 2xl:block lg:pr-2 text-white">
-              Create Post
-            </h3>
+            <Link to="/addPost">
+              <PlusCircleIcon className="w-7 h-7 2xl:flex-[0.3] text-white  mr-3" />
+              <h3 className="fontFamily flex-1 font-bold text-[1rem] md:hidden 2xl:block lg:pr-2 text-white">
+                Create Post
+              </h3>
+            </Link>
           </div>
           <div className="flex  cursor-pointer hover:bg-gray-700 hover:p-1 hover:rounded-2xl text-center justify-center">
             <BellIcon className="w-7 h-7 2xl:flex-[0.3] text-white  mr-3" />
@@ -182,37 +199,108 @@ const Profile = ({ cuser }) => {
                   <HeartIcon className="w-6 h-6 -mt-1 ml-1 text-rose-400" />
                 </p>
                 <div className="flex flex-wrap w-[90%] gap-2  grid-cols-3  grid-flow-col">
-                  {user?.preference?.map((data) => (
-                    <span
-                      key={data.id}
-                      className="text-blue-400 cursor-pointer text-[1rem] p-2 border border-red-200"
+                  {user?.preference !== null ? (
+                    user?.preference?.map((data) => (
+                      <span
+                        key={data.id}
+                        className="text-blue-400 cursor-pointer text-[0.9rem] rounded p-1 border border-red-200"
+                      >
+                        #{data.name}
+                      </span>
+                    ))
+                  ) : (
+                    <button
+                      onClick={() => setEditProfile(true)}
+                      className=" p-2 md:text-[0.8rem]  border-2 rounded-2xl hover:bg-gray-800"
                     >
-                      #{data.name}
-                    </span>
-                  ))}
-                  {user?.preference?.map((data) => (
-                    <span
-                      key={data.id}
-                      className="text-blue-400 cursor-pointer text-[1rem] p-2 border border-red-200"
-                    >
-                      #{data.name}
-                    </span>
-                  ))}
-                  {user?.preference?.map((data) => (
-                    <span
-                      key={data.id}
-                      className="text-blue-400 cursor-pointer text-[1rem] p-2 border border-red-200"
-                    >
-                      #{data.name}
-                    </span>
-                  ))}
+                      No Preference yet !! Add Now
+                    </button>
+                  )}
                 </div>
 
                 {/* Posts and Likes  OR ACTIVITIES to be precise */}
 
-                <div className="flex mt-3 p-2 md:h-[35vh] 2xl:h-[50vh]">
-                  <div className="bg-red-400 flex-[0.5]">Recent Posts</div>
-                  <div className="bg-green-400 flex-[0.5]">Recent Likes</div>
+                <div className=" mt-3">
+                  <h3 className="mb-2 text-bold fontFamily text-[0.9rem] text-gray-400">
+                    Recent Posts
+                  </h3>
+                  <div className="bg-black">
+                    <div className="">
+                      {user?.posts?.items?.map((postData) => (
+                        <div
+                          key={postData.id}
+                          className="flex relative justify-between border border-gray-600 mt-1  p-3 w-full"
+                        >
+                          {postActionModal && selectedPost === postData?.id && (
+                            <CommonModal
+                              onClose={() => setPostActionModal(false)}
+                              styleClass="absolute grid right-4  top-9 w-[40%] h-[15vh] shadow transition bg-gray-200  z-[10]"
+                            >
+                              <div className="flex items-center cursor-pointer hover:bg-gray-400">
+                                <PencilIcon className="w-6 h-6 ml-2 mr-2 text-slate-900" />
+                                <span className="text-[0.9rem] font-semibold text-slate-900 fontFamily">
+                                  Edit Post
+                                </span>
+                              </div>
+                              <div
+                                onClick={() => {
+                                  setDeletePostModal(true);
+                                  setPostActionModal(false);
+                                }}
+                                className="flex items-center cursor-pointer hover:bg-gray-400"
+                              >
+                                <TrashIcon className="w-6 h-6 ml-2 mr-2 text-slate-900" />
+
+                                <span className="text-[0.9rem] font-semibold text-slate-900 fontFamily">
+                                  Delete Post
+                                </span>
+                              </div>
+                            </CommonModal>
+                          )}
+                          {deletePostModal && (
+                            <CommonModal onClose={() => {}}>
+                              <DeletePost
+                                postData={postData}
+                                setDeletePostModal={setDeletePostModal}
+                              />
+                            </CommonModal>
+                          )}
+                          <div className="grid grid-flow-col gap-3 mb-2 items-center">
+                            {user?.image ? (
+                              <img
+                                className="w-[3rem] h-[3rem] rounded-full object-cover  border-2 border-green-400"
+                                src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${user?.image?.key}`}
+                              />
+                            ) : (
+                              <UserIcon className="w-10 h-10 text-white" />
+                            )}
+                            <h3>{postData.title}</h3>
+                          </div>
+                          <div className="grid relative">
+                            <div
+                              onClick={() => {
+                                setPostActionModal(true);
+                                setSelectedPost(postData?.id);
+                              }}
+                              className="bg-gray-500 absolute -right-1 hover:scale-125 transition  -top-1 w-6 h-6 rounded-full grid place-items-center"
+                            >
+                              <DotsHorizontalIcon className="cursor-pointer right-0 w-5 h-5 text-slate-200 -top-2" />
+                            </div>
+                            <span className="text-gray-600 mt-7  font-semibold fontFamily text-[0.8rem]">
+                              {moment(new Date(postData?.createdAt)).fromNow()}
+                            </span>
+                            {/* Show Modal To Let User Make Changes */}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <button className="flex gap-3 border border-cyan-300 rounded-2xl p-2 mt-2 text-center items-center justify-center">
+                    <span className="text-gray-300 fontFamily text-[0.8rem]">
+                      View All Posts
+                    </span>
+                    <ArrowNarrowRightIcon className="md:w-4 md:h-4 2xl:2-6 2xl:h-6 text-white" />
+                  </button>
                 </div>
               </div>
 

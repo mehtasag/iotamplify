@@ -9,6 +9,7 @@ export const createPosts = /* GraphQL */ `
     createPosts(input: $input, condition: $condition) {
       id
       title
+      owner
       description
       file {
         bucket
@@ -40,7 +41,6 @@ export const createPosts = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -52,6 +52,7 @@ export const updatePosts = /* GraphQL */ `
     updatePosts(input: $input, condition: $condition) {
       id
       title
+      owner
       description
       file {
         bucket
@@ -83,7 +84,6 @@ export const updatePosts = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -95,6 +95,7 @@ export const deletePosts = /* GraphQL */ `
     deletePosts(input: $input, condition: $condition) {
       id
       title
+      owner
       description
       file {
         bucket
@@ -126,7 +127,6 @@ export const deletePosts = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -158,6 +158,9 @@ export const createLike = /* GraphQL */ `
         updatedAt
         website
         country
+        posts {
+          nextToken
+        }
       }
       createdAt
       updatedAt
@@ -193,6 +196,9 @@ export const updateLike = /* GraphQL */ `
         updatedAt
         website
         country
+        posts {
+          nextToken
+        }
       }
       createdAt
       updatedAt
@@ -228,6 +234,9 @@ export const deleteLike = /* GraphQL */ `
         updatedAt
         website
         country
+        posts {
+          nextToken
+        }
       }
       createdAt
       updatedAt
@@ -260,6 +269,18 @@ export const createUser = /* GraphQL */ `
       updatedAt
       website
       country
+      posts {
+        items {
+          id
+          title
+          owner
+          description
+          createdBy
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -288,6 +309,18 @@ export const updateUser = /* GraphQL */ `
       updatedAt
       website
       country
+      posts {
+        items {
+          id
+          title
+          owner
+          description
+          createdBy
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -316,6 +349,18 @@ export const deleteUser = /* GraphQL */ `
       updatedAt
       website
       country
+      posts {
+        items {
+          id
+          title
+          owner
+          description
+          createdBy
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;

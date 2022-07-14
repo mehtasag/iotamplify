@@ -5,6 +5,7 @@ import { ChatIcon, BookOpenIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 import moment from "moment";
 const CommonPostData = ({ data, handleDelete }) => {
+  console.log(data);
   return (
     <div
       key={data.id}
@@ -27,7 +28,18 @@ const CommonPostData = ({ data, handleDelete }) => {
           </small>
         </div>
         <div className="w-full h-[60%]">
-          {data && (
+          {data && data.file.key.includes("mp4") ? (
+            <video
+              className="w-full h-full focus:border-none border-none md:w-[80vw] md:h-[93%] object-cover lazyloaded"
+              controls
+              autoPlay={true}
+            >
+              <source
+                src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${data.file.key}`}
+                type="video/mp4"
+              />
+            </video>
+          ) : (
             <img
               className="w-full h-full md:w-[80vw] md:h-[93%] object-cover lazyloaded"
               src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${data.file.key}`}

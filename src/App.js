@@ -1,21 +1,15 @@
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
 import { useEffect, useState } from "react";
-import {
-  Sidebar,
-  Post,
-  AddPost,
-  Posts,
-  About,
-  Logout,
-  Login,
-} from "./components";
+import { Post, AddPost, Posts, About, Logout, Login } from "./components";
+import Explore from "./components/User/Explore";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { Auth } from "aws-amplify";
 import { login } from "./app/slice/userSlice";
 import Profile from "./components/Profile";
+import Sidebar from "./components/User/Sidebar";
 
 function App() {
   const [cuser, setCUser] = useState(null);
@@ -63,28 +57,31 @@ function App() {
   console.log(admin);
 
   return (
-    <div className="p-0 m-0">
+    <div className="p-0 m-0 flex bg-black w-full h-screen">
       <Toaster />
       <BrowserRouter>
-        <Sidebar />
-        <Routes>
-          <Route path="/" element={<Posts cuser={cuser} />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route exact path="/:id" element={<Post cuser={cuser} />} />
+        <Sidebar className="flex-[0.2] bg-black" />
+        <div className="flex-1 md:ml-[6.5%]  2xl:pl-10">
+          <Routes>
+            <Route path="/" element={<Posts cuser={cuser} />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route exact path="/:id" element={<Post cuser={cuser} />} />
 
-          <Route path="/addPost" element={<AddPost />} />
+            <Route path="/addPost" element={<AddPost />} />
+            <Route path="/explore" element={<Explore />} />
 
-          <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login />} />
 
-          {cuser && (
-            <Route
-              exact
-              path="/users/:username"
-              element={<Profile cuser={cuser} />}
-            />
-          )}
-        </Routes>
+            {cuser && (
+              <Route
+                exact
+                path="/users/:username"
+                element={<Profile cuser={cuser} />}
+              />
+            )}
+          </Routes>
+        </div>
       </BrowserRouter>
     </div>
   );

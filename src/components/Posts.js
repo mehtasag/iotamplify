@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import CommonPostData from "./CommonPostData";
 import { Link } from "react-router-dom";
 import { getSearchTermValue } from "../app/slice/postSlice";
-import * as subscriptions from "../graphql/subscriptions";
 
 const Posts = ({ cuser }) => {
   const [posts, setPosts] = useState([]);
@@ -57,18 +56,18 @@ const Posts = ({ cuser }) => {
       const newPosts = data.data.listPosts.items;
       setPosts(posts, posts.push(...newPosts));
       setToken(data.data.listPosts.nextToken);
-      console.log(token);
-      console.log(hasMoreTokens);
     } else {
       setHasMoreTokens(false);
     }
   };
   return (
-    <div className="w-full bg-slate-900 2xl:p-14 lg:p-10 scroll-smooth min-h-screen max-h-fit">
-      <div className=" md:flex my-auto">
-        <div className="flex justify-center ml-3 md:ml-0">
-          <h3 className="text-gray-100 pt-4  ml-2 font-bold text-1xl md:text-2xl">
-            {cuser !== null ? `Hello ${cuser.username},` : "Hello Guest"}
+    <div className="w-full bg-slate-900  scroll-smooth min-h-screen max-h-fit">
+      <div className="md:flex w-full my-auto">
+        <div className=" flex flex-[0.25]  h-fit justify-center ml-3 md:ml-0">
+          <h3 className="text-gray-100 pt-2  ml-2 font-bold text-[0.9rem] md:text-[1.2rem]">
+            {cuser !== null
+              ? `Hello ${cuser.username}daasdasdadadasdda,`
+              : "Hello Guest"}
           </h3>
           <br />
           {!cuser && (
@@ -82,13 +81,12 @@ const Posts = ({ cuser }) => {
             </Link>
           )}
         </div>
-        <SearchTerm />
+        <div className="absolute w-full  md:right-10 mt-3 md:mt-0 md:top-3 overflow-scroll   md:w-[30vw] 2xl:w-[25vw]  z-[100] ">
+          <SearchTerm />
+        </div>
       </div>
-      <h3 className="text-2xl text-center   md:text-4xl font-sans antialiased p-4 font-bold text-indigo-500">
-        Recent Posts
-      </h3>
 
-      <div className="grid md:gap-3  2xl:gap-5  2xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-3  mt-3 mb-20 z-0">
+      <div className="grid md:gap-3   2xl:gap-5  2xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-3  mt-6 ml-3 mb-20 z-0">
         {filteredPost?.length > 0
           ? filteredPost?.map((data) => <CommonPostData data={data} />)
           : posts &&

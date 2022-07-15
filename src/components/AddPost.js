@@ -46,9 +46,6 @@ const AddPost = () => {
 
   return (
     <div className="min-h-[100vh] max-h-fit  bg-gray-900">
-      <Link to="/">
-        <RewindIcon className="text-white w-10 h-10 animate-bounce pt-3" />
-      </Link>
       <h3 className="text-2xl text-center md:text-4xl fontFamily text-pink-100 font-extrabold font-serif ml-4 md:pt-10">
         Write New Post
       </h3>

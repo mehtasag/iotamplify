@@ -6,10 +6,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import { useSelector } from "react-redux";
 import { selectUser } from "../app/slice/userSlice";
+import { useDispatch } from "react-redux";
 const Sidebar = () => {
   const navigate = useNavigate();
   const cuser = useSelector(selectUser);
   const [isOpen, setIsOpen] = useState(false);
+
   const signout = async () => {
     try {
       await Auth.signOut();

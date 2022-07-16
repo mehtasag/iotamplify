@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   HomeIcon,
   HashtagIcon,
@@ -12,14 +12,34 @@ import {
   ChatAltIcon,
   BellIcon,
   UserIcon,
+  LoginIcon,
 } from "@heroicons/react/outline";
 import { useSelector } from "react-redux";
-import { selectUser } from "../../app/slice/userSlice";
+import { logout, selectUser } from "../../app/slice/userSlice";
+import { useDispatch } from "react-redux";
+import { Auth } from "aws-amplify";
 
 const LinkClass =
   "flex cursor-pointer transition ease-in-out hover:bg-gray-700  text-center justify-center";
 const Sidebar = () => {
   const user = useSelector(selectUser);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const signout = async () => {
+    try {
+      await Auth.signOut();
+      navigate("/logout");
+      dispatch(
+        logout({
+          user: null,
+        })
+      );
+    } catch (err) {
+      console.log("Sign out", err);
+    }
+  };
   const [showMore, setShowMore] = useState(false);
   return (
     <div className="md:grid hidden bg-black fixed   left-8 2xl:left-0 2xl:flex-[0.3] md:pr-3 h-screen md:border-r md:border-gray-400  2xl:bg-black text-center justify-center items-center">
@@ -86,13 +106,26 @@ const Sidebar = () => {
           </h3>
         </div>
       )}
-
-      <div className="flex  cursor-pointer hover:bg-gray-700 hover:p-1 hover:rounded-2xl text-center justify-center  2xl:bg-rose-400 items-center">
-        <LogoutIcon className="w-7 h-7 md:text-red-500 2xl:text-white" />
-        <h3 className="fontFamily font-bold text-[1rem] md:hidden 2xl:block lg:pr-2 text-white p-2">
-          Sign out
-        </h3>
-      </div>
+      {user ? (
+        <div
+          onClick={signout}
+          className="flex  cursor-pointer hover:bg-gray-700 hover:p-1 hover:rounded-2xl text-center justify-center  2xl:bg-rose-400 items-center"
+        >
+          <LogoutIcon className="w-7 h-7 md:text-red-500 2xl:text-white" />
+          <h3 className="fontFamily font-bold text-[1rem] md:hidden 2xl:block lg:pr-2 text-white p-2">
+            Sign out
+          </h3>
+        </div>
+      ) : (
+        <Link to="/login">
+          <div className="flex  cursor-pointer hover:bg-gray-700 hover:p-1 hover:rounded-2xl text-center justify-center  2xl:bg-rose-400 items-center">
+            <LoginIcon className="w-7 h-7 md:text-green-500 2xl:text-white" />
+            <h3 className="fontFamily font-bold text-[1rem] md:hidden 2xl:block lg:pr-2 text-white p-2">
+              Login
+            </h3>
+          </div>
+        </Link>
+      )}
     </div>
   );
 };

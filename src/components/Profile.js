@@ -45,10 +45,6 @@ const Profile = ({ cuser }) => {
     };
   }, []);
 
-  console.log(user);
-  console.log(selectedPostId);
-  console.log(selectedPost);
-
   return (
     <div className="relative">
       <div

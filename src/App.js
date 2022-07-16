@@ -17,7 +17,6 @@ function App() {
 
   const dispatch = useDispatch();
 
-  
   useEffect(() => {
     let isMounted = true;
     const getUser = async () => {
@@ -32,7 +31,6 @@ function App() {
         })
       );
       setCUser(user);
-      console.log(user);
     };
 
     getUser();
@@ -41,8 +39,6 @@ function App() {
       isMounted = false;
     };
   }, [dispatch]);
-
-  console.log(cuser);
 
   useEffect(() => {
     Auth.currentAuthenticatedUser().then((user) => {
@@ -55,7 +51,6 @@ function App() {
       }
     });
   }, []);
-  console.log(admin);
 
   return (
     <div className="p-0 m-0 flex w-full h-screen">
@@ -76,13 +71,11 @@ function App() {
 
             <Route path="/login" element={<Login />} />
 
-            {cuser && (
-              <Route
-                exact
-                path="/users/:username"
-                element={<Profile cuser={cuser} />}
-              />
-            )}
+            <Route
+              exact
+              path="/users/:username"
+              element={cuser ? <Profile cuser={cuser} /> : <Login />}
+            />
           </Routes>
         </div>
       </BrowserRouter>

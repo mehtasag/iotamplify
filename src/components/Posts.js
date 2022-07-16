@@ -13,6 +13,7 @@ const Posts = ({ cuser }) => {
   const [token, setToken] = useState(null);
   const [hasMoreTokens, setHasMoreTokens] = useState(true);
   const searchTerm = useSelector(getSearchTermValue);
+
   useEffect(() => {
     let isMounted = true;
 
@@ -61,7 +62,7 @@ const Posts = ({ cuser }) => {
   };
   return (
     <div className="w-full bg-black  scroll-smooth min-h-screen max-h-fit">
-      <div className="flex relative">
+      <div className="md:flex relative">
         <div className="w-full 2xl:ml-[5%] flex-1">
           <div className="md:flex w-full my-auto">
             <div className=" flex flex-[0.25]  h-fit justify-center ml-3 md:ml-0">
@@ -73,7 +74,7 @@ const Posts = ({ cuser }) => {
               <br />
               {!cuser && (
                 <Link
-                  className="align-item-center md:pt-1  ml-2 mt-4 text-center mx-auto"
+                  className="align-item-center md:pt-1  ml-2 mt-2 text-center mx-auto"
                   to="/login"
                 >
                   <span className="bg-yellow-400 p-2 text-[0.8rem]  text-gray-700 font-bold rounded-2xl fontFamily">
@@ -82,12 +83,12 @@ const Posts = ({ cuser }) => {
                 </Link>
               )}
             </div>
-            <div className="fixed w-full  md:right-10 mt-3 md:mt-0 md:top-3 overflow-scroll   md:w-[30vw] 2xl:w-[25vw]  z-[100] ">
+            <div className="md:fixed w-full  md:right-10 mt-3 md:mt-0 md:top-3 overflow-scroll   md:w-[30vw] 2xl:w-[25vw]  z-[100] ">
               <SearchTerm />
             </div>
           </div>
 
-          <div className="grid md:gap-3 md:w-[50%] 2xl:w-[40%]   2xl:gap-5   mt-6 ml-3 mb-20 z-0">
+          <div className="grid md:gap-3 md:w-[50%] 2xl:w-[40%]   2xl:gap-5 px-3 md:px-0   mt-6 md:ml-3 mb-20 z-0">
             {filteredPost?.length > 0
               ? filteredPost?.map((data) => <CommonPostData data={data} />)
               : posts &&
@@ -116,7 +117,7 @@ const Posts = ({ cuser }) => {
           </div>
         </div>
 
-        <div className="fixed overflow-scroll overflow-y-scroll  flex-[0.3] 2xl:w-[22vw] md:w-[29vw] right-10 mt-20 h-[90vh] ">
+        <div className="md:fixed overflow-scroll overflow-y-scroll  flex-[0.3] 2xl:w-[22vw] md:w-[29vw] right-10 md:mt-20 h-[90vh] ">
           <Trending cuser={cuser} />
         </div>
       </div>

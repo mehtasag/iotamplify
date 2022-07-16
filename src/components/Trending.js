@@ -3,7 +3,7 @@ import { listTrendings } from "../graphql/queries";
 import { API } from "aws-amplify";
 const Card = ({ title, children }) => (
   <div className="relative bg-zinc-900 h-[42vh] pb-2 rounded-2xl border border-gray-600">
-    <h3 className="font-extrabold ml-4 m-2 fontFamily text-[1.2rem] text-gray-200">
+    <h3 className="text-center md:text-left font-extrabold ml-4 m-2 fontFamily text-[1.2rem] text-gray-200">
       {title}
     </h3>
     <div>{children}</div>
@@ -40,16 +40,15 @@ const Trending = ({ cuser }) => {
   const trendingNews = trendingData
     .flatMap((data) => data.resultData)
     .slice(0, 10);
-  console.log(trendingNews);
   return (
     <div className="relative grid gap-6">
       <Card title="Trending News">
-        <div className="grid overflow-scroll overflow-y-scroll h-[33vh] pb-6 relative gap-4">
+        <div className="grid overflow-scroll overflow-y-scroll h-[33vh] pb-6 md:pb-10 2xl:pb-2 relative gap-3">
           {trendingNews &&
             trendingNews.map((data, index) => (
-              <div key={index} className="flex  items-center gap-2">
+              <div key={index} className="flex  items-center gap-2 ">
                 <img
-                  className="rounded-full md:w-[50px] md:h-[50px] 2xl:w-[65px] 2xl:h-[65px]  ml-2"
+                  className="rounded-full w-[40px] h-[40px] md:w-[50px] md:h-[50px] 2xl:w-[65px] 2xl:h-[65px]  ml-2"
                   src={data.image}
                 />
                 <div className="flex relative w-full justify-between">
@@ -57,7 +56,7 @@ const Trending = ({ cuser }) => {
                     {data.name.slice(0, 40)}
                   </h3>
 
-                  <span className="text-slate-200 absolute right-0 w-30 mr-5 p-1  text-[1rem]  border border-gray-600 rounded hover:bg-gray-800">
+                  <span className="text-slate-200 absolute right-0 w-30 mr-5 p-1 fontFamily  text-[0.8rem]  border border-gray-600 rounded hover:bg-gray-800">
                     <a href={data.source}>View More</a>
                   </span>
                 </div>

@@ -17,11 +17,11 @@ const CommonPostData = ({ data, handleDelete }) => {
       />
       <Link to={`/${data.id}`}>
         <div className="flex flex-col text-center justify-around">
-          <h5 className="text-1xl  font-sans antialiased text-center font-bold text-gray-50">
+          <h4 className="text-2xl mt-1  font-sans antialiased text-center font-bold text-gray-50">
             {data.title.length > 35
               ? `${data.title.slice(0, 47)}...`
               : data.title}
-          </h5>
+          </h4>
           <small className="text-1/2xl font-sans font-bold text-gray-500">
             Posted:
             {moment(new Date(data.createdAt).getTime()).fromNow()}

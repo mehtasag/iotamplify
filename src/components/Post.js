@@ -128,7 +128,6 @@ const Post = ({ cuser }) => {
                 <source
                   src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${post?.file.key}`}
                   type="video/mp4"
-                  lazyloaded
                 />
               </video>
             ) : (

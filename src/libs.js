@@ -16,6 +16,8 @@ export const deletePost = async (data) => {
     variables: { input: deletePostId },
     authMode: "AMAZON_COGNITO_USER_POOLS",
   });
+
+  toast.success("Post Deleted Successfully");
 };
 
 /***  Create Post  ***/

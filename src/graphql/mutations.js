@@ -161,6 +161,9 @@ export const createLike = /* GraphQL */ `
         posts {
           nextToken
         }
+        searches {
+          name
+        }
       }
       createdAt
       updatedAt
@@ -199,6 +202,9 @@ export const updateLike = /* GraphQL */ `
         posts {
           nextToken
         }
+        searches {
+          name
+        }
       }
       createdAt
       updatedAt
@@ -236,6 +242,9 @@ export const deleteLike = /* GraphQL */ `
         country
         posts {
           nextToken
+        }
+        searches {
+          name
         }
       }
       createdAt
@@ -281,6 +290,9 @@ export const createUser = /* GraphQL */ `
         }
         nextToken
       }
+      searches {
+        name
+      }
     }
   }
 `;
@@ -320,6 +332,9 @@ export const updateUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
+      }
+      searches {
+        name
       }
     }
   }
@@ -361,6 +376,60 @@ export const deleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      searches {
+        name
+      }
+    }
+  }
+`;
+export const createTrending = /* GraphQL */ `
+  mutation CreateTrending(
+    $input: CreateTrendingInput!
+    $condition: ModelTrendingConditionInput
+  ) {
+    createTrending(input: $input, condition: $condition) {
+      id
+      resultData {
+        image
+        name
+        source
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateTrending = /* GraphQL */ `
+  mutation UpdateTrending(
+    $input: UpdateTrendingInput!
+    $condition: ModelTrendingConditionInput
+  ) {
+    updateTrending(input: $input, condition: $condition) {
+      id
+      resultData {
+        image
+        name
+        source
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteTrending = /* GraphQL */ `
+  mutation DeleteTrending(
+    $input: DeleteTrendingInput!
+    $condition: ModelTrendingConditionInput
+  ) {
+    deleteTrending(input: $input, condition: $condition) {
+      id
+      resultData {
+        image
+        name
+        source
+      }
+      createdAt
+      updatedAt
     }
   }
 `;

@@ -51,7 +51,7 @@ export const listPosts = /* GraphQL */ `
       items {
         id
         title
-        # owner
+        owner
         description
         file {
           bucket
@@ -99,6 +99,9 @@ export const getLike = /* GraphQL */ `
         country
         posts {
           nextToken
+        }
+        searches {
+          name
         }
       }
       createdAt
@@ -159,25 +162,20 @@ export const getUser = /* GraphQL */ `
       updatedAt
       website
       country
-      posts(limit: 5) {
+      posts {
         items {
           id
           title
           owner
           description
-          file {
-            bucket
-            region
-            key
-          }
-          likes {
-            nextToken
-          }
           createdBy
           createdAt
           updatedAt
         }
         nextToken
+      }
+      searches {
+        name
       }
     }
   }
@@ -211,6 +209,42 @@ export const listUsers = /* GraphQL */ `
         country
         posts {
           nextToken
+        }
+        searches {
+          name
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const getTrending = /* GraphQL */ `
+  query GetTrending($id: ID!) {
+    getTrending(id: $id) {
+      id
+      resultData {
+        image
+        name
+        source
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listTrendings = /* GraphQL */ `
+  query ListTrendings(
+    $filter: ModelTrendingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTrendings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        resultData {
+          image
+          name
+          source
         }
       }
       nextToken

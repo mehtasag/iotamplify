@@ -22,7 +22,7 @@ const Sidebar = () => {
   const user = useSelector(selectUser);
   const [showMore, setShowMore] = useState(false);
   return (
-    <div className="md:grid hidden fixed  left-8 2xl:left-0 2xl:flex-[0.3] md:pr-3 h-screen md:border-r md:border-gray-400  2xl:bg-black text-center justify-center items-center">
+    <div className="md:grid hidden bg-black fixed   left-8 2xl:left-0 2xl:flex-[0.3] md:pr-3 h-screen md:border-r md:border-gray-400  2xl:bg-black text-center justify-center items-center">
       <Link to="/">
         <div className={LinkClass}>
           <HomeIcon className="w-7 h-7 2xl:flex-[0.3] text-white  mr-3" />

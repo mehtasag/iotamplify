@@ -6,19 +6,20 @@ import Explore from "./components/User/Explore";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { Auth } from "aws-amplify";
+import { Auth, API } from "aws-amplify";
 import { login } from "./app/slice/userSlice";
+
 import Profile from "./components/Profile";
 import Sidebar from "./components/User/Sidebar";
-
 function App() {
   const [cuser, setCUser] = useState(null);
   const [admin, setAdmin] = useState(false);
+
   const dispatch = useDispatch();
 
+  
   useEffect(() => {
     let isMounted = true;
-
     const getUser = async () => {
       const user = await Auth.currentAuthenticatedUser();
 
@@ -31,15 +32,15 @@ function App() {
         })
       );
       setCUser(user);
+      console.log(user);
     };
-    if (isMounted && cuser !== []) {
-      getUser();
-    }
+
+    getUser();
 
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [dispatch]);
 
   console.log(cuser);
 
@@ -57,11 +58,13 @@ function App() {
   console.log(admin);
 
   return (
-    <div className="p-0 m-0 flex bg-black w-full h-screen">
+    <div className="p-0 m-0 flex w-full h-screen">
       <Toaster />
       <BrowserRouter>
-        <Sidebar className="flex-[0.2] bg-black" />
-        <div className="flex-1 md:ml-[6.5%]  2xl:pl-10">
+        <div className="flex-[0.2] w-[6.5vw] bg-black fixed h-screen">
+          <Sidebar />
+        </div>
+        <div className="flex-1 md:ml-[6.5%] 2xl:ml-[7%]">
           <Routes>
             <Route path="/" element={<Posts cuser={cuser} />} />
             <Route path="/about" element={<About />} />

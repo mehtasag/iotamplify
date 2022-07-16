@@ -1,10 +1,12 @@
 import React from "react";
 import { deletePost } from "../../libs";
 import CommonModal from "../helper/CommonModal";
-const DeletePost = ({ postData, setDeletePostModal }) => {
+const DeletePost = ({ selectedPost, setDeletePostModal }) => {
   const deleteUserPost = async () => {
-    console.log("Data to be deletePost", postData);
-    await deletePost(postData);
+    console.log("Data to be deletePost", selectedPost);
+    await deletePost(selectedPost);
+
+    setDeletePostModal(false);
   };
   return (
     <div className="fixed top-[30%] left-[30%] items-center grid bg-gray-200 w-[30%] h-[20vh] z-[100] ">

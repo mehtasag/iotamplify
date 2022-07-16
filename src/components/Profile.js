@@ -6,7 +6,7 @@ import {
   ArrowNarrowRightIcon,
 } from "@heroicons/react/solid";
 import { TrashIcon, LinkIcon, PencilIcon } from "@heroicons/react/outline";
-
+import { Link } from "react-router-dom";
 import { HeartIcon } from "@heroicons/react/solid";
 import * as queries from "../graphql/queries";
 import { API } from "aws-amplify";
@@ -21,9 +21,11 @@ const Profile = ({ cuser }) => {
   const [user, setUser] = useState([]);
   const [editProfile, setEditProfile] = useState(false);
   const [postActionModal, setPostActionModal] = useState(false);
-  const [selectedPost, setSelectedPost] = useState("");
+  const [selectedPostId, setSelectedPostId] = useState("");
+  const [selectedPost, setSelectedPost] = useState([]);
 
   const [deletePostModal, setDeletePostModal] = useState(false);
+
   useEffect(() => {
     let isMounted = true;
     const getUser1 = async () => {
@@ -44,11 +46,13 @@ const Profile = ({ cuser }) => {
   }, []);
 
   console.log(user);
+  console.log(selectedPostId);
+  console.log(selectedPost);
 
   return (
     <div className="relative">
       <div
-        className={`flex ${
+        className={`grid md:flex ${
           editProfile ? "opacity-5" : ""
         } bg-black w-full min-h-screen max-h-fit`}
       >
@@ -56,10 +60,10 @@ const Profile = ({ cuser }) => {
         <Sidebar setExplore={setExplore} />
         {/* Right Side with Two Cols */}
 
-        <div className="md:flex-[0.6] 2xl:flex-[0.5] relative border bg-slate-900 mb-5 text-white md:ml-[10vw] 2xl:ml-[12vw] mt-5">
+        <div className="md:flex-[0.6] 2xl:flex-[0.5] relative md:border bg-slate-900 mb-5 text-white md:ml-[4vw] 2xl:ml-[7vw] md:mt-5">
           <div>
             <div className="flex relative items-center   bg-black p-3">
-              <div className="bg-gray-300 grid place-items-center text-center rounded-full md:w-[50px] md:h-[50px] 2xl:w-[60px] 2xl:h-[60px]">
+              <div className="bg-gray-300 grid place-items-center text-center rounded-full w-[35px] h-[35px] md:w-[50px] md:h-[50px] 2xl:w-[60px] 2xl:h-[60px]">
                 {user?.image ? (
                   <img
                     className="w-fit h-fit rounded-full object-contain"
@@ -70,32 +74,32 @@ const Profile = ({ cuser }) => {
                 )}
               </div>
               <div>
-                <h3 className="text-white ml-7 md:text-[1.2rem] 2xl:text-[1.4rem] font-semibold font-sans">
+                <h3 className="text-white ml-2  md:ml-7 text-[0.8rem] md:text-[1.2rem] 2xl:text-[1.4rem] font-semibold font-sans">
                   {user?.name}
                 </h3>
-                <h3 className="text-cyan-300 ml-7 md:text-[0.9rem]  font-semibold font-sans">
+                <h3 className="text-cyan-300 ml-2 md:ml-7 md:text-[0.9rem]  font-semibold font-sans">
                   {user?.username}
                 </h3>
               </div>
 
               {cuser?.attributes?.email_verified ? (
-                <div className="ml-[20%]">
-                  <div className="w-[50px] h-[20px] bg-green-400"></div>
-                  <span className="text-[1rem] font-semibold fontFamily">
+                <div className="ml-[5%] md:ml-[20%]">
+                  <div className=" rounded-full ml-[15%] md:ml-0 w-[15px] h-[15px] md:w-[40px] md:h-[15px] bg-green-400"></div>
+                  <span className="text-[0.8rem] font-semibold fontFamily">
                     Status
                   </span>
                 </div>
               ) : (
-                <div className="ml-[30%]">
+                <div className="ml-[5%] md:ml-[30%]">
                   <div className="w-[50px] h-[20px] bg-rose-400"></div>
-                  <span className="text-[1rem] font-semibold fontFamily">
+                  <span className="text-[0.8rem] md:text-[1rem] font-semibold fontFamily">
                     Status
                   </span>
                 </div>
               )}
               <button
                 onClick={() => setEditProfile(true)}
-                className="absolute right-10 p-2 md:text-[0.8rem]  border-2 rounded-2xl hover:bg-gray-800"
+                className="absolute right-2 p-2 text-[0.8rem] md:right-10 md:p-2   border-2 rounded-2xl hover:bg-gray-800"
               >
                 Edit Profile
               </button>
@@ -165,11 +169,12 @@ const Profile = ({ cuser }) => {
                         key={postData.id}
                         className="flex relative justify-between border border-gray-600 mt-1  p-3 w-full"
                       >
-                        {postActionModal && selectedPost === postData?.id && (
+                        {postActionModal && selectedPostId === postData?.id && (
                           <CommonModal
                             onClose={() => setPostActionModal(false)}
                             styleClass="absolute grid right-4  top-9 w-[40%] h-[15vh] shadow transition bg-gray-200  z-[10]"
                           >
+                            {console.log(selectedPostId === postData.id)}
                             <div className="flex items-center cursor-pointer hover:bg-gray-400">
                               <PencilIcon className="w-6 h-6 ml-2 mr-2 text-slate-900" />
                               <span className="text-[0.9rem] font-semibold text-slate-900 fontFamily">
@@ -180,6 +185,7 @@ const Profile = ({ cuser }) => {
                               onClick={() => {
                                 setDeletePostModal(true);
                                 setPostActionModal(false);
+                                setSelectedPost(postData);
                               }}
                               className="flex items-center cursor-pointer hover:bg-gray-400"
                             >
@@ -191,30 +197,25 @@ const Profile = ({ cuser }) => {
                             </div>
                           </CommonModal>
                         )}
-                        {deletePostModal && (
-                          <CommonModal onClose={() => {}}>
-                            <DeletePost
-                              postData={postData}
-                              setDeletePostModal={setDeletePostModal}
-                            />
-                          </CommonModal>
-                        )}
-                        <div className="grid grid-flow-col gap-3 mb-2 items-center">
-                          {user?.image ? (
-                            <img
-                              className="w-[3rem] h-[3rem] rounded-full object-cover  border-2 border-green-400"
-                              src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${user?.image?.key}`}
-                            />
-                          ) : (
-                            <UserIcon className="w-10 h-10 text-white" />
-                          )}
-                          <h3>{postData.title}</h3>
-                        </div>
+                        <Link to={`/${postData.id}`}>
+                          <div className="grid grid-flow-col gap-3 mb-2 items-center">
+                            {user?.image ? (
+                              <img
+                                className="w-[3rem] h-[3rem] rounded-full object-cover  border-2 border-green-400"
+                                src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${user?.image?.key}`}
+                              />
+                            ) : (
+                              <UserIcon className="w-10 h-10 text-white" />
+                            )}
+                            <h3>{postData.title.slice(0, 60)}...</h3>
+                          </div>
+                        </Link>
                         <div className="grid relative">
                           <div
                             onClick={() => {
                               setPostActionModal(true);
-                              setSelectedPost(postData?.id);
+                              setSelectedPostId(postData?.id);
+                              setSelectedPost(postData);
                             }}
                             className="bg-gray-500 absolute -right-1 hover:scale-125 transition  -top-1 w-6 h-6 rounded-full grid place-items-center"
                           >
@@ -227,27 +228,61 @@ const Profile = ({ cuser }) => {
                         </div>
                       </div>
                     ))}
+                    {deletePostModal && (
+                      <CommonModal onClose={() => {}}>
+                        <DeletePost
+                          selectedPost={selectedPost}
+                          setDeletePostModal={setDeletePostModal}
+                        />
+                      </CommonModal>
+                    )}
                   </div>
                 </div>
-                <button className="flex gap-3 border border-cyan-300 rounded-2xl p-2 mt-2 text-center items-center justify-center">
-                  <span className="text-gray-300 fontFamily text-[0.8rem]">
+                <button className="flex gap-3  bg-cyan-300 md:bg-transparent  font-bold  md:border  md:border-cyan-300 rounded-2xl p-2 mt-2 text-center items-center justify-center">
+                  <span className="text-slate-900 md:text-gray-300 fontFamily text-[0.8rem]">
                     View All Posts
                   </span>
-                  <ArrowNarrowRightIcon className="md:w-4 md:h-4 2xl:2-6 2xl:h-6 text-white" />
+                  <ArrowNarrowRightIcon className="w-4 h-4 2xl:2-6 2xl:h-6 text-slate-900 md:text-white" />
                 </button>
               </div>
             </div>
 
-            <div className="absolute bottom-[2vh] left-[44%]">
+            <div className="hidden md:block bottom-3 md:absolute  md:bottom-[2vh] left-[30%] md:left-[44%]">
               <button className="bg-rose-600 p-2 rounded-2xl font-semibold text-[1rem]">
                 Delete Account
               </button>
             </div>
           </div>
         </div>
-        <div className="md:flex-[0.40] mt-10 ">
-          <h3 className="text-white ">Right 3</h3>
-          Right 3
+        <div className="grid md:flex-[0.35] 2xl:flex-[0.32] mt-0 md:mt-8 md:ml-10 2xl:ml-20">
+          <div className="bg-red-400 h-[40vh]">
+            <h2 className="text-2xl font-bold  text-center fontFamily text-gray-300">
+              People Like You
+            </h2>
+            <h3 className="text-white ">Right 3</h3>
+            <h3 className="text-white ">Right 3</h3>
+            <h3 className="text-white ">Right 3</h3>
+            <h3 className="text-white ">Right 3</h3>
+            <h3 className="text-white ">Right 3</h3>
+            <h3 className="text-white ">Right 3</h3>
+            <h3 className="text-white ">Right 3</h3>
+            <h3 className="text-white ">Right 3</h3>
+            <h3 className="text-white ">Right 3</h3>
+          </div>
+          <div className="bg-red-400 h-[40vh]">
+            <h2 className="text-2xl font-bold text-center fontFamily text-gray-300">
+              People Like You
+            </h2>
+            <h3 className="text-white ">Right 3</h3>
+            <h3 className="text-white ">Right 3</h3>
+            <h3 className="text-white ">Right 3</h3>
+            <h3 className="text-white ">Right 3</h3>
+            <h3 className="text-white ">Right 3</h3>
+            <h3 className="text-white ">Right 3</h3>
+            <h3 className="text-white ">Right 3</h3>
+            <h3 className="text-white ">Right 3</h3>
+            <h3 className="text-white ">Right 3</h3>
+          </div>
         </div>
       </div>
       {editProfile && (

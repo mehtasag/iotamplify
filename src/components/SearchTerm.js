@@ -9,7 +9,7 @@ const SearchTerm = () => {
 
   const [query, setQuery] = useState("");
   const [showHistory, setShowhistory] = useState(false);
-
+  
   const handleSearch = (e) => {
     setQuery(e.target.value);
     dispatch(getSearchTerm(query));
@@ -56,7 +56,7 @@ const SearchTerm = () => {
         </span>
       </div>
       {showHistory && (
-        <div className="relative bg-black">
+        <div className="relative border border-gray-600 bg-black scale-in-ver-top">
           <div className="bg-black">
             <button className="absolute right-0 pt-1  pr-2 text-blue-400 font-bold fontFamily text-[0.9rem]">
               Clear All
@@ -65,7 +65,7 @@ const SearchTerm = () => {
               Previous Search...
             </h3>
           </div>
-          <div className=" bg-black min-h-[10vh] max-h-[30vh]    overflow-scroll overflow-y-scroll">
+          <div className=" bg-black min-h-[10vh] max-h-[30vh] pb-8   overflow-scroll overflow-y-scroll">
             <div className="flex mt-2 justify-between cursor-pointer hover:bg-gray-800 p-3">
               <SearchIcon className="w-8 h-8 text-white" />
               <h3 className="text-white">History</h3>
@@ -108,7 +108,7 @@ const SearchTerm = () => {
               <XCircleIcon className="w-6 h-6 text-rose-400" />
             </div>
           </div>
-          <div className="absolute bottom-0 bg-indigo-800 shadow-white shadow-2xl w-full mx-auto  items-center flex  cursor-pointer  p-2">
+          <div className="absolute bottom-0 bg-indigo-800  w-full mx-auto  items-center flex  cursor-pointer  p-2">
             <h3 className="text-white">Showing </h3>
           </div>
         </div>

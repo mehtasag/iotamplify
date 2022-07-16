@@ -149,6 +149,9 @@ export const onCreateLike = /* GraphQL */ `
         posts {
           nextToken
         }
+        searches {
+          name
+        }
       }
       createdAt
       updatedAt
@@ -184,6 +187,9 @@ export const onUpdateLike = /* GraphQL */ `
         posts {
           nextToken
         }
+        searches {
+          name
+        }
       }
       createdAt
       updatedAt
@@ -218,6 +224,9 @@ export const onDeleteLike = /* GraphQL */ `
         country
         posts {
           nextToken
+        }
+        searches {
+          name
         }
       }
       createdAt
@@ -260,6 +269,9 @@ export const onCreateUser = /* GraphQL */ `
         }
         nextToken
       }
+      searches {
+        name
+      }
     }
   }
 `;
@@ -296,6 +308,9 @@ export const onUpdateUser = /* GraphQL */ `
           updatedAt
         }
         nextToken
+      }
+      searches {
+        name
       }
     }
   }
@@ -334,6 +349,51 @@ export const onDeleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      searches {
+        name
+      }
+    }
+  }
+`;
+export const onCreateTrending = /* GraphQL */ `
+  subscription OnCreateTrending {
+    onCreateTrending {
+      id
+      resultData {
+        image
+        name
+        source
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTrending = /* GraphQL */ `
+  subscription OnUpdateTrending {
+    onUpdateTrending {
+      id
+      resultData {
+        image
+        name
+        source
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTrending = /* GraphQL */ `
+  subscription OnDeleteTrending {
+    onDeleteTrending {
+      id
+      resultData {
+        image
+        name
+        source
+      }
+      createdAt
+      updatedAt
     }
   }
 `;

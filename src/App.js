@@ -56,7 +56,7 @@ function App() {
     <div className="p-0 m-0 flex w-full h-screen">
       <Toaster />
       <BrowserRouter>
-        <div className="flex-[0.2] w-[6.5vw] bg-black fixed h-screen">
+        <div className="flex-[0.2] md:w-[6.5vw] bg-black fixed h-screen">
           <Sidebar />
         </div>
         <div className="flex-1 md:ml-[6.5%] 2xl:ml-[7%]">

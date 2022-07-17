@@ -62,8 +62,12 @@ const Post = ({ cuser }) => {
 
   console.log(post);
   return (
-    <div className="w-full grid bg-slate-900 min-h-screen max-h-fit">
-      <div className="md:left-10  2xl:lg-14 lg:p-10 scroll-smooth p-0  ">
+    <div className={`w-full grid  bg-slate-900 min-h-screen max-h-fit`}>
+      <div
+        className={`md:left-10 ${
+          modal ? "opacity-10" : ""
+        }  2xl:lg-14 lg:p-10 scroll-smooth p-0  `}
+      >
         <Link to="/">
           <RewindIcon className="ml-2 text-white md:h-8 md:w-fit  w-6 h-6" />
         </Link>
@@ -153,15 +157,15 @@ const Post = ({ cuser }) => {
             Similar Blogs
           </button>
         </div>
-
-        {modal && (
-          <CommonModal onClose={() => setModal(false)}>
-            <div className="relative">
-              <Comment data={post} setModal={setModal} />
-            </div>
-          </CommonModal>
-        )}
       </div>
+      {modal && (
+        <CommonModal
+          styleClass="fixed w-full top-[30%] p-4 md:p-0 md:w-[80%] md:top-[50%] h-[30vh] md:left-[15%] z-[1000]"
+          onClose={() => setModal(false)}
+        >
+          <Comment data={post} setModal={setModal} />
+        </CommonModal>
+      )}
       <div className="w-[90%] mx-auto pb-10">
         <Comments data={post.comments} />
       </div>

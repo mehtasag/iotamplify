@@ -35,10 +35,6 @@ const Profile = () => {
           editProfile ? "opacity-5" : ""
         } bg-black w-full min-h-screen max-h-fit`}
       >
-        {/* Left Sidebar */}
-        <Sidebar setExplore={setExplore} />
-        {/* Right Side with Two Cols */}
-
         <div className="md:flex-[0.6] 2xl:flex-[0.5] relative md:border bg-slate-900 mb-5 text-white md:ml-[4vw] 2xl:ml-[7vw] md:mt-5">
           <div>
             <div className="flex relative items-center   bg-black p-3">

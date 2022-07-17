@@ -7,13 +7,28 @@ import { useSelector } from "react-redux";
 import CommonPostData from "./CommonPostData";
 import { Link } from "react-router-dom";
 import { getSearchTermValue } from "../app/slice/postSlice";
-
+import * as subscriptions from "../graphql/subscriptions";
 const Posts = ({ cuser }) => {
   const [posts, setPosts] = useState([]);
   const [token, setToken] = useState(null);
   const [hasMoreTokens, setHasMoreTokens] = useState(true);
   const searchTerm = useSelector(getSearchTermValue);
 
+  useEffect(() => {
+    const sub = API.graphql({
+      query: subscriptions.onCreatePosts,
+    }).subscribe({
+      next: (evt) => {
+        const newPost = evt.value.data.onCreatePosts;
+        const newPostData = [...posts, newPost];
+        setPosts(newPostData);
+      },
+    });
+    return () => {
+      sub.unsubscribe();
+    };
+  }, [posts]);
+  console.log(posts);
   useEffect(() => {
     let isMounted = true;
 
@@ -32,7 +47,7 @@ const Posts = ({ cuser }) => {
 
   async function fetchPosts() {
     try {
-      const data = await API.graphql(graphqlOperation(listPosts, { limit: 8 }));
+      const data = await API.graphql(graphqlOperation(listPosts));
       const postData = data.data.listPosts.items;
       setPosts(postData);
       setToken(data.data.listPosts.nextToken);

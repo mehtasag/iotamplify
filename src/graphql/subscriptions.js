@@ -2,8 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreatePosts = /* GraphQL */ `
-  subscription OnCreatePosts($owner: String) {
-    onCreatePosts(owner: $owner) {
+  subscription OnCreatePosts {
+    onCreatePosts {
       id
       title
       owner
@@ -82,8 +82,8 @@ export const onUpdatePosts = /* GraphQL */ `
   }
 `;
 export const onDeletePosts = /* GraphQL */ `
-  subscription OnDeletePosts($owner: String) {
-    onDeletePosts(owner: $owner) {
+  subscription OnDeletePosts {
+    onDeletePosts {
       id
       title
       owner

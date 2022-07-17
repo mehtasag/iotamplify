@@ -17,12 +17,12 @@ const Input = ({ dataValue, onChangeValue, labelFor }) => (
     />
   </div>
 );
-const EditProfile = ({ user }) => {
+const EditProfile = ({ user, setEditProfile }) => {
   const [uname, setUName] = useState(user?.name);
   const [profilePic, setProfilePic] = useState(user?.image ? user?.image : []);
   const [website, setWebsite] = useState(user?.website);
   const [preference, setPreference] = useState(
-    user?.preference !== [] ? user.preference : []
+    user?.preference !== [] ? user?.preference : []
   );
   const [field, setField] = useState("");
 
@@ -33,6 +33,8 @@ const EditProfile = ({ user }) => {
     const file = e.target.files[0];
     await onChangePic(file);
   }
+
+  console.log(user);
 
   const onChangePic = async (file) => {
     try {
@@ -106,6 +108,7 @@ const EditProfile = ({ user }) => {
     } else {
       toast.error("Nothing to change !!");
     }
+    setEditProfile(false);
   };
   return (
     <div className="relative ">

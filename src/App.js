@@ -8,28 +8,28 @@ import { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { Auth, API } from "aws-amplify";
 import { login } from "./app/slice/userSlice";
-
+import { getUserData } from "./libs";
 import Profile from "./components/Profile";
 import Sidebar from "./components/User/Sidebar";
+import { useEffectOnce } from "./components/useEffectOnce";
 function App() {
   const [cuser, setCUser] = useState(null);
   const [admin, setAdmin] = useState(false);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
+  useEffectOnce(() => {
     let isMounted = true;
     const getUser = async () => {
       const user = await Auth.currentAuthenticatedUser();
-
-      dispatch(
-        login({
-          uid: user.username,
-          verified: user.attributes.email_verified,
-          email: user.attributes.email,
-          id: user.attributes.sub,
-        })
-      );
+      if (user) {
+        const profileData = await getUserData(user);
+        dispatch(
+          login({
+            profileData,
+          })
+        );
+      }
+      console.log("User is:", user);
       setCUser(user);
     };
 
@@ -38,7 +38,7 @@ function App() {
     return () => {
       isMounted = false;
     };
-  }, [dispatch]);
+  });
 
   useEffect(() => {
     Auth.currentAuthenticatedUser().then((user) => {
@@ -57,7 +57,7 @@ function App() {
       <Toaster />
       <BrowserRouter>
         <div className="flex-[0.2] md:w-[6.5vw] bg-black fixed h-screen">
-          <Sidebar />
+          <Sidebar cuser={cuser} />
         </div>
         <div className="flex-1 md:ml-[6.5%] 2xl:ml-[7%]">
           <Routes>

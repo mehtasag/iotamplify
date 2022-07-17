@@ -42,7 +42,7 @@ const Trending = ({ cuser }) => {
     .slice(0, 10);
   return (
     <div className="relative grid gap-6">
-      <Card title="Trending News">
+      <Card title="Trending Stories">
         <div className="grid overflow-scroll overflow-y-scroll h-[33vh] pb-6 md:pb-10 2xl:pb-2 relative gap-3">
           {trendingNews &&
             trendingNews.map((data, index) => (

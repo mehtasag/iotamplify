@@ -1,8 +1,8 @@
-import { API, Auth, graphqlOperation, Storage } from "aws-amplify";
+import { API, Storage } from "aws-amplify";
 import * as mutation from "./graphql/mutations";
 import aws_exports from "./aws-exports";
 import toast from "react-hot-toast";
-
+import * as queries from "./graphql/queries";
 /***  Delete Post  ***/
 export const deletePost = async (data) => {
   console.log(data);
@@ -42,10 +42,7 @@ export const createPost = async (image, postData) => {
       },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
-    console.log("Post has created");
-  } catch (err) {
-    console.log("error creating post:", err);
-  }
+  } catch (err) {}
 };
 
 /***  Create Comment  ***/
@@ -115,4 +112,14 @@ export const updateProfile = async (data) => {
     console.log(err);
     toast.error("Failed to update your profile");
   }
+};
+
+export const getUserData = async (user) => {
+  const postData = await API.graphql({
+    query: queries.getUser,
+
+    variables: { id: user?.attributes?.sub },
+    authMode: "AMAZON_COGNITO_USER_POOLS",
+  });
+  return postData.data.getUser;
 };

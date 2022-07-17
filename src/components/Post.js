@@ -10,13 +10,12 @@ import { ChatIcon, BookOpenIcon } from "@heroicons/react/solid";
 import Comment from "./Comment";
 import { likePost } from "../libs";
 import Comments from "./Comments";
-import { selectUser } from "../app/slice/userSlice";
-import { useSelector } from "react-redux";
 import {
   getUnAuthPosts,
   getAuthPosts,
 } from "../components/helper/customQueries";
 import CommonModal from "./helper/CommonModal";
+import { useEffectOnce } from "./useEffectOnce";
 
 const reviewIconsClass =
   "bg-yellow-400 rounded-full hover:scale-125 w-8 h-8 p-1 md:p-2 cursor-pointer  md:w-10 md:h-10 text-black  font-extrabold";
@@ -31,7 +30,7 @@ const Post = ({ cuser }) => {
   const { id } = useParams();
   const [modal, setModal] = useState(false);
 
-  useEffect(() => {
+  useEffectOnce(() => {
     let isMounted = true;
     setPostId(id);
     localStorage.setItem("postID", id);
@@ -42,15 +41,14 @@ const Post = ({ cuser }) => {
         authMode: !cuser ? "API_KEY" : "AMAZON_COGNITO_USER_POOLS",
       });
       setPost(postData.data.getPosts);
+      console.log(post);
     };
-    if (isMounted) {
-      getPostData();
-    }
 
+    getPostData();
     return () => {
       isMounted = false;
     };
-  }, [cuser]);
+  });
 
   const handleLikePost = async () => {
     const postData = {
@@ -60,7 +58,6 @@ const Post = ({ cuser }) => {
     await likePost(postData);
   };
 
-  console.log(post);
   return (
     <div className={`w-full grid  bg-slate-900 min-h-screen max-h-fit`}>
       <div

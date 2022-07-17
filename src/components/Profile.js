@@ -8,17 +8,16 @@ import {
 import { TrashIcon, LinkIcon, PencilIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 import { HeartIcon } from "@heroicons/react/solid";
-import * as queries from "../graphql/queries";
-import { API } from "aws-amplify";
 import CommonModal from "./helper/CommonModal";
 import EditProfile from "./EditProfile";
 import moment from "moment";
 import DeletePost from "./User/DeletePost";
 import Sidebar from "./User/Sidebar";
+import { useSelector } from "react-redux";
+import { selectUser } from "../app/slice/userSlice";
 
-const Profile = ({ cuser }) => {
+const Profile = () => {
   const [explore, setExplore] = useState(false);
-  const [user, setUser] = useState([]);
   const [editProfile, setEditProfile] = useState(false);
   const [postActionModal, setPostActionModal] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState("");
@@ -26,25 +25,9 @@ const Profile = ({ cuser }) => {
 
   const [deletePostModal, setDeletePostModal] = useState(false);
 
-  useEffect(() => {
-    let isMounted = true;
-    const getUser1 = async () => {
-      const postData = await API.graphql({
-        query: queries.getUser,
+  const user2 = useSelector(selectUser);
 
-        variables: { id: cuser?.attributes?.sub },
-        authMode: "AMAZON_COGNITO_USER_POOLS",
-      });
-      setUser(postData.data.getUser);
-    };
-    if (isMounted) {
-      getUser1();
-    }
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
+  const user = user2.profileData;
   return (
     <div className="relative">
       <div
@@ -78,7 +61,7 @@ const Profile = ({ cuser }) => {
                 </h3>
               </div>
 
-              {cuser?.attributes?.email_verified ? (
+              {user?.attributes?.email_verified ? (
                 <div className="ml-[5%] md:ml-[20%]">
                   <div className=" rounded-full ml-[15%] md:ml-0 w-[15px] h-[15px] md:w-[40px] md:h-[15px] bg-green-400"></div>
                   <span className="text-[0.8rem] font-semibold fontFamily">
@@ -170,7 +153,6 @@ const Profile = ({ cuser }) => {
                             onClose={() => setPostActionModal(false)}
                             styleClass="absolute grid right-4  top-9 w-[40%] h-[15vh] shadow transition bg-gray-200  z-[10]"
                           >
-                            {console.log(selectedPostId === postData.id)}
                             <div className="flex items-center cursor-pointer hover:bg-gray-400">
                               <PencilIcon className="w-6 h-6 ml-2 mr-2 text-slate-900" />
                               <span className="text-[0.9rem] font-semibold text-slate-900 fontFamily">
@@ -286,7 +268,7 @@ const Profile = ({ cuser }) => {
           styleClass="fixed w-[60vw]  md:h-[80vh]  2xl:h-[65vh] top-[4vw] left-[20vw] bg-slate-900 scale-up-ver-bottom"
           onClose={() => setEditProfile(false)}
         >
-          <EditProfile user={user} />
+          <EditProfile user={user} setEditProfile={setEditProfile} />
         </CommonModal>
       )}
     </div>

@@ -8,6 +8,9 @@ import CommonPostData from "./CommonPostData";
 import { Link } from "react-router-dom";
 import { getSearchTermValue } from "../app/slice/postSlice";
 import * as subscriptions from "../graphql/subscriptions";
+import PhoneCall from "./images/phonecall.svg";
+import { toast } from "react-hot-toast";
+import { UserIcon } from "@heroicons/react/solid";
 const Posts = ({ cuser }) => {
   const [posts, setPosts] = useState([]);
   const [token, setToken] = useState(null);
@@ -28,7 +31,6 @@ const Posts = ({ cuser }) => {
       sub.unsubscribe();
     };
   }, [posts]);
-  console.log(posts);
   useEffect(() => {
     let isMounted = true;
 
@@ -52,7 +54,7 @@ const Posts = ({ cuser }) => {
       setPosts(postData);
       setToken(data.data.listPosts.nextToken);
     } catch (err) {
-      console.log("error fetching todos", err);
+      toast.error("Error fetching postdata!!");
     }
   }
 
@@ -81,10 +83,9 @@ const Posts = ({ cuser }) => {
         <div className="w-full 2xl:ml-[5%] flex-1">
           <div className="md:flex w-full my-auto">
             <div className=" flex flex-[0.25]  h-fit justify-center ml-3 md:ml-0">
-              <h3 className="text-gray-100 pt-2  ml-2 font-bold text-[0.9rem] md:text-[1.2rem]">
-                {cuser !== null
-                  ? `Hello ${cuser.username}daasdasdadadasdda,`
-                  : "Hello Guest"}
+              <h3 className="flex items-center text-gray-100 pt-2  ml-2 font-bold text-[0.9rem] md:text-[1.2rem]">
+                <UserIcon className="w-10 h-10 text-yellow-400 mr-2" />
+                {cuser !== null ? `Hello ${cuser.username},` : "Hello Guest"}
               </h3>
               <br />
               {!cuser && (
@@ -102,34 +103,45 @@ const Posts = ({ cuser }) => {
               <SearchTerm />
             </div>
           </div>
-
-          <div className="grid md:gap-3 md:w-[50%] 2xl:w-[40%]   2xl:gap-5 px-3 md:px-0   mt-6 md:ml-3 mb-20 z-0">
-            {filteredPost?.length > 0
-              ? filteredPost?.map((data) => <CommonPostData data={data} />)
-              : posts &&
-                posts.map((data) => (
-                  <CommonPostData
-                    data={data}
-                    key={data.id}
-                    handleDelete={handleDelete}
-                  />
-                ))}
-          </div>
-
-          <div className="flex items-center justify-center w-full md:w-1/6  p-2">
-            {hasMoreTokens ? (
-              <button
-                onClick={fetchPosts1}
-                className="md:grid  w-fit md:w-full pt-19 transform px-4 py-2   fontFamily text-white bg-green-500 rounded shadow-xl mb-10"
-              >
-                Load More
-              </button>
-            ) : (
-              <h3 className="text-white bg-red-400 p-2 rounded-2xl">
-                End of list
+          {!posts ? (
+            <div className="grid place-items-center md:w-[50%] md:ml-[5%] md:mt-[5%]">
+              <h3 className="text-yellow-400 mb-4 text-1xl md:text-4xl font-extrabold fontFamily">
+                Oops!!! Failed to load !!!!
               </h3>
-            )}
-          </div>
+              <img src={PhoneCall} />
+              <button className="mt-10 p-2 mb-4 rounded-2xl hover:border-green-400 fontFamily text-yellow-400 border border-gray-200 text-2xl">
+                <a href="https://blogs.viewmyprofiles.com">!Reload</a>
+              </button>
+            </div>
+          ) : (
+            <div className="grid md:gap-3 md:w-[50%] 2xl:w-[40%]   2xl:gap-5 px-3 md:px-0   mt-6 md:ml-3 mb-20 z-0">
+              {filteredPost?.length > 0
+                ? filteredPost?.map((data) => <CommonPostData data={data} />)
+                : posts &&
+                  posts.map((data) => (
+                    <CommonPostData
+                      data={data}
+                      key={data.id}
+                      handleDelete={handleDelete}
+                    />
+                  ))}
+
+              <div className="flex items-center justify-center w-full  bg-red  p-2">
+                {hasMoreTokens ? (
+                  <button
+                    onClick={fetchPosts1}
+                    className="md:grid  w-[20vw] pt-19 transform p-2 py-2   fontFamily text-white bg-green-500 rounded shadow-xl mb-10"
+                  >
+                    Load More
+                  </button>
+                ) : (
+                  <h3 className="text-white bg-red-400 p-2 rounded-2xl">
+                    End of list
+                  </h3>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="md:fixed overflow-scroll overflow-y-scroll  flex-[0.3] 2xl:w-[22vw] md:w-[29vw] right-10 md:mt-20 h-[90vh] ">

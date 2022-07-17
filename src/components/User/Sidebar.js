@@ -51,7 +51,7 @@ const Sidebar = () => {
           </h3>
         </div>
       </Link>
-      <Link to={`/users/${user?.uid}`}>
+      <Link to={`/users/${user?.profileData?.username}`}>
         <div className={LinkClass}>
           <UserIcon className="w-7 h-7 2xl:flex-[0.3] text-white  mr-3" />
           <h3 className="fontFamily flex-1 font-bold text-[1rem] md:hidden 2xl:block lg:pr-2 text-white">

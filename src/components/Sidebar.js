@@ -7,9 +7,8 @@ import { Auth } from "aws-amplify";
 import { useSelector } from "react-redux";
 import { selectUser } from "../app/slice/userSlice";
 import { useDispatch } from "react-redux";
-const Sidebar = () => {
+const Sidebar = ({ cuser }) => {
   const navigate = useNavigate();
-  const cuser = useSelector(selectUser);
   const [isOpen, setIsOpen] = useState(false);
 
   const signout = async () => {
@@ -43,7 +42,7 @@ const Sidebar = () => {
           </div>
           {cuser ? (
             <>
-              <Link to={`/users/${cuser.uid}`}>
+              <Link to={`/users/${cuser?.username}`}>
                 <h2
                   onClick={() => setIsOpen(false)}
                   className="text-1xl bg-gray-400 text-center text-white cursor-pointer hover:bg-red-400  rounded-2xl p-2"

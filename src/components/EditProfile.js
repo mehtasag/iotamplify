@@ -19,14 +19,16 @@ const Input = ({ dataValue, onChangeValue, labelFor }) => (
 );
 const EditProfile = ({ user, setEditProfile }) => {
   const [uname, setUName] = useState(user?.name);
-  const [profilePic, setProfilePic] = useState(user?.image ? user?.image : []);
-  const [website, setWebsite] = useState(user?.website);
+  const [profilePic, setProfilePic] = useState(
+    user?.image ? user?.image : null
+  );
+  const [website, setWebsite] = useState(user?.website ? user?.website : null);
   const [preference, setPreference] = useState(
     user?.preference !== [] ? user?.preference : []
   );
   const [field, setField] = useState("");
 
-  const [about, setAbout] = useState(user?.about);
+  const [about, setAbout] = useState(user?.about ? user?.about : null);
 
   const [country, setCountry] = useState(user?.country ? user?.country : "");
   async function onChange(e) {

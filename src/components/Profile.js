@@ -4,6 +4,7 @@ import {
   LocationMarkerIcon,
   DotsHorizontalIcon,
   ArrowNarrowRightIcon,
+  PlusIcon,
 } from "@heroicons/react/solid";
 import { TrashIcon, LinkIcon, PencilIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
@@ -134,90 +135,113 @@ const Profile = () => {
               {/* Posts and Likes  OR ACTIVITIES to be precise */}
 
               <div className=" mt-3">
-                <h3 className="mb-2 text-bold fontFamily text-[0.9rem] text-gray-400">
-                  Recent Posts
-                </h3>
-                <div className="bg-black">
-                  <div className="">
-                    {user?.posts?.items?.map((postData) => (
-                      <div
-                        key={postData.id}
-                        className="flex relative justify-between border border-gray-600 mt-1  p-3 w-full"
-                      >
-                        {postActionModal && selectedPostId === postData?.id && (
-                          <CommonModal
-                            onClose={() => setPostActionModal(false)}
-                            styleClass="absolute grid right-4  top-9 w-[40%] h-[15vh] shadow transition bg-gray-200  z-[10]"
+                {user?.posts?.items.length <= 0 ? (
+                  <div>
+                    <h3 className="text-rose-400 font-bold text-[0.9rem]">
+                      Looks like you have not created any post !!! Create your
+                      first post now!
+                    </h3>
+                    <Link
+                      to="/addPost"
+                      className="flex items-center bg-gray-600 w-fit p-2 rounded-2xl mt-2"
+                    >
+                      <PlusIcon className="w-6 h-6" />
+                      <button className=" text-white font-bold fontFamily ml-3">
+                        Create Post Now
+                      </button>
+                    </Link>
+                  </div>
+                ) : (
+                  <div>
+                    <h3 className="mb-2 text-bold fontFamily text-[0.9rem] text-gray-400">
+                      Recent Posts
+                    </h3>
+                    <div className="bg-black">
+                      <div className="">
+                        {user?.posts?.items?.map((postData) => (
+                          <div
+                            key={postData.id}
+                            className="flex relative justify-between border border-gray-600 mt-1  p-3 w-full"
                           >
-                            <div className="flex items-center cursor-pointer hover:bg-gray-400">
-                              <PencilIcon className="w-6 h-6 ml-2 mr-2 text-slate-900" />
-                              <span className="text-[0.9rem] font-semibold text-slate-900 fontFamily">
-                                Edit Post
-                              </span>
-                            </div>
-                            <div
-                              onClick={() => {
-                                setDeletePostModal(true);
-                                setPostActionModal(false);
-                                setSelectedPost(postData);
-                              }}
-                              className="flex items-center cursor-pointer hover:bg-gray-400"
-                            >
-                              <TrashIcon className="w-6 h-6 ml-2 mr-2 text-slate-900" />
+                            {postActionModal &&
+                              selectedPostId === postData?.id && (
+                                <CommonModal
+                                  onClose={() => setPostActionModal(false)}
+                                  styleClass="absolute grid right-4  top-9 w-[40%] h-[15vh] shadow transition bg-gray-200  z-[10]"
+                                >
+                                  <div className="flex items-center cursor-pointer hover:bg-gray-400">
+                                    <PencilIcon className="w-6 h-6 ml-2 mr-2 text-slate-900" />
+                                    <span className="text-[0.9rem] font-semibold text-slate-900 fontFamily">
+                                      Edit Post
+                                    </span>
+                                  </div>
+                                  <div
+                                    onClick={() => {
+                                      setDeletePostModal(true);
+                                      setPostActionModal(false);
+                                      setSelectedPost(postData);
+                                    }}
+                                    className="flex items-center cursor-pointer hover:bg-gray-400"
+                                  >
+                                    <TrashIcon className="w-6 h-6 ml-2 mr-2 text-slate-900" />
 
-                              <span className="text-[0.9rem] font-semibold text-slate-900 fontFamily">
-                                Delete Post
+                                    <span className="text-[0.9rem] font-semibold text-slate-900 fontFamily">
+                                      Delete Post
+                                    </span>
+                                  </div>
+                                </CommonModal>
+                              )}
+                            <Link to={`/${postData.id}`}>
+                              <div className="grid grid-flow-col gap-3 mb-2 items-center">
+                                {user?.image ? (
+                                  <img
+                                    className="w-[3rem] h-[3rem] rounded-full object-cover  border-2 border-green-400"
+                                    src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${user?.image?.key}`}
+                                  />
+                                ) : (
+                                  <UserIcon className="w-10 h-10 text-white" />
+                                )}
+                                <h3>{postData.title.slice(0, 60)}...</h3>
+                              </div>
+                            </Link>
+                            <div className="grid relative">
+                              <div
+                                onClick={() => {
+                                  setPostActionModal(true);
+                                  setSelectedPostId(postData?.id);
+                                  setSelectedPost(postData);
+                                }}
+                                className="bg-gray-500 absolute -right-1 hover:scale-125 transition  -top-1 w-6 h-6 rounded-full grid place-items-center"
+                              >
+                                <DotsHorizontalIcon className="cursor-pointer right-0 w-5 h-5 text-slate-200 -top-2" />
+                              </div>
+                              <span className="text-gray-600 mt-7  font-semibold fontFamily text-[0.8rem]">
+                                {moment(
+                                  new Date(postData?.createdAt)
+                                ).fromNow()}
                               </span>
+                              {/* Show Modal To Let User Make Changes */}
                             </div>
+                          </div>
+                        ))}
+                        {deletePostModal && (
+                          <CommonModal onClose={() => {}}>
+                            <DeletePost
+                              selectedPost={selectedPost}
+                              setDeletePostModal={setDeletePostModal}
+                            />
                           </CommonModal>
                         )}
-                        <Link to={`/${postData.id}`}>
-                          <div className="grid grid-flow-col gap-3 mb-2 items-center">
-                            {user?.image ? (
-                              <img
-                                className="w-[3rem] h-[3rem] rounded-full object-cover  border-2 border-green-400"
-                                src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${user?.image?.key}`}
-                              />
-                            ) : (
-                              <UserIcon className="w-10 h-10 text-white" />
-                            )}
-                            <h3>{postData.title.slice(0, 60)}...</h3>
-                          </div>
-                        </Link>
-                        <div className="grid relative">
-                          <div
-                            onClick={() => {
-                              setPostActionModal(true);
-                              setSelectedPostId(postData?.id);
-                              setSelectedPost(postData);
-                            }}
-                            className="bg-gray-500 absolute -right-1 hover:scale-125 transition  -top-1 w-6 h-6 rounded-full grid place-items-center"
-                          >
-                            <DotsHorizontalIcon className="cursor-pointer right-0 w-5 h-5 text-slate-200 -top-2" />
-                          </div>
-                          <span className="text-gray-600 mt-7  font-semibold fontFamily text-[0.8rem]">
-                            {moment(new Date(postData?.createdAt)).fromNow()}
-                          </span>
-                          {/* Show Modal To Let User Make Changes */}
-                        </div>
                       </div>
-                    ))}
-                    {deletePostModal && (
-                      <CommonModal onClose={() => {}}>
-                        <DeletePost
-                          selectedPost={selectedPost}
-                          setDeletePostModal={setDeletePostModal}
-                        />
-                      </CommonModal>
-                    )}
+                    </div>
+                    <button className="flex gap-3  bg-cyan-300 md:bg-transparent  font-bold  md:border  md:border-cyan-300 rounded-2xl p-2 mt-2 text-center items-center justify-center">
+                      <span className="text-slate-900 md:text-gray-300 fontFamily text-[0.8rem]">
+                        View All Posts
+                      </span>
+                      <ArrowNarrowRightIcon className="w-4 h-4 2xl:2-6 2xl:h-6 text-slate-900 md:text-white" />
+                    </button>
                   </div>
-                </div>
-                <button className="flex gap-3  bg-cyan-300 md:bg-transparent  font-bold  md:border  md:border-cyan-300 rounded-2xl p-2 mt-2 text-center items-center justify-center">
-                  <span className="text-slate-900 md:text-gray-300 fontFamily text-[0.8rem]">
-                    View All Posts
-                  </span>
-                  <ArrowNarrowRightIcon className="w-4 h-4 2xl:2-6 2xl:h-6 text-slate-900 md:text-white" />
-                </button>
+                )}
               </div>
             </div>
 

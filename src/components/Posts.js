@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { API, graphqlOperation } from "aws-amplify";
 import { listPosts } from "../graphql/queries";
 import { deletePost } from "../libs";
+import { unAuthlistPosts } from "./helper/customQueries";
 import { SearchTerm, Trending } from "./index";
 import { useSelector } from "react-redux";
 import CommonPostData from "./CommonPostData";
@@ -34,9 +35,9 @@ const Posts = ({ cuser }) => {
   useEffect(() => {
     let isMounted = true;
 
-    if (isMounted && cuser !== [] && posts !== []) {
-      fetchPosts();
-    }
+    // if (cuser !== null) {
+    fetchPosts();
+    // }
 
     return () => {
       isMounted = false;
@@ -49,12 +50,24 @@ const Posts = ({ cuser }) => {
 
   async function fetchPosts() {
     try {
-      const data = await API.graphql(graphqlOperation(listPosts));
-      const postData = data.data.listPosts.items;
-      setPosts(postData);
-      setToken(data.data.listPosts.nextToken);
+      // const data = await API.graphql(graphqlOperation(listPosts));
+      // const postData = data.data.listPosts.items;
+      // setPosts(postData);
+      // setToken(data.data.listPosts.nextToken);
+
+      // console.log(posts);
+      console.log("cuser is", cuser);
+      const postData = await API.graphql({
+        query: !cuser ? unAuthlistPosts : listPosts,
+        authMode: !cuser ? "API_KEY" : "AMAZON_COGNITO_USER_POOLS",
+      });
+
+      console.log(postData.data.listPosts);
+      setPosts(postData.data.listPosts.items);
+      console.log(posts);
     } catch (err) {
       toast.error("Error fetching postdata!!");
+      console.log(err);
     }
   }
 
@@ -90,7 +103,7 @@ const Posts = ({ cuser }) => {
               <br />
               {!cuser && (
                 <Link
-                  className="align-item-center md:pt-1  ml-2 mt-2 text-center mx-auto"
+                  className="align-item-center md:pt-1  ml-2 md:mt-2 mt-4 text-center mx-auto"
                   to="/login"
                 >
                   <span className="bg-yellow-400 p-2 text-[0.8rem]  text-gray-700 font-bold rounded-2xl fontFamily">
@@ -114,11 +127,11 @@ const Posts = ({ cuser }) => {
               </button>
             </div>
           ) : (
-            <div className="grid md:gap-3 md:w-[50%] 2xl:w-[40%]   2xl:gap-5 px-3 md:px-0   mt-6 md:ml-3 mb-20 z-0">
+            <div className="grid  md:gap-3 md:w-[50%] 2xl:w-[40%]   2xl:gap-5 px-3 md:px-0   mt-6 md:ml-3 mb-20 z-0">
               {filteredPost?.length > 0
                 ? filteredPost?.map((data) => <CommonPostData data={data} />)
                 : posts &&
-                  posts.map((data) => (
+                  posts?.map((data) => (
                     <CommonPostData
                       data={data}
                       key={data.id}
@@ -130,7 +143,7 @@ const Posts = ({ cuser }) => {
                 {hasMoreTokens ? (
                   <button
                     onClick={fetchPosts1}
-                    className="md:grid  w-[20vw] pt-19 transform p-2 py-2   fontFamily text-white bg-green-500 rounded shadow-xl mb-10"
+                    className="md:grid  w-full md:w-[20vw] pt-19 transform p-2 py-2   fontFamily text-white bg-green-500 rounded shadow-xl mb-10"
                   >
                     Load More
                   </button>

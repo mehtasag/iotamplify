@@ -103,3 +103,61 @@ export const getAuthPosts = /* GraphQL */ `
     }
   }
 `;
+
+export const unAuthlistPosts = /* GraphQL */ `
+  query ListPosts {
+    listPosts {
+      items {
+        id
+        title
+        owner
+        description
+        file {
+          bucket
+          region
+          key
+        }
+        # likes {
+        #   nextToken
+        # }
+        createdBy
+        # comments {
+        #   items {
+        #     content
+        #     createdAt
+        #     createdBy
+        #     id
+        #     postID
+        #     replise {
+        #       nextToken
+        #     }
+        #   }
+        #   nextToken
+        # }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    # listPosts {
+    #   items {
+    #     id
+    #     description
+    #     title
+    #     comments {
+    #       items {
+    #         content
+    #         createdAt
+    #         createdBy
+    #         id
+    #         postID
+    #         replise {
+    #           nextToken
+    #         }
+    #       }
+    #       nextToken
+    #     }
+    #   }
+    # }
+  }
+`;

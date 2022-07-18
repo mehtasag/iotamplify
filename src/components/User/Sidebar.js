@@ -91,7 +91,7 @@ const Sidebar = () => {
               </h3>
             </div>
           </Link>
-          <div className="flex  cursor-pointer hover:bg-gray-700 hover:p-1 hover:rounded-2xl text-center justify-center">
+          <div className="flex  2xl:p-0 cursor-pointer hover:bg-gray-700 hover:rounded-full   text-center justify-center">
             <BellIcon className="w-5 h-5 ml-3 md:ml-0 md:w-7 md:h-7 2xl:flex-[0.3] text-white  mr-3" />
             <h3 className="fontFamily flex-1  font-bold text-[1rem] hidden 2xl:block lg:pr-2 text-white">
               Notifications

@@ -42,12 +42,8 @@ export const getPosts = /* GraphQL */ `
   }
 `;
 export const listPosts = /* GraphQL */ `
-  query ListPosts(
-    $filter: ModelPostsFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  query ListPosts {
+    listPosts {
       items {
         id
         title
@@ -62,14 +58,44 @@ export const listPosts = /* GraphQL */ `
         #   nextToken
         # }
         createdBy
-        # comments {
-        #   nextToken
-        # }
+        comments {
+          items {
+            content
+            createdAt
+            createdBy
+            id
+            postID
+            replise {
+              nextToken
+            }
+          }
+          nextToken
+        }
         createdAt
         updatedAt
       }
       nextToken
     }
+    # listPosts {
+    #   items {
+    #     id
+    #     description
+    #     title
+    #     comments {
+    #       items {
+    #         content
+    #         createdAt
+    #         createdBy
+    #         id
+    #         postID
+    #         replise {
+    #           nextToken
+    #         }
+    #       }
+    #       nextToken
+    #     }
+    #   }
+    # }
   }
 `;
 export const getLike = /* GraphQL */ `

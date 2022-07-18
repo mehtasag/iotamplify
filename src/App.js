@@ -56,10 +56,10 @@ function App() {
     <div className="p-0 m-0 flex w-full h-screen">
       <Toaster />
       <BrowserRouter>
-        <div className="flex-[0.2] w-[12vw]  md:w-[6.5vw] bg-black fixed h-screen z-[1000]">
+        <div className="flex-[0.2] w-[12vw]   md:w-[6.5vw] bg-black fixed h-screen z-[1000]">
           <Sidebar cuser={cuser} />
         </div>
-        <div className="flex-1 ml-[10%] 2xl:ml-[7%]">
+        <div className="flex-1 ml-[10%] md:ml-[6.5%] 2xl:ml-[4%]">
           <Routes>
             <Route path="/" element={<Posts cuser={cuser} />} />
             <Route path="/about" element={<About />} />

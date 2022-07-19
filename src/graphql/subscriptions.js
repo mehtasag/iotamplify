@@ -1,9 +1,9 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreatePosts = /* GraphQL */ `
-  subscription OnCreatePosts {
-    onCreatePosts {
+export const onCreatePost = /* GraphQL */ `
+  subscription OnCreatePost {
+    onCreatePost {
       id
       title
       owner
@@ -41,9 +41,9 @@ export const onCreatePosts = /* GraphQL */ `
     }
   }
 `;
-export const onUpdatePosts = /* GraphQL */ `
-  subscription OnUpdatePosts($owner: String) {
-    onUpdatePosts(owner: $owner) {
+export const onUpdatePost = /* GraphQL */ `
+  subscription OnUpdatePost($owner: String) {
+    onUpdatePost(owner: $owner) {
       id
       title
       owner
@@ -81,9 +81,9 @@ export const onUpdatePosts = /* GraphQL */ `
     }
   }
 `;
-export const onDeletePosts = /* GraphQL */ `
-  subscription OnDeletePosts {
-    onDeletePosts {
+export const onDeletePost = /* GraphQL */ `
+  subscription OnDeletePost($owner: String) {
+    onDeletePost(owner: $owner) {
       id
       title
       owner

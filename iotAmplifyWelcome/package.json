@@ -1,0 +1,9 @@
+{
+  "name": "iotAmplifyWelcome",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "@sendgrid/mail": "^7.6.0",
+    "uuid": "^8.3.2"
+  }
+}

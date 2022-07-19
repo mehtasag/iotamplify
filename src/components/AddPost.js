@@ -7,7 +7,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { selectUser } from "../app/slice/userSlice";
 const AddPost = () => {
-  const user = useSelector(selectUser);
+  const user2 = useSelector(selectUser);
+  const user = user2?.profileData;
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
@@ -17,11 +18,19 @@ const AddPost = () => {
     setImage(file);
   }
 
+  console.log(user);
+  console.log(image);
   const handleSubmit1 = async (e) => {
     e.preventDefault();
-    const createdBy = user?.uid;
-    const owner = user?.id;
-    const postData = { title, description, createdBy, owner: owner };
+    const createdBy = user?.email;
+    const owner = user?.owner;
+    const postData = {
+      title,
+      description,
+      createdBy,
+      owner: owner,
+      // user: user,
+    };
 
     await createPost(image, postData);
     setImage(null);

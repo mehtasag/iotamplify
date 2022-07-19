@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 const CommonPostData = ({ data, handleDelete }) => {
   const user = useSelector(selectUser);
 
-  console.log("Data is", data?.comments?.items.length);
+  // console.log("Data is", data?.comments?.items.length);
   return (
     <div
       key={data.id}
@@ -41,14 +41,14 @@ const CommonPostData = ({ data, handleDelete }) => {
               loop={true}
             >
               <source
-                src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${data.file.key}`}
+                src={`${process.env.REACT_APP_S3_URL}/${data.file.key}`}
                 type="video/mp4"
               />
             </video>
           ) : (
             <img
               className="w-full h-full  md:w-[80vw] md:h-[93%]  object-cover lazyloaded"
-              src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${data.file.key}`}
+              src={`${process.env.REACT_APP_S3_URL}/${data.file.key}`}
             />
           )}
         </div>
@@ -60,7 +60,7 @@ const CommonPostData = ({ data, handleDelete }) => {
                 20
               </span>
             </div>
-            <div classNam>
+            <div>
               <ChatIcon className="h-6 w-6 text-gray-50" />
               <span className="fontFamily text-[0.8rem] font-bold text-gray-400">
                 20

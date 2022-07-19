@@ -29,6 +29,8 @@ const Profile = () => {
   const user2 = useSelector(selectUser);
 
   const user = user2.profileData;
+
+  console.log(user);
   return (
     <div className="relative">
       <div
@@ -43,7 +45,7 @@ const Profile = () => {
                 {user?.image ? (
                   <img
                     className="w-fit h-fit rounded-full object-contain"
-                    src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${user?.image?.key}`}
+                    src={`${process.env.REACT_APP_S3_URL}/${user?.image?.key}`}
                   />
                 ) : (
                   <UserIcon className="w-15 h-10 text-white" />
@@ -54,7 +56,7 @@ const Profile = () => {
                   {user?.name}
                 </h3>
                 <h3 className="text-cyan-300 ml-2 md:ml-7 md:text-[0.9rem]  font-semibold font-sans">
-                  {user?.username}
+                  {user?.email}
                 </h3>
               </div>
 
@@ -196,7 +198,7 @@ const Profile = () => {
                                 {user?.image ? (
                                   <img
                                     className="w-[3rem] h-[3rem] rounded-full object-cover  border-2 border-green-400"
-                                    src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${user?.image?.key}`}
+                                    src={`${process.env.REACT_APP_S3_URL}/public/${user?.image?.key}`}
                                   />
                                 ) : (
                                   <UserIcon className="w-10 h-10 text-white" />

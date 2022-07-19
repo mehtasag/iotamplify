@@ -12,7 +12,7 @@ export const deletePost = async (data) => {
     id: data.id,
   };
   API.graphql({
-    query: mutation.deletePosts,
+    query: mutation.deletePost,
     variables: { input: deletePostId },
     authMode: "AMAZON_COGNITO_USER_POOLS",
   });
@@ -29,20 +29,26 @@ export const createPost = async (image, postData) => {
       contentType: image.name.type,
     });
 
+    console.log("UploadedFile:", uploadedFile);
     const file = {
       key: uploadedFile.key,
       bucket: aws_exports.aws_user_files_s3_bucket,
       region: aws_exports.aws_project_region,
     };
-
-    await API.graphql({
-      query: mutation.createPosts,
-      variables: {
-        input: { ...postData, file },
-      },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    });
-  } catch (err) {}
+    console.log("File is", file);
+    if (file !== null) {
+      await API.graphql({
+        query: mutation.createPost,
+        variables: {
+          input: { ...postData, file },
+        },
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+      });
+      console.log("Post has been created");
+    }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 /***  Create Comment  ***/
@@ -85,7 +91,7 @@ export const createCommentReply = async (replyData, replyTo) => {
 export const likePost = async (data) => {
   try {
     await API.graphql({
-      query: mutation.updatePosts,
+      query: mutation.updatePost,
       variables: {
         input: data,
       },

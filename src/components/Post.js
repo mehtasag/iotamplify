@@ -10,10 +10,7 @@ import { ChatIcon, BookOpenIcon } from "@heroicons/react/solid";
 import Comment from "./Comment";
 import { likePost } from "../libs";
 import Comments from "./Comments";
-import {
-  getUnAuthPosts,
-  getAuthPosts,
-} from "../components/helper/customQueries";
+import { getUnAuthPost, getAuthPost } from "../components/helper/customQueries";
 import CommonModal from "./helper/CommonModal";
 import { useEffectOnce } from "./useEffectOnce";
 
@@ -36,11 +33,11 @@ const Post = ({ cuser }) => {
     localStorage.setItem("postID", id);
     const getPostData = async () => {
       const postData = await API.graphql({
-        query: !cuser ? getUnAuthPosts : getAuthPosts,
+        query: !cuser ? getUnAuthPost : getAuthPost,
         variables: { id: id },
         authMode: !cuser ? "API_KEY" : "AMAZON_COGNITO_USER_POOLS",
       });
-      setPost(postData.data.getPosts);
+      setPost(postData.data.getPost);
       console.log(post);
     };
 
@@ -127,14 +124,14 @@ const Post = ({ cuser }) => {
                 autoPlay={true}
               >
                 <source
-                  src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${post?.file.key}`}
+                  src={`${process.env.REACT_APP_S3_URL}/${post?.file.key}`}
                   type="video/mp4"
                 />
               </video>
             ) : (
               <img
                 className="h-[35vh]  md:w-[80%] 2xl:w-[45vw] lg:w-[40vw] lg:h-[50vh] float-left w-[100vw] mr-2 lazyloaded rounded-2xl"
-                src={`https://iotamplify2022235759-dev.s3.amazonaws.com/public/${post?.file?.key}`}
+                src={`${process.env.REACT_APP_S3_URL}/${post?.file?.key}`}
               />
             )}
 

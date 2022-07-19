@@ -23,6 +23,7 @@ function App() {
       const user = await Auth.currentAuthenticatedUser();
       if (user) {
         const profileData = await getUserData(user);
+        console.log("Profile data is", profileData);
         dispatch(
           login({
             profileData,

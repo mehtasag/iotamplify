@@ -1,9 +1,9 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getPosts = /* GraphQL */ `
-  query GetPosts($id: ID!) {
-    getPosts(id: $id) {
+export const getPost = /* GraphQL */ `
+  query GetPost($id: ID!) {
+    getPost(id: $id) {
       id
       title
       owner
@@ -42,8 +42,12 @@ export const getPosts = /* GraphQL */ `
   }
 `;
 export const listPosts = /* GraphQL */ `
-  query ListPosts {
-    listPosts {
+  query ListPosts(
+    $filter: ModelPostFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         title
@@ -58,44 +62,14 @@ export const listPosts = /* GraphQL */ `
         #   nextToken
         # }
         createdBy
-        comments {
-          items {
-            content
-            createdAt
-            createdBy
-            id
-            postID
-            replise {
-              nextToken
-            }
-          }
-          nextToken
-        }
+        # comments {
+        #   nextToken
+        # }
         createdAt
         updatedAt
       }
       nextToken
     }
-    # listPosts {
-    #   items {
-    #     id
-    #     description
-    #     title
-    #     comments {
-    #       items {
-    #         content
-    #         createdAt
-    #         createdBy
-    #         id
-    #         postID
-    #         replise {
-    #           nextToken
-    #         }
-    #       }
-    #       nextToken
-    #     }
-    #   }
-    # }
   }
 `;
 export const getLike = /* GraphQL */ `
@@ -188,18 +162,18 @@ export const getUser = /* GraphQL */ `
       updatedAt
       website
       country
-      posts {
-        items {
-          id
-          title
-          owner
-          description
-          createdBy
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
+      # posts {
+      #   items {
+      #     id
+      #     title
+      #     owner
+      #     description
+      #     createdBy
+      #     createdAt
+      #     updatedAt
+      #   }
+      #   nextToken
+      # }
       searches {
         name
       }
@@ -259,12 +233,8 @@ export const getTrending = /* GraphQL */ `
   }
 `;
 export const listTrendings = /* GraphQL */ `
-  query ListTrendings(
-    $filter: ModelTrendingFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listTrendings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  query ListTrendings {
+    listTrendings {
       items {
         id
         resultData {

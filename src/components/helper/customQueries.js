@@ -1,6 +1,6 @@
-export const getUnAuthPosts = /* GraphQL */ `
-  query GetPosts($id: ID!) {
-    getPosts(id: $id) {
+export const getUnAuthPost = /* GraphQL */ `
+  query GetPost($id: ID!) {
+    getPost(id: $id) {
       id
       title
       description
@@ -19,9 +19,9 @@ export const getUnAuthPosts = /* GraphQL */ `
   }
 `;
 
-export const getPosts = /* GraphQL */ `
-  query GetPosts($id: ID!) {
-    getPosts(id: $id) {
+export const getPost = /* GraphQL */ `
+  query GetPost($id: ID!) {
+    getPost(id: $id) {
       id
       title
       description
@@ -60,9 +60,9 @@ export const getPosts = /* GraphQL */ `
   }
 `;
 
-export const getAuthPosts = /* GraphQL */ `
-  query GetPosts($id: ID!) {
-    getPosts(id: $id) {
+export const getAuthPost = /* GraphQL */ `
+  query GetPost($id: ID!) {
+    getPost(id: $id) {
       id
       title
       description
@@ -104,7 +104,7 @@ export const getAuthPosts = /* GraphQL */ `
   }
 `;
 
-export const unAuthlistPosts = /* GraphQL */ `
+export const unAuthlistPost = /* GraphQL */ `
   query ListPosts {
     listPosts {
       items {

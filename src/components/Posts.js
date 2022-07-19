@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { API, graphqlOperation } from "aws-amplify";
 import { listPosts } from "../graphql/queries";
 import { deletePost } from "../libs";
-import { unAuthlistPosts } from "./helper/customQueries";
+import { unAuthlistPost } from "./helper/customQueries";
 import { SearchTerm, Trending } from "./index";
 import { useSelector } from "react-redux";
 import CommonPostData from "./CommonPostData";
@@ -20,10 +20,10 @@ const Posts = ({ cuser }) => {
 
   useEffect(() => {
     const sub = API.graphql({
-      query: subscriptions.onCreatePosts,
+      query: subscriptions.onCreatePost,
     }).subscribe({
       next: (evt) => {
-        const newPost = evt.value.data.onCreatePosts;
+        const newPost = evt.value.data.onCreatePost;
         const newPostData = [...posts, newPost];
         setPosts(newPostData);
       },
@@ -58,7 +58,7 @@ const Posts = ({ cuser }) => {
       // console.log(posts);
       console.log("cuser is", cuser);
       const postData = await API.graphql({
-        query: !cuser ? unAuthlistPosts : listPosts,
+        query: !cuser ? unAuthlistPost : listPosts,
         authMode: !cuser ? "API_KEY" : "AMAZON_COGNITO_USER_POOLS",
       });
 
@@ -98,7 +98,9 @@ const Posts = ({ cuser }) => {
             <div className=" flex flex-[0.25]  h-fit justify-center ml-3 md:ml-0">
               <h3 className="flex items-center text-gray-100 pt-2  ml-2 font-bold text-[0.9rem] md:text-[1.2rem]">
                 <UserIcon className="w-10 h-10 text-yellow-400 mr-2" />
-                {cuser !== null ? `Hello ${cuser.username},` : "Hello Guest"}
+                {cuser !== null
+                  ? `Hello ${cuser.attributes.name},`
+                  : "Hello Guest"}
               </h3>
               <br />
               {!cuser && (

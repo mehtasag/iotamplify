@@ -198,7 +198,7 @@ const Profile = () => {
                                 {user?.image ? (
                                   <img
                                     className="w-[3rem] h-[3rem] rounded-full object-cover  border-2 border-green-400"
-                                    src={`${process.env.REACT_APP_S3_URL}/public/${user?.image?.key}`}
+                                    src={`https://myblogs2022192429-dev.s3.amazonaws.com/public/${user?.image?.key}`}
                                   />
                                 ) : (
                                   <UserIcon className="w-10 h-10 text-white" />

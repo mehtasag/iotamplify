@@ -124,14 +124,14 @@ const Post = ({ cuser }) => {
                 autoPlay={true}
               >
                 <source
-                  src={`${process.env.REACT_APP_S3_URL}/${post?.file.key}`}
+                  src={`https://myblogs2022192429-dev.s3.amazonaws.com/public/${post?.file.key}`}
                   type="video/mp4"
                 />
               </video>
             ) : (
               <img
                 className="h-[35vh]  md:w-[80%] 2xl:w-[45vw] lg:w-[40vw] lg:h-[50vh] float-left w-[100vw] mr-2 lazyloaded rounded-2xl"
-                src={`${process.env.REACT_APP_S3_URL}/${post?.file?.key}`}
+                src={`https://myblogs2022192429-dev.s3.amazonaws.com/public/${post?.file?.key}`}
               />
             )}
 

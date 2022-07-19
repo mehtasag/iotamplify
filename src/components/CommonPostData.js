@@ -41,14 +41,14 @@ const CommonPostData = ({ data, handleDelete }) => {
               loop={true}
             >
               <source
-                src={`${process.env.REACT_APP_S3_URL}/${data.file.key}`}
+                src={`https://myblogs2022192429-dev.s3.amazonaws.com/public/${data.file.key}`}
                 type="video/mp4"
               />
             </video>
           ) : (
             <img
               className="w-full h-full  md:w-[80vw] md:h-[93%]  object-cover lazyloaded"
-              src={`${process.env.REACT_APP_S3_URL}/${data.file.key}`}
+              src={`https://myblogs2022192429-dev.s3.amazonaws.com/public/${data.file.key}`}
             />
           )}
         </div>
